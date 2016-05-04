@@ -11,7 +11,17 @@ namespace Mooshak2.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View("AdminIndex");
+            return View("Admin");
+        }
+
+        public ActionResult CreateNewCourse()
+        {
+            return View("CreateNewCourse");
+        }
+
+        public ActionResult CreateNewUser()
+        {
+            return View("CreateNewUser");
         }
     }
 }
