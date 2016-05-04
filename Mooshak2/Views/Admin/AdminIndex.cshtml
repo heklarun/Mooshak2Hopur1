@@ -21,13 +21,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Home", "AdminIndex", "Admin", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Mooshak 2.0", "AdminIndex", "Admin", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "AdminIndex", "Admin")</li>
                     <li>@Html.ActionLink("Create new course", "CreateNewCourse", "Admin")</li>
                     <li>@Html.ActionLink("Create new user", "CreateNewUser", "Admin")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
