@@ -270,6 +270,12 @@
     <Content Include="Views\Student\StudentIndex.cshtml" />
     <Content Include="Views\Admin\AdminIndex.cshtml" />
     <Content Include="Views\Teacher\TeacherIndex.cshtml" />
+    <Content Include="Views\Admin\Home.cshtml" />
+    <Content Include="Views\Admin\CreateNewCourse.cshtml" />
+    <Content Include="Views\Admin\CreateNewUser.cshtml" />
+    <Content Include="Views\Teacher\CreateNewProject.cshtml" />
+    <Content Include="Views\Teacher\TeacherCoursesAvailable.cshtml" />
+    <Content Include="Views\Student\StudentCoursesAvailable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
