@@ -10,9 +10,15 @@ namespace Mooshak2.Controllers
     public class StudentController : Controller
     {
         // GET: Student
-        public ActionResult Index()
+        public ActionResult StudentIndex()
         {
             return View("StudentIndex");
         }
+
+        public ActionResult StudentCoursesAvailable()
+        {
+            return View("StudentCoursesAvailable");
+        }
+
     }
 }

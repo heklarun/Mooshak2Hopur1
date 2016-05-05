@@ -9,9 +9,9 @@ namespace Mooshak2.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
-        public ActionResult Index()
+        public ActionResult AdminIndex()
         {
-            return View("Admin");
+            return View("AdminIndex");
         }
 
         public ActionResult CreateNewCourse()

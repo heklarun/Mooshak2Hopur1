@@ -9,9 +9,19 @@ namespace Mooshak2.Controllers
     public class TeacherController : Controller
     {
         // GET: Teacher
-        public ActionResult Index()
+        public ActionResult TeacherIndex()
         {
             return View("TeacherIndex");
+        }
+
+        public ActionResult CreateNewProject()
+        {
+            return View("CreateNewProject");
+        }
+
+        public ActionResult TeacherCoursesAvailable()
+        {
+            return View("TeacherCoursesAvailable");
         }
     }
 }
