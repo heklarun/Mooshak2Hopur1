@@ -1,12 +1,20 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: -40px;
     padding-bottom: 20px;
+    background-image: url("backgroundForMooshak.jpeg");
+    //background-color:aqua;
+    margin-top: -40px;
+    margin-left: -60px;
+   margin-right: -60px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+     padding-top: -20px;
+     margin-top: -20px;
     padding-left: 15px;
     padding-right: 15px;
+   
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +29,9 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+div.page-header{
+    background-color:darkblue;
+    height: 200px;
 }
