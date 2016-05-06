@@ -3,7 +3,7 @@
     ViewBag.Title = "AdminIndex";
 }
 
-<table class="table table-striped">
+<table class="table">
 
     <tr>
         <th>Course</th>
@@ -29,8 +29,8 @@
 </table>
 
 <div>
-    <button type="button" class="btn btn-info btn-lg" data-target="#addTeacher">Add Teacher</button>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#editModal">Edit course</button>
+    <button type="button" data-target="#addTeacher">Add Teacher</button>
+    <button type="button" data-toggle="modal" data-target="#editModal">Edit course</button>
 
     <!-- Modal -->
     <div id="editModal" class="modal fade" role="dialog">
@@ -47,7 +47,7 @@
                     <input type="text" name="newCourseName" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
+                    <button type="button" data-dismiss="modal">Confirm</button>
                 </div>
             </div>
 
@@ -55,8 +55,8 @@
     </div>
 </div>
 <div>
-    <button type="button" class="btn btn-info btn-lg" data-target="#addTeacher">Add student</button>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#deleteModal">Delete course</button>
+    <button type="button" data-target="#addTeacher">Add student</button>
+    <button type="button" data-toggle="modal" data-target="#deleteModal">Delete course</button>
 
     <!-- Modal -->
     <div id="deleteModal" class="modal fade" role="dialog">
@@ -72,8 +72,8 @@
                     <p>Are you sure you want to delete course?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" data-dismiss="modal">Yes</button>
+                    <button type="button" data-dismiss="modal">No</button>
                 </div>
             </div>
 
