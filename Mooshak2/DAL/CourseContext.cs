@@ -14,3 +14,5 @@ namespace Mooshak2.DAL
         }
         //public DbSet<Courses> Course { get; set; }
     }
+
+}
