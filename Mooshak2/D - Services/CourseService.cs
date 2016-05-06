@@ -9,17 +9,15 @@ namespace Mooshak2.DAL
 {
     public class CourseService
     {
+        ApplicationDbContext db = new ApplicationDbContext();
 
         public List<Courses> GetAllCourses()
         {
-            ApplicationDbContext db = new ApplicationDbContext();
-
             List<Courses> result = (from item in db.Course
                                     select item).ToList();
             return result;
         }
 
-       
     }
 
 }

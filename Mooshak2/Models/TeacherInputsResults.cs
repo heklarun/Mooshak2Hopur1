@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Mooshak2.Models
 {
-    public class TeacherInputsResaults
+    public class TeacherInputsResults
     {
 
     }
