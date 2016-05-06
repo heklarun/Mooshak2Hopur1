@@ -1,11 +1,9 @@
 ﻿body {
     padding-top: -40px;
     padding-bottom: 20px;
-    background-image: url("backgroundForMooshak.jpeg");
-    //background-color:aqua;
+   // background-image: url("Images/BackgroundForMooshak.jpg");
+    background-color:#C3C3E5;
     margin-top: -40px;
-    margin-left: -60px;
-   margin-right: -60px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -32,6 +30,23 @@ textarea {
 }
 
 div.page-header{
-    background-color:darkblue;
+    background-color:#443266;
     height: 200px;
+}
+table.table
+{
+    background-color:white;
+}
+button{
+    background-color:#443266;
+    border:none;
+    color:white;
+    width: 150px;
+    height:50px;
+    text-align:center;
+    text-decoration:none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius:8px;
+
 }
