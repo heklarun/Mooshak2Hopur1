@@ -6,10 +6,10 @@ using System.Web;
 
 namespace Mooshak2.Models
 {
-    public class Teachers
+    public class Admins
     {
-        public int userID { get; set; }
         [Key]
-        public int teacherID { get; set; }
+        public int adminID { get; set; }
+        public int userID { get; set; }
     }
 }

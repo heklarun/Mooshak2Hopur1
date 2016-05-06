@@ -29,6 +29,12 @@ namespace Mooshak2.Models
 
         public DbSet<Courses> Course { get; set; }
 
+        public DbSet<Users> User { get; set; }
+
+        public DbSet<Teachers> Teacher { get; set; }
+
+        public DbSet<Admins> Admin { get; set; }
+        public DbSet<Students> Student { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
