@@ -9,10 +9,10 @@ namespace Mooshak2.DAL
     //Klasi sem tengist gagnagrunninum
     public class UserContext : DbContext //Db context er partur af entityinu
     {
-        public ProductContext() : base("UserContext")
+        public UserContext() : base("UserContext")
         {
 
         }
-        public DbSet<Users> User { get; set; }
+        //public DbSet<Users> User { get; set; }
     }
 }

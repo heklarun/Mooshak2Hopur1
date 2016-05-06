@@ -221,6 +221,8 @@
     <Compile Include="Models\Students.cs" />
     <Compile Include="Models\StudentsResponce.cs" />
     <Compile Include="Models\SubProjects.cs" />
+    <Compile Include="Models\TeacherGroup.cs" />
+    <Compile Include="Models\TeacherInputsResaults.cs" />
     <Compile Include="Models\Teachers.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
