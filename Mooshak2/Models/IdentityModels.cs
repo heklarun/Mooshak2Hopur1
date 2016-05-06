@@ -25,6 +25,10 @@ namespace Mooshak2.Models
         {
         }
 
+        public DbSet<Projects> Project { get; set; }
+
+        public DbSet<Courses> Course { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

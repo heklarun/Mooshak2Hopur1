@@ -7,16 +7,16 @@ namespace Mooshak2.Models
 {
     public class Users
     {
-        public int Id { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        public int userID { get; set; }
+        public string firstname { get; set; }
+        public string lastname { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
+        public string confirmPassword { get; set; }
 
         public List<Courses> Course { get; set; }
         public List<Projects> Project { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateTime dueDate { get; set; }
         
         public List<string> Admins { get; set; }
         public List<string> Teachers { get; set; }

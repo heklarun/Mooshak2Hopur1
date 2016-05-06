@@ -203,9 +203,8 @@
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
-    <Compile Include="DAL\CourseContext.cs" />
-    <Compile Include="DAL\ProjectContext.cs" />
-    <Compile Include="DAL\UserContext.cs" />
+    <Compile Include="Services\CourseService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -214,12 +213,12 @@
     <Compile Include="Models\IdentityManager.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\PartResponce.cs" />
+    <Compile Include="Models\PartResponse.cs" />
     <Compile Include="Models\Projects.cs" />
-    <Compile Include="Models\Responce.cs" />
+    <Compile Include="Models\Response.cs" />
     <Compile Include="Models\StudentGroup.cs" />
     <Compile Include="Models\Students.cs" />
-    <Compile Include="Models\StudentsResponce.cs" />
+    <Compile Include="Models\StudentsResponse.cs" />
     <Compile Include="Models\SubProjects.cs" />
     <Compile Include="Models\TeacherGroup.cs" />
     <Compile Include="Models\TeacherInputsResaults.cs" />

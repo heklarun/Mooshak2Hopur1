@@ -7,7 +7,7 @@ namespace Mooshak2.Models
 {
     public class Teachers
     {
-        Users Id;
-        public int TeacherId { get; set; }
+        Users userID { get; set; }
+        public int teacherID { get; set; }
     }
 }

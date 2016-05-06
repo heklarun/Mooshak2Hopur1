@@ -7,8 +7,8 @@ namespace Mooshak2.Models
 {
     public class Courses
     {
-        public int CourseId { get; set; }
-        public string CourseName { get; set; }
+        public int courseID { get; set; }
+        public string courseName { get; set; }
 
         public List<Projects> Project { get; set; }
 

@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Mooshak2.Models
 {
-    public class StudentGroup
+    public class StudentsResponse
     {
-        public int studentGroupID { get; set; }
+        public int studentResponseID { get; set; }
         Students studentID { get; set; }
-        Courses courseID { get; set; }
+        Response responseID { get; set; }
     }
 }
