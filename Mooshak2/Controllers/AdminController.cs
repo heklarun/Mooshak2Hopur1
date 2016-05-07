@@ -11,12 +11,15 @@ namespace Mooshak2.Controllers
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        UserService userService = new UserService();
+        CourseService courseService = new CourseService();
         // GET: Admin
         public ActionResult AdminIndex()
         {
             return View("AdminIndex");
         }
 
+        [HttpGet]
         public ActionResult CreateNewCourse()
         {
             return View("CreateNewCourse");
@@ -30,22 +33,17 @@ namespace Mooshak2.Controllers
             return View("CreateNewUser");
         }
         [HttpPost]
-        public ActionResult CreateNewUser(Users user)
+        public ActionResult CreateNewUser(UsersViewModels user)
         {
-            db.User.Add(user);
-            db.SaveChanges();
-            int userId = db.User.Max(item => item.userID);
-            Teachers teacher = new Teachers();
-            teacher.userID = userId;
-            db.Teacher.Add(teacher);
-            Admins admin = new Admins();
-            admin.userID = userId;
-            db.Admin.Add(admin);
-            Students student = new Students();
-            student.userID = userId;
-            db.Student.Add(student);
-            db.SaveChanges();
+            userService.CreateNewUser(user);
             return RedirectToAction("CreateNewUser");
         }
+        [HttpPost]
+        public ActionResult CreateNewCourse(CoursesViewModels course)
+        {
+            courseService.CreateNewCourse(course);
+            return RedirectToAction("CreateNewCourse");
+        }
+  
     }
 }

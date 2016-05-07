@@ -1,4 +1,4 @@
-﻿@model Mooshak2.Models.Users
+﻿@model Mooshak2.Models.UsersViewModels
 @{
     ViewBag.Title = "CreateNewUser";
 }
@@ -7,12 +7,12 @@
 
 <form class="form-horizontal" action='' method="POST">
     <fieldset>
-        <label class="checkbox-inline"><input type="checkbox" value="">Admin</label>
-        <label class="checkbox-inline"><input type="checkbox" value="">Teacher</label>
-        <label class="checkbox-inline"><input type="checkbox" value="">Student</label>
+        <label class="checkbox-inline"><input type="checkbox" name="isAdmin" value="">Admin</label>
+        <label class="checkbox-inline"><input type="checkbox" name="isTeacher" value="">Teacher</label>
+        <label class="checkbox-inline"><input type="checkbox" name="isStudent" value="">Student</label>
                     <div class="control-group">
                         <!-- Firstname -->
-                        <label class="control-label" for="username">First name</label>
+                        <label class="control-label" for="firstName">First name</label>
                         <div class="controls">
                             <input type="text" id="firstName" name="firstName" placeholder="" class="input-xlarge">
                         </div>
