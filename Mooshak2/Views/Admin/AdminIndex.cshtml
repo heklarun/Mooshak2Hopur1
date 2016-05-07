@@ -3,82 +3,85 @@
     ViewBag.Title = "AdminIndex";
 }
 
-<table class="table">
+<div class="container body-content">
+    <table class="table">
 
-    <tr>
-        <th>Course</th>
-        <th>Teachers</th>
-        <th>Students</th>
-    </tr>
-    <tr>
-        <td><a href="#">Gagnaskipan</a></td>
-        <td>Hrafn Loftsson</td>
-        <td>Hafdís Inga</td>
-    </tr>
-    <tr>
-        <td><a href="#">Forritun</a></td>
-        <td>Patrekur Patreksson</td>
-        <td>Hekla</td>
-    </tr>
-    <tr>
-        <td><a href="#">Reiknirit</a></td>
-        <td>Hallgrímur</td>
-        <td>Auður</td>
-    </tr>
-    
-</table>
+        <tr>
+            <th>Course</th>
+            <th>Teachers</th>
+            <th>Students</th>
+        </tr>
+        <tr>
+            <td><a href="#">Gagnaskipan</a></td>
+            <td>Hrafn Loftsson</td>
+            <td>Hafdís Inga</td>
+        </tr>
+        <tr>
+            <td><a href="#">Forritun</a></td>
+            <td>Patrekur Patreksson</td>
+            <td>Hekla</td>
+        </tr>
+        <tr>
+            <td><a href="#">Reiknirit</a></td>
+            <td>Hallgrímur</td>
+            <td>Auður</td>
+        </tr>
 
-<div>
-    <button type="button" data-target="#addTeacher">Add Teacher</button>
-    <button type="button" data-toggle="modal" data-target="#editModal">Edit course</button>
+    </table>
 
-    <!-- Modal -->
-    <div id="editModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+    <div>
+        <button type="button" data-target="#addTeacher">Add Teacher</button>
+        <button type="button" data-toggle="modal" data-target="#editModal">Edit course</button>
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit course</h4>
+        <!-- Modal -->
+        <div id="editModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit course</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>New title of course:</p>
+                        <input type="text" name="newCourseName" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal">Confirm</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>New title of course:</p>
-                    <input type="text" name="newCourseName" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal">Confirm</button>
-                </div>
+
             </div>
-
         </div>
     </div>
-</div>
-<div>
-    <button type="button" data-target="#addTeacher">Add student</button>
-    <button type="button" data-toggle="modal" data-target="#deleteModal">Delete course</button>
+    <div>
+        <button type="button" data-target="#addTeacher">Add student</button>
+        <button type="button" data-toggle="modal" data-target="#deleteModal">Delete course</button>
 
-    <!-- Modal -->
-    <div id="deleteModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <!-- Modal -->
+        <div id="deleteModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete course</h4>
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Delete course</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete course?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal">Yes</button>
+                        <button type="button" data-dismiss="modal">No</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete course?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal">Yes</button>
-                    <button type="button" data-dismiss="modal">No</button>
-                </div>
+
             </div>
-
         </div>
     </div>
+
 </div>
 
-
+<!-- Full-height Fixed Vertical Navbar    ... fyrir birtingu á töflu ATH!!!!!!->

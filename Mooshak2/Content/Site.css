@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: -40px;
+    padding-top: 460px;
     padding-bottom: 20px;
    // background-image: url("Images/BackgroundForMooshak.jpg");
     background-color:#C3C3E5;
@@ -8,11 +8,8 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-     padding-top: -20px;
-     margin-top: -20px;
     padding-left: 15px;
     padding-right: 15px;
-   
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -31,7 +28,8 @@ textarea {
 
 div.page-header{
     background-color:#443266;
-    height: 200px;
+    display: block;
+    width: 100%;
 }
 table.table
 {
