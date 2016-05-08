@@ -305,6 +305,7 @@
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Admin\EditCourse.cshtml" />
     <Content Include="Views\Admin\TeacherGroup.cshtml" />
+    <Content Include="Views\Admin\StudentGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

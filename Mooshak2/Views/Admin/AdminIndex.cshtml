@@ -72,6 +72,7 @@
                         <td></td>
                         <td>Course name</td>
                         <td>Teachers</td>
+                        <td>Students</td>
                     </tr>
                     @foreach (var course in ViewBag.courses)
                     {
@@ -84,6 +85,11 @@
                             <td>@course.courseName</td>
                             <td>
                                 <a href="@Url.Action("TeacherGroup", "Admin", new {courseID =  course.courseID})">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("StudentGroup", "Admin", new {courseID =  course.courseID})">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </a>
                             </td>
@@ -177,4 +183,4 @@
 
 </div>
 
-<!-- Full-height Fixed Vertical Navbar    ... fyrir birtingu á töflu ATH!!!!!!->
+<!-- Full-height Fixed Vertical Navbar    ... fyrir birtingu á töflu ATH!!!!!!  -->

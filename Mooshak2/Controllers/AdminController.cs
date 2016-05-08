@@ -107,13 +107,28 @@ namespace Mooshak2.Controllers
             }
         }
         [HttpPost]
-        public ActionResult TeacherGroup(int? courseID, List<UsersViewModels> users)
+        public ActionResult StudentGroup(int? courseID, List<UsersViewModels> users)
         {
             if(courseID != null)
             {
-               userService.AddTeachersToGroup(courseID, users);
+               userService.AddStudentsToGroup(courseID, users);
             }
             return RedirectToAction("AdminIndex");
+        }
+        [HttpGet]
+        public ActionResult StudentGroup(int? courseID)
+        {
+            if (courseID == null)
+            {
+                return RedirectToAction("AdminIndex");
+            }
+            else
+            {
+                List<UsersViewModels> users = userService.GetAllStudents(courseID);
+                ViewBag.users = users;
+                return View(users);
+
+            }
         }
 
     }

@@ -230,5 +230,52 @@ namespace Mooshak2.DAL
             }
 
         }
+        public List<UsersViewModels> GetAllStudents(int? courseID)
+        {
+            List<UsersViewModels> users = (from student in db.Student
+                                           join item in db.User on student.userID equals item.userID
+                                           join studentGroup in db.StudentGroup on student.studentID equals studentGroup.studentID into t
+                                           from studentGroup in t.DefaultIfEmpty()
+                                           where (studentGroup.courseID == courseID || studentGroup.courseID == null) //Ath að ef teacherGroup.courseID er annað courseId þa kemur ekki sá kennari
+                                           select new UsersViewModels
+                                           {
+                                               userID = item.userID,
+                                               firstName = item.firstName,
+                                               lastName = item.lastName,
+                                               username = item.username,
+                                               studentID = student.studentID,
+                                               selected = studentGroup.studentID != null
+                                           }).ToList();
+
+            return users;
+        }
+        public void AddStudentsToGroup(int? courseID, List<UsersViewModels> users)
+        {
+            foreach (UsersViewModels user in users)
+            {
+
+                if (user.selected == true)
+                {
+                    StudentGroup studentExists = db.StudentGroup.SingleOrDefault(t => t.studentID == user.studentID && t.courseID == courseID);
+                    if (studentExists == null)
+                    {
+                        StudentGroup student = new StudentGroup();
+                        student.studentID = user.studentID;
+                        student.courseID = (int)courseID;
+                        db.StudentGroup.Add(student);
+                    }
+                }
+                else if (user.selected == false)
+                {
+                    StudentGroup studentToDelete = db.StudentGroup.SingleOrDefault(t => t.studentID == user.studentID && t.courseID == courseID);
+                    if (studentToDelete != null)
+                    {
+                        db.StudentGroup.Remove(studentToDelete);
+                    }
+                }
+                db.SaveChanges();
+            }
+
+        }
     }
 }

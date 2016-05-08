@@ -1,0 +1,35 @@
+﻿@model List<Mooshak2.Models.UsersViewModels>
+@{
+    ViewBag.Title = "StudentGroup";
+}
+
+<h2>StudentGroup</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <td></td>
+                    <td>Name</td>
+                    <td>Username</td>
+                </tr>
+                @for (var i = 0; i < Model.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(x => Model[i].selected)
+                            @Html.HiddenFor(item => Model[i].studentID)
+                            @Html.HiddenFor(item => Model[i].selected)
+                        </td>
+                        <td>@Model[i].firstName @Model[i].lastName</td>
+                        <td>@Model[i].username</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <input type="submit" value="Add students">
+}
