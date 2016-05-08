@@ -83,6 +83,23 @@ namespace SecurityWebAppTest.Models
             }
         }
 
+        public void RemoveUserRole(string userId, string roleName)
+        {
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            var user = um.FindById(userId);
+            var currentRoles = new List<IdentityUserRole>();
+            currentRoles.AddRange(user.Roles);
+            foreach (var role in currentRoles)
+            {               
+                var r = rm.FindById(role.RoleId);
+                if (r.Name.Equals(roleName))
+                {
+                    um.RemoveFromRole(userId, r.Name);
+                }
+            }
+        }
+
         public IList<string> GetUserRoles(string userId)
         {
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));

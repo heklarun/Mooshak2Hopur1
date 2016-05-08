@@ -15,76 +15,51 @@ namespace Mooshak2.DAL
     public class UserService
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        public ApplicationUser GetUserById(string username)
+        IdentityManager man = new IdentityManager();
+        public UsersViewModels GetUserById(string username)
         {
-            IdentityManager man = new IdentityManager();
-            return man.GetUser(username);
+            ApplicationUser appUser = man.GetUser(username);
+            UsersViewModels user = new UsersViewModels();
+            user.firstName = appUser.firstName;
+            user.lastName = appUser.lastName;
+            user.username = appUser.UserName;
+            Boolean isAdmin = false;
+            Boolean isTeacher = false;
+            Boolean isStudent = false;
+            IList<string> roles = man.GetUserRoles(appUser.Id);
+            foreach(string role in roles){
+                if (role.Equals("Admin"))
+                {
+                    isAdmin = true;
+                }
+                if (role.Equals("Teacher"))
+                {
+                    isTeacher = true;
+                }
+                if (role.Equals("Student"))
+                {
+                    isStudent = true;
+                }
+            }
+            user.isAdmin = isAdmin;
+            user.isTeacher = isTeacher;
+            user.isStudent = isStudent;
+            
+            return user;
         }
 
         //Nær í alla notendur
         public List<ApplicationUser> GetAllUsers()
         {
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            return um.Users.ToList();
-        
-        // List<Users> users = (from item in db.User select item).ToList();
-        /* List<UsersViewModels> users = (from item in db.User 
-                            join teacher in db.Teacher on item.userID equals teacher.userID into t
-                            join admin in db.Admin on item.userID equals admin.userID into a
-                            join student in db.Student on item.userID equals student.userID into s
-                            from teacher in t.DefaultIfEmpty()
-                            from admin in a.DefaultIfEmpty()
-                            from student in s.DefaultIfEmpty()
-                            select new UsersViewModels
-                            {
-                                userID = item.userID,
-                                firstName = item.firstName,
-                                lastName = item.lastName,
-                                username = item.username,
-                                //teacherID = teacher.teacherID != null ? teacher.teacherID : 0,
-                                isTeacher = teacher.teacherID != null, 
-                                //studentID = student.studentID != null ? student.studentID : 0,
-                                isStudent = student.studentID != null,
-                                //adminID = admin.adminID != null ? admin.adminID : 0,
-                                isAdmin = admin.adminID != null
-                            }).ToList();
 
-         return users;*/
+            return um.Users.ToList();
     }
 
-        //Nær í notanda eftir id
-        public UsersViewModels GetUserByUserID(int? userId)
-        {
-            // List<Users> users = (from item in db.User select item).ToList();
-            UsersViewModels users = (from item in db.User
-                                           join teacher in db.Teacher on item.userID equals teacher.userID into t
-                                           join admin in db.Admin on item.userID equals admin.userID into a
-                                           join student in db.Student on item.userID equals student.userID into s
-                                           from teacher in t.DefaultIfEmpty()
-                                           from admin in a.DefaultIfEmpty()
-                                           from student in s.DefaultIfEmpty()
-                                           where item.userID == userId
-                                          select new UsersViewModels
-                                           {
-                                               userID = item.userID,
-                                               firstName = item.firstName,
-                                               lastName = item.lastName,
-                                               username = item.username,
-                                               teacherID = teacher.teacherID != null ? teacher.teacherID : 0,
-                                               isTeacher = teacher.teacherID != null,
-                                               studentID = student.studentID != null ? student.studentID : 0,
-                                               isStudent = student.studentID != null,
-                                               adminID = admin.adminID != null ? admin.adminID : 0,
-                                               isAdmin = admin.adminID != null
-                                           }).SingleOrDefault();
-
-            return users;
-        }
 
         //Býr til notanda
         public void CreateNewUser(UsersViewModels user)
         {
-            IdentityManager manager = new IdentityManager();
             ApplicationUser newUser = new ApplicationUser
             {
                 UserName = user.username,
@@ -92,55 +67,26 @@ namespace Mooshak2.DAL
                 lastName = user.lastName,
                 firstName = user.firstName
             };
-            bool result = manager.CreateUser(newUser, user.password);
+            bool result = man.CreateUser(newUser, user.password);
             if (result)
             {
                 if (user.isAdmin == true)
                 {
-                    manager.AddUserToRole(newUser.Id, "Admin");
+                    man.AddUserToRole(newUser.Id, "Admin");
                 }
                 if (user.isTeacher == true)
                 {
-                    manager.AddUserToRole(newUser.Id, "Teacher");
+                    man.AddUserToRole(newUser.Id, "Teacher");
                 }
                 if (user.isStudent == true)
                 {
-                    manager.AddUserToRole(newUser.Id, "Student");
+                    man.AddUserToRole(newUser.Id, "Student");
                 }
             }
             else
             {
 
             }
-
-            /*Users users = new Users();
-            users.firstName = user.firstName;
-            users.lastName = user.lastName;
-            users.username = user.username;
-            users.password = user.password;
-
-            db.User.Add(users);
-
-            db.SaveChanges();
-            int userId = db.User.Max(item => item.userID);
-            if (user.isAdmin == true)
-            {
-                Admins admin = new Admins();
-                admin.userID = userId;
-                db.Admin.Add(admin);
-            }
-            if(user.isTeacher == true)
-            {
-                Teachers teacher = new Teachers();
-                teacher.userID = userId;
-                db.Teacher.Add(teacher);
-            }
-            if(user.isStudent == true)
-            {
-                Students student = new Students();
-                student.userID = userId;
-                db.Student.Add(student);
-            }*/
 
             db.SaveChanges();
 
@@ -149,67 +95,56 @@ namespace Mooshak2.DAL
         //Breytir notanda
         public void EditUser(UsersViewModels user)
         {
-            Users userToEdit = db.User.Single(u => u.userID == user.userID);
-            userToEdit.username = user.username;
-            userToEdit.firstName = user.firstName;
-            userToEdit.lastName = user.lastName;
+            //ATH VIRKAR BARA ROLES EKKI AÐ BREYTA FIRST/LAST/USER NAME
+            ApplicationUser appUser = man.GetUser(user.username);
+            appUser.UserName = user.username;
+            appUser.firstName = user.firstName;
+            appUser.lastName = user.lastName;
 
             //Uppfæra admin
-            if(user.isAdmin == true)
+            if (user.isAdmin == true)
             {
-                Admins adminExists = db.Admin.SingleOrDefault(a => a.userID == user.userID);
-                if (adminExists == null)
+                if(man.UserIsInRole(appUser.Id, "Admin") == false)
                 {
-                    Admins admin = new Admins();
-                    admin.userID = user.userID;
-                    db.Admin.Add(admin);
+                    man.AddUserToRole(appUser.Id, "Admin");
                 }
             }
             else if(user.isAdmin == false)
             {
-                Admins adminToDelete = db.Admin.SingleOrDefault(a => a.userID == user.userID);
-                if(adminToDelete != null)
+                if (man.UserIsInRole(appUser.Id, "Admin") == true)
                 {
-                    db.Admin.Remove(adminToDelete);
+                    man.RemoveUserRole(appUser.Id, "Admin");
                 }
             }
             //Uppfæra teacher
-            if (user.isTeacher == true && user.teacherID == 0)
+            if (user.isTeacher == true)
             {
-                Teachers teacherExists = db.Teacher.SingleOrDefault(t => t.userID == user.userID);
-                if (teacherExists == null)
+                if (man.UserIsInRole(appUser.Id, "Teacher") == false)
                 {
-                    Teachers teacher = new Teachers();
-                    teacher.userID = user.userID;
-                    db.Teacher.Add(teacher);
+                    man.AddUserToRole(appUser.Id, "Teacher");
                 }
             }
             else if (user.isTeacher == false)
             {
-                Teachers teacherToDelete = db.Teacher.SingleOrDefault(t => t.userID == user.userID);
-                if (teacherToDelete != null)
+                if (man.UserIsInRole(appUser.Id, "Teacher") == true)
                 {
-                    db.Teacher.Remove(teacherToDelete);
+                    man.RemoveUserRole(appUser.Id, "Teacher");
                 }
             }
 
             //Uppfæra student
-            if (user.isStudent == true && user.studentID == 0)
+            if (user.isStudent == true)
             {
-                Students studentExists = db.Student.SingleOrDefault(s => s.userID == user.userID);
-                if (studentExists == null)
+                if (man.UserIsInRole(appUser.Id, "Student") == false)
                 {
-                    Students student = new Students();
-                    student.userID = user.userID;
-                    db.Student.Add(student);
+                    man.AddUserToRole(appUser.Id, "Student");
                 }
             }
             else if (user.isStudent == false)
             {
-                Students studentToDelete = db.Student.SingleOrDefault(s => s.userID == user.userID);
-                if (studentToDelete != null)
+                if (man.UserIsInRole(appUser.Id, "Student") == true)
                 {
-                    db.Student.Remove(studentToDelete);
+                    man.RemoveUserRole(appUser.Id, "Student");
                 }
             }
             db.SaveChanges();
@@ -218,21 +153,28 @@ namespace Mooshak2.DAL
         //Nær í alla kennara og athugar hvort þeir séu í ákveðnum áfanga
         public List<UsersViewModels> GetAllTeachers(int? courseID)
         {
-            List<UsersViewModels> users = (from teacher in db.Teacher
-                                           join item in db.User on teacher.userID equals item.userID
-                                           join teacherGroup in db.TeacherGroup on teacher.teacherID equals teacherGroup.teacherID into t
-                                           from teacherGroup in t.DefaultIfEmpty()
-                                           where (teacherGroup.courseID == courseID || teacherGroup.courseID == null) //Ath að ef teacherGroup.courseID er annað courseId þa kemur ekki sá kennari
-                                           select new UsersViewModels
-                                           {
-                                               userID = item.userID,
-                                               firstName = item.firstName,
-                                               lastName = item.lastName,
-                                               username = item.username, 
-                                               teacherID = teacher.teacherID,
-                                               selected = teacherGroup.teacherID != null
-                                           }).ToList();
-
+            List<UsersViewModels> users = new List<UsersViewModels>();
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            List<ApplicationUser> allUsers = um.Users.ToList();
+            foreach (ApplicationUser u in allUsers)
+            {
+                if(man.UserIsInRole(u.Id, "Teacher"))
+                {
+                    UsersViewModels tmp = new UsersViewModels();
+                    tmp.firstName = u.firstName;
+                    tmp.lastName = u.lastName;
+                    tmp.username = u.UserName;
+                    tmp.userID = u.Id;
+                    Boolean selected = false;
+                    TeacherGroup teacherExists = db.TeacherGroup.SingleOrDefault(t => t.userID == u.Id && t.courseID == courseID);
+                    if (teacherExists != null)
+                    {
+                        selected = true;
+                    }
+                    tmp.selected = selected;
+                    users.Add(tmp);
+                }
+            }
             return users;
         }
 
@@ -243,18 +185,18 @@ namespace Mooshak2.DAL
 
                 if (user.selected == true)
                 {
-                    TeacherGroup teacherExists = db.TeacherGroup.SingleOrDefault(t => t.teacherID == user.teacherID && t.courseID == courseID);
+                    TeacherGroup teacherExists = db.TeacherGroup.SingleOrDefault(t => t.userID == user.userID && t.courseID == courseID);
                     if (teacherExists == null)
                     {
                         TeacherGroup teacher = new TeacherGroup();
-                        teacher.teacherID = user.teacherID;
+                        teacher.userID = user.userID;
                         teacher.courseID = (int)courseID;
                         db.TeacherGroup.Add(teacher);
                     }
                 }
                 else if(user.selected == false)
                 {
-                    TeacherGroup teacherToDelete = db.TeacherGroup.SingleOrDefault(t => t.teacherID == user.teacherID && t.courseID == courseID);
+                    TeacherGroup teacherToDelete = db.TeacherGroup.SingleOrDefault(t => t.userID == user.userID && t.courseID == courseID);
                     if (teacherToDelete != null)
                     {
                         db.TeacherGroup.Remove(teacherToDelete);
@@ -266,21 +208,28 @@ namespace Mooshak2.DAL
         }
         public List<UsersViewModels> GetAllStudents(int? courseID)
         {
-            List<UsersViewModels> users = (from student in db.Student
-                                           join item in db.User on student.userID equals item.userID
-                                           join studentGroup in db.StudentGroup on student.studentID equals studentGroup.studentID into t
-                                           from studentGroup in t.DefaultIfEmpty()
-                                           where (studentGroup.courseID == courseID || studentGroup.courseID == null) //Ath að ef teacherGroup.courseID er annað courseId þa kemur ekki sá kennari
-                                           select new UsersViewModels
-                                           {
-                                               userID = item.userID,
-                                               firstName = item.firstName,
-                                               lastName = item.lastName,
-                                               username = item.username,
-                                               studentID = student.studentID,
-                                               selected = studentGroup.studentID != null
-                                           }).ToList();
-
+            List<UsersViewModels> users = new List<UsersViewModels>();
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            List<ApplicationUser> allUsers = um.Users.ToList();
+            foreach (ApplicationUser u in allUsers)
+            {
+                if (man.UserIsInRole(u.Id, "Student"))
+                {
+                    UsersViewModels tmp = new UsersViewModels();
+                    tmp.firstName = u.firstName;
+                    tmp.lastName = u.lastName;
+                    tmp.username = u.UserName;
+                    tmp.userID = u.Id;
+                    Boolean selected = false;
+                    StudentGroup studentExists = db.StudentGroup.SingleOrDefault(t => t.userID == u.Id && t.courseID == courseID);
+                    if (studentExists != null)
+                    {
+                        selected = true;
+                    }
+                    tmp.selected = selected;
+                    users.Add(tmp);
+                }
+            }
             return users;
         }
         public void AddStudentsToGroup(int? courseID, List<UsersViewModels> users)
@@ -290,18 +239,18 @@ namespace Mooshak2.DAL
 
                 if (user.selected == true)
                 {
-                    StudentGroup studentExists = db.StudentGroup.SingleOrDefault(t => t.studentID == user.studentID && t.courseID == courseID);
+                    StudentGroup studentExists = db.StudentGroup.SingleOrDefault(t => t.userID == user.userID && t.courseID == courseID);
                     if (studentExists == null)
                     {
                         StudentGroup student = new StudentGroup();
-                        student.studentID = user.studentID;
+                        student.userID = user.userID;
                         student.courseID = (int)courseID;
                         db.StudentGroup.Add(student);
                     }
                 }
                 else if (user.selected == false)
                 {
-                    StudentGroup studentToDelete = db.StudentGroup.SingleOrDefault(t => t.studentID == user.studentID && t.courseID == courseID);
+                    StudentGroup studentToDelete = db.StudentGroup.SingleOrDefault(t => t.userID == user.userID && t.courseID == courseID);
                     if (studentToDelete != null)
                     {
                         db.StudentGroup.Remove(studentToDelete);

@@ -10,7 +10,7 @@ namespace Mooshak2.Models
     {
         [Key]
         public int studentGroupID { get; set; }
-        public int studentID { get; set; }
+        public string userID { get; set; }
         public int courseID { get; set; }
     }
 }

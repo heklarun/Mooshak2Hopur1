@@ -20,11 +20,10 @@ namespace Mooshak2.Controllers
         {
 
             //Test get all users from correct asp.net tables
-            UserService service = new UserService();
-            var tempUsers = service.GetAllUsers();
-            /*
+            //var tempUsers = service.GetAllUsers();
+            
             ViewBag.users = userService.GetAllUsers();
-            ViewBag.courses = courseService.GetAllCourses();*/
+            ViewBag.courses = courseService.GetAllCourses();
             return View("AdminIndex");
         }
 
@@ -44,35 +43,9 @@ namespace Mooshak2.Controllers
         [HttpPost]
         public ActionResult CreateNewUser(UsersViewModels user)
         {
-            userService.CreateNewUser(user);
-          /*  IdentityManager manager = new IdentityManager();
-            ApplicationUser newUser = new ApplicationUser
-            {
-                UserName = user.username,
-                Email = "test@test.is",
-                lastName = user.lastName,
-                firstName = user.firstName
-            };
-            bool result = manager.CreateUser(newUser, user.password);
-            if (result)
-            {
-                if (user.isAdmin == true)
-                {
-                    manager.AddUserToRole(newUser.Id, "Admin");
-                }
-                if (user.isTeacher == true)
-                {
-                    manager.AddUserToRole(newUser.Id, "Teacher");
-                }
-                if (user.isStudent == true)
-                {
-                    manager.AddUserToRole(newUser.Id, "Student");
-                }
-            }
-            else
-            {
 
-            }*/
+            userService.CreateNewUser(user);
+          
 
             return RedirectToAction("CreateNewUser");
         }
@@ -84,15 +57,15 @@ namespace Mooshak2.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditUser(int? userID)
+        public ActionResult EditUser(string username)
         {
-            if(userID == null)
+            if(username == null)
             {
                 return RedirectToAction("AdminIndex");
             }
             else
             {
-                UsersViewModels user = userService.GetUserByUserID(userID);
+                UsersViewModels user = userService.GetUserById(username);
                 return View(user);
 
             }
@@ -108,6 +81,11 @@ namespace Mooshak2.Controllers
         [HttpGet]
         public ActionResult EditCourse(int? courseID)
         {
+            List<UsersViewModels> allStudents = courseService.GetStudentsInCourse(courseID);
+            ViewBag.allStudents = allStudents;
+            List<UsersViewModels> allTeachers = courseService.GetTeachersInCourse(courseID);
+            ViewBag.allTeachers = allTeachers;
+            
             if (courseID == null)
             {
                 return RedirectToAction("AdminIndex");
@@ -135,21 +113,26 @@ namespace Mooshak2.Controllers
             }
             else
             {
+                CoursesViewModels course = courseService.GetCourseByID(courseID);
+                ViewBag.course = course;
                 List<UsersViewModels> users = userService.GetAllTeachers(courseID);
                 ViewBag.users = users; 
                 return View(users);
 
             }
         }
+
         [HttpPost]
-        public ActionResult StudentGroup(int? courseID, List<UsersViewModels> users)
+        public ActionResult TeacherGroup(int? courseID, List<UsersViewModels> users)
         {
-            if(courseID != null)
+            if (courseID != null)
             {
-               userService.AddStudentsToGroup(courseID, users);
+                userService.AddTeachersToGroup(courseID, users);
             }
             return RedirectToAction("AdminIndex");
         }
+
+        
         [HttpGet]
         public ActionResult StudentGroup(int? courseID)
         {
@@ -159,11 +142,23 @@ namespace Mooshak2.Controllers
             }
             else
             {
+                CoursesViewModels course = courseService.GetCourseByID(courseID);
+                ViewBag.course = course;
                 List<UsersViewModels> users = userService.GetAllStudents(courseID);
                 ViewBag.users = users;
                 return View(users);
 
             }
+        }
+
+        [HttpPost]
+        public ActionResult StudentGroup(int? courseID, List<UsersViewModels> users)
+        {
+            if (courseID != null)
+            {
+                userService.AddStudentsToGroup(courseID, users);
+            }
+            return RedirectToAction("AdminIndex");
         }
 
     }
