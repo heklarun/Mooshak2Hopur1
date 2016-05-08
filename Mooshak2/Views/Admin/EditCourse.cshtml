@@ -1,0 +1,12 @@
+﻿@model Mooshak2.Models.CoursesViewModels
+@{
+    ViewBag.Title = "EditCourse";
+}Edit course</h2>
+
+<form class="form-horizontal" action='' method="POST">
+    Name of course:<br>
+    <!--input type="text" id="courseName" name="courseName"-->
+    @Html.EditorFor(model => model.courseName)
+    <br><br>
+    <input type="submit" value="Edit course">
+</form>

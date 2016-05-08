@@ -33,6 +33,7 @@ namespace Mooshak2.Models
 
         public DbSet<Admins> Admin { get; set; }
         public DbSet<Students> Student { get; set; }
+        public DbSet<TeacherGroup> TeacherGroup { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

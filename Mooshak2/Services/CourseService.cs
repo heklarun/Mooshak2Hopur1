@@ -28,6 +28,26 @@ namespace Mooshak2.DAL
            
         }
 
+        public CoursesViewModels GetCourseByID(int? courseID)
+        {
+            CoursesViewModels course = (from item in db.Course
+                                     where item.courseID == courseID
+                                     select new CoursesViewModels
+                                     {
+                                         courseID = item.courseID,
+                                         courseName = item.courseName
+                                     }).SingleOrDefault();
+            return course;
+        }
+
+        public void EditCourse(CoursesViewModels course)
+        {
+            Courses courseToEdit = db.Course.Single(u => u.courseID == course.courseID);
+            courseToEdit.courseName = course.courseName;
+            db.SaveChanges();
+
+        }
+
     }
 
 }

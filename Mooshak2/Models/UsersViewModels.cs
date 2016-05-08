@@ -16,8 +16,14 @@ namespace Mooshak2.Models
         public string password { get; set; }
         public string confirmPassword { get; set; }
 
-        public Boolean isTeacher;
-        public Boolean isStudent;
-        public Boolean isAdmin;
+        public Boolean isTeacher { get; set; }
+        public int teacherID { get; set; }
+        public Boolean isStudent { get; set; }
+        public int studentID { get; set; }
+        public Boolean isAdmin { get; set; }
+        public int adminID { get; set; }
+
+        public Boolean selected { get; set; }
+
     }
 }
