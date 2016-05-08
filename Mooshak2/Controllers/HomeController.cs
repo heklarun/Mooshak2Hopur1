@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Mooshak2.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class HomeController : Controller
     {
         public ActionResult Index()

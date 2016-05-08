@@ -42,13 +42,19 @@ namespace SecurityWebAppTest.Models
             return um.FindByName(name);
         }
 
+    /*    public List<ApplicationUser> GetAllUsers()
+        {
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            return um.Users.ToList();
+        }*/
+
         public bool CreateUser(ApplicationUser user, string password)
         {
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             var idResult = um.Create(user, password);
             return idResult.Succeeded;
         }
-
+        
         public bool AddUserToRole(string userId, string roleName)
         {
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));

@@ -1,4 +1,6 @@
-﻿using Mooshak2.Models;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Mooshak2.Models;
 using SecurityWebAppTest.Models;
 using System;
 using System.Collections.Generic;
@@ -20,32 +22,35 @@ namespace Mooshak2.DAL
         }
 
         //Nær í alla notendur
-        public List<UsersViewModels> GetAllUsers()
+        public List<ApplicationUser> GetAllUsers()
         {
-           // List<Users> users = (from item in db.User select item).ToList();
-             List<UsersViewModels> users = (from item in db.User 
-                               join teacher in db.Teacher on item.userID equals teacher.userID into t
-                               join admin in db.Admin on item.userID equals admin.userID into a
-                               join student in db.Student on item.userID equals student.userID into s
-                               from teacher in t.DefaultIfEmpty()
-                               from admin in a.DefaultIfEmpty()
-                               from student in s.DefaultIfEmpty()
-                               select new UsersViewModels
-                               {
-                                   userID = item.userID,
-                                   firstName = item.firstName,
-                                   lastName = item.lastName,
-                                   username = item.username,
-                                   //teacherID = teacher.teacherID != null ? teacher.teacherID : 0,
-                                   isTeacher = teacher.teacherID != null, 
-                                   //studentID = student.studentID != null ? student.studentID : 0,
-                                   isStudent = student.studentID != null,
-                                   //adminID = admin.adminID != null ? admin.adminID : 0,
-                                   isAdmin = admin.adminID != null
-                               }).ToList();
-            
-            return users;
-        }
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            return um.Users.ToList();
+        
+        // List<Users> users = (from item in db.User select item).ToList();
+        /* List<UsersViewModels> users = (from item in db.User 
+                            join teacher in db.Teacher on item.userID equals teacher.userID into t
+                            join admin in db.Admin on item.userID equals admin.userID into a
+                            join student in db.Student on item.userID equals student.userID into s
+                            from teacher in t.DefaultIfEmpty()
+                            from admin in a.DefaultIfEmpty()
+                            from student in s.DefaultIfEmpty()
+                            select new UsersViewModels
+                            {
+                                userID = item.userID,
+                                firstName = item.firstName,
+                                lastName = item.lastName,
+                                username = item.username,
+                                //teacherID = teacher.teacherID != null ? teacher.teacherID : 0,
+                                isTeacher = teacher.teacherID != null, 
+                                //studentID = student.studentID != null ? student.studentID : 0,
+                                isStudent = student.studentID != null,
+                                //adminID = admin.adminID != null ? admin.adminID : 0,
+                                isAdmin = admin.adminID != null
+                            }).ToList();
+
+         return users;*/
+    }
 
         //Nær í notanda eftir id
         public UsersViewModels GetUserByUserID(int? userId)
@@ -79,7 +84,36 @@ namespace Mooshak2.DAL
         //Býr til notanda
         public void CreateNewUser(UsersViewModels user)
         {
-            Users users = new Users();
+            IdentityManager manager = new IdentityManager();
+            ApplicationUser newUser = new ApplicationUser
+            {
+                UserName = user.username,
+                Email = "test@test.is",
+                lastName = user.lastName,
+                firstName = user.firstName
+            };
+            bool result = manager.CreateUser(newUser, user.password);
+            if (result)
+            {
+                if (user.isAdmin == true)
+                {
+                    manager.AddUserToRole(newUser.Id, "Admin");
+                }
+                if (user.isTeacher == true)
+                {
+                    manager.AddUserToRole(newUser.Id, "Teacher");
+                }
+                if (user.isStudent == true)
+                {
+                    manager.AddUserToRole(newUser.Id, "Student");
+                }
+            }
+            else
+            {
+
+            }
+
+            /*Users users = new Users();
             users.firstName = user.firstName;
             users.lastName = user.lastName;
             users.username = user.username;
@@ -106,7 +140,7 @@ namespace Mooshak2.DAL
                 Students student = new Students();
                 student.userID = userId;
                 db.Student.Add(student);
-            }
+            }*/
 
             db.SaveChanges();
 

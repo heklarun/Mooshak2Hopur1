@@ -1,5 +1,6 @@
 ﻿using Mooshak2.DAL;
 using Mooshak2.Models;
+using SecurityWebAppTest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,13 @@ namespace Mooshak2.Controllers
         [HttpGet]
         public ActionResult AdminIndex()
         {
+
+            //Test get all users from correct asp.net tables
+            UserService service = new UserService();
+            var tempUsers = service.GetAllUsers();
+            /*
             ViewBag.users = userService.GetAllUsers();
-            ViewBag.courses = courseService.GetAllCourses();
+            ViewBag.courses = courseService.GetAllCourses();*/
             return View("AdminIndex");
         }
 
@@ -39,6 +45,35 @@ namespace Mooshak2.Controllers
         public ActionResult CreateNewUser(UsersViewModels user)
         {
             userService.CreateNewUser(user);
+          /*  IdentityManager manager = new IdentityManager();
+            ApplicationUser newUser = new ApplicationUser
+            {
+                UserName = user.username,
+                Email = "test@test.is",
+                lastName = user.lastName,
+                firstName = user.firstName
+            };
+            bool result = manager.CreateUser(newUser, user.password);
+            if (result)
+            {
+                if (user.isAdmin == true)
+                {
+                    manager.AddUserToRole(newUser.Id, "Admin");
+                }
+                if (user.isTeacher == true)
+                {
+                    manager.AddUserToRole(newUser.Id, "Teacher");
+                }
+                if (user.isStudent == true)
+                {
+                    manager.AddUserToRole(newUser.Id, "Student");
+                }
+            }
+            else
+            {
+
+            }*/
+
             return RedirectToAction("CreateNewUser");
         }
         [HttpPost]
