@@ -30,7 +30,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
-                            <table class="table table-striped">
+                            <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Kennarar</th>
@@ -47,7 +47,7 @@
                             </table>
                         </div>
                         <div class="col-md-6 col-xs-12">
-                            <table class="table table-striped">
+                            <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Nemendur</th>
@@ -63,16 +63,16 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row text-center">
                         
-                        <a class="btn" type="button" href="@Url.Action(" EditCourse", "Admin" , new {courseID=course.courseID})">
+                        <a class="btn btn-primary" type="button" href="@Url.Action(" EditCourse", "Admin" , new {courseID=course.courseID})">
                             Edit course
                         </a>
-                            <a class="btn" type="button" href="@Url.Action("TeacherGroup", "Admin" , new {courseID=course.courseID})">
+                            <a class="btn btn-primary" type="button" href="@Url.Action("TeacherGroup", "Admin" , new {courseID=course.courseID})">
                                 Add/Delete teachers
                             </a>
 
-                            <a class="btn" type="button" href="@Url.Action("StudentGroup", "Admin" , new {courseID=course.courseID})">
+                            <a class="btn btn-primary" type="button" href="@Url.Action("StudentGroup", "Admin" , new {courseID=course.courseID})">
                                 Add/Delete students
                             </a>
 </div>

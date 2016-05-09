@@ -71,8 +71,13 @@ button
     float: right;
 }
 
-table.table-striped {
+table.table-striped
+{
   display:block;  
   height: 200px;
   overflow-y: scroll;
+}
+.btn-primary
+{
+    background-color: #443266;
 }
