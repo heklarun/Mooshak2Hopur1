@@ -22,17 +22,20 @@
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
-textarea {
+textarea
+{
     max-width: 280px;
 }
 
-div.page-header{
+div.page-header
+{
     background-color:#443266;
     display: block;
     width: 100%;
 }
 
-.page-header {
+.page-header
+{
     padding-bottom: 150px;
     margin: -20px 0px 0px;
     border-bottom: 1px solid #eeeeee;
@@ -42,12 +45,13 @@ table.table
 {
     background-color:white;
 }
-button{
+button
+{
     background-color:#443266;
     border:none;
     color:white;
-    width: 150px;
-    height:50px;
+    width: 120px;
+    height:40px;
     text-align:center;
     text-decoration:none;
     display: inline-block;
@@ -55,3 +59,20 @@ button{
     border-radius:8px;
 
 }
+
+
+#left
+{
+    float: left;
+}
+
+#middle
+{
+   
+}
+
+#right
+{
+    float: right;
+}
+
