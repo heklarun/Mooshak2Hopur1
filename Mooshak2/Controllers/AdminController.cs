@@ -177,5 +177,19 @@ namespace Mooshak2.Controllers
             courseService.DeleteCourse(course.courseID);
             return RedirectToAction("AdminIndex");
         }
+
+        //Það sem patti gerði er hér fyrir neðan
+        [Authorize(Roles = "Admin")]
+        // GET: Course
+        public ActionResult Index()
+        {
+           // string username = User.Identity.GetUserName(); //ná í notendanafn
+
+            CourseService service = new CourseService();
+
+            var model = service.GetAllCourses();
+
+            return View(model);
+        }
     }
 }

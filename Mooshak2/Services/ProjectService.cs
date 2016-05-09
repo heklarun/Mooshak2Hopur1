@@ -45,9 +45,9 @@ namespace Mooshak2.Services
 
         public void EditProject(ProjectViewModels project)
         {
-            Projects projectToEdit = db.Project.Single(x => x.projectID == project.projectID);
+            //Projects projectToEdit = db.Project.Single(x => x.projectID == project.projectID);  VILLA SQL
             //projectToEdit.projectParts = project.projectParts;
-            projectToEdit.projectName = project.projectName; //ATH Vantar fyrir próstentu og það dæmi, þarf að útfæra í model fyrst
+            //projectToEdit.projectName = project.projectName; //ATH Vantar fyrir próstentu og það dæmi, þarf að útfæra í model fyrst
             //projectToEdit.projectPrecent = project.projectPrecent;+
             //projectToEdit.inputFile = project.inputFile;
             //projectToEdit.outputFile = project.outputFile;

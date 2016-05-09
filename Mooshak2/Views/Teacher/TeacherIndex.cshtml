@@ -6,7 +6,15 @@
 <div class="container body-content">
     <div class="row">
         <div class="col-md-12">
-            <div> 
+            <div>
+                <select>
+                    @foreach (var course in ViewBag.courses)
+                    {
+                        <option>  </option> //Vantar inn í til að gera display course
+                    }
+                </select>
+            </div>
+            <div>
                 <!-- Edit Project takki -->
                 <button type="button" data-toggle="modal" data-target="#editModal">Edit project</button>
 
@@ -30,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                    
+
                 <div>
                     <!-- Delete Project takki -->
                     <button type="button" data-toggle="modal" data-target="#deleteModal">Delete project</button>
@@ -53,12 +61,17 @@
                                     <button type="button" data-dismiss="modal">No</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
-           </div>
+            </div>
         </div>
-               
+    </div>
 
+
+    //Student group
+    //project parts
+
+    //Tafla með skilum, download, user, problem, resault
+</div>
 
