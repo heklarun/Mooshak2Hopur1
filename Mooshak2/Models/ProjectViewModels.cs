@@ -6,10 +6,11 @@ using System.Web;
 
 namespace Mooshak2.Models
 {
-    public class CoursesViewModels
+    public class ProjectViewModels
     {
         [Key]
-        public int courseID { get; set; }
-        public string courseName { get; set; }
+        public int projectID { get; set; }
+        public string projectName { get; set; }
+        Courses courseID { get; set; }
     }
 }
