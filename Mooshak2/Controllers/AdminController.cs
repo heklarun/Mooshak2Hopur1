@@ -16,14 +16,24 @@ namespace Mooshak2.Controllers
         CourseService courseService = new CourseService();
         // GET: Admin
         [HttpGet]
-        public ActionResult AdminIndex()
+        public ActionResult AdminIndex(int? courseID)
         {
 
             //Test get all users from correct asp.net tables
             //var tempUsers = service.GetAllUsers();
-            
-            ViewBag.users = userService.GetAllUsers();
-            ViewBag.courses = courseService.GetAllCourses();
+            if (courseID != null)
+            {
+                ViewBag.users = userService.GetAllUsers();
+                List<Courses> allCourses = courseService.GetAllCourses();
+                ViewBag.allCourses = allCourses;
+                CoursesViewModels course = courseService.GetCourseByID(courseID);
+                ViewBag.course = course;
+
+            }
+          /*  List<UsersViewModels> allTeachers = courseService.GetTeachersInCourse(courseID);
+            ViewBag.allTeachers = allTeachers;
+            List<UsersViewModels> allStudents = courseService.GetStudentsInCourse(courseID);
+            ViewBag.allStudents = allStudents;*/
             return View("AdminIndex");
         }
 
@@ -81,10 +91,6 @@ namespace Mooshak2.Controllers
         [HttpGet]
         public ActionResult EditCourse(int? courseID)
         {
-            List<UsersViewModels> allStudents = courseService.GetStudentsInCourse(courseID);
-            ViewBag.allStudents = allStudents;
-            List<UsersViewModels> allTeachers = courseService.GetTeachersInCourse(courseID);
-            ViewBag.allTeachers = allTeachers;
             
             if (courseID == null)
             {

@@ -15,6 +15,7 @@ namespace Mooshak2.DAL
     {
         ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
+        CourseService courseService = new CourseService();
 
         public List<Courses> GetAllCourses()
         {
@@ -42,6 +43,9 @@ namespace Mooshak2.DAL
                                          courseID = item.courseID,
                                          courseName = item.courseName
                                      }).SingleOrDefault();
+
+            course.teachers = courseService.GetTeachersInCourse(course.courseID);
+            course.students = courseService.GetStudentsInCourse(course.courseID);
             return course;
         }
 

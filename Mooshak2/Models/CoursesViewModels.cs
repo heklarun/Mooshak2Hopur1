@@ -11,5 +11,7 @@ namespace Mooshak2.Models
             [Key]
             public int courseID { get; set; }
             public string courseName { get; set; }
+            public List<UsersViewModels> students { get; set; }
+            public List<UsersViewModels> teachers { get; set; }
         }
 }
