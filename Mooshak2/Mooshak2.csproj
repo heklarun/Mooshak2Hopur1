@@ -310,6 +310,7 @@
     <Content Include="Views\Admin\StudentGroup.cshtml" />
     <Content Include="Views\Teacher\EditProject.cshtml" />
     <Content Include="Views\Teacher\EditProject2.cshtml" />
+    <Content Include="Views\Student\StudentAnswerView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
