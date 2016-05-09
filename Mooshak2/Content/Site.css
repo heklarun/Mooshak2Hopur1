@@ -76,3 +76,8 @@ button
     float: right;
 }
 
+table.table-striped {
+  display:block;  
+  height: 200px;
+  overflow-y: scroll;
+}

@@ -11,30 +11,16 @@ namespace Mooshak2.Controllers
 {
     public class AdminController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        ApplicationDbContext db = new ApplicationDbContext();
         UserService userService = new UserService();
         CourseService courseService = new CourseService();
         // GET: Admin
         [HttpGet]
-        public ActionResult AdminIndex(int? courseID)
+        public ActionResult AdminIndex()
         {
-
-            //Test get all users from correct asp.net tables
-            //var tempUsers = service.GetAllUsers();
-            if (courseID != null)
-            {
-                ViewBag.users = userService.GetAllUsers();
-                List<Courses> allCourses = courseService.GetAllCourses();
-                ViewBag.allCourses = allCourses;
-                CoursesViewModels course = courseService.GetCourseByID(courseID);
-                ViewBag.course = course;
-
-            }
-          /*  List<UsersViewModels> allTeachers = courseService.GetTeachersInCourse(courseID);
-            ViewBag.allTeachers = allTeachers;
-            List<UsersViewModels> allStudents = courseService.GetStudentsInCourse(courseID);
-            ViewBag.allStudents = allStudents;*/
-            return View("AdminIndex");
+            List<CoursesViewModels> courses = courseService.GetAllCourses();
+            ViewBag.courses = courses;
+            return View();
         }
 
         [HttpGet]
@@ -43,7 +29,7 @@ namespace Mooshak2.Controllers
             return View("CreateNewCourse");
         }
 
-
+        
 
         [HttpGet]
         public ActionResult CreateNewUser()
@@ -63,7 +49,7 @@ namespace Mooshak2.Controllers
         public ActionResult CreateNewCourse(CoursesViewModels course)
         {
             courseService.CreateNewCourse(course);
-            return RedirectToAction("CreateNewCourse");
+            return RedirectToAction("AdminIndex");
         }
 
         [HttpGet]
@@ -99,7 +85,9 @@ namespace Mooshak2.Controllers
             else
             {
                 CoursesViewModels course = courseService.GetCourseByID(courseID);
-                return View(course);
+                // return View(course);
+                return PartialView("EditCoursePartial", course);
+
 
             }
         }
@@ -167,5 +155,27 @@ namespace Mooshak2.Controllers
             return RedirectToAction("AdminIndex");
         }
 
+        
+        [HttpGet]
+        public ActionResult DeleteCourse(int? courseID)
+        {
+            if (courseID == null)
+            {
+                return RedirectToAction("AdminIndex");
+            }
+            else
+            {
+                CoursesViewModels course = courseService.GetCourseByID(courseID);
+                 return View(course);
+
+            }
+            //courseService.DeleteCourse(courseID);
+        }
+        [HttpPost]
+        public ActionResult DeleteCourse(CoursesViewModels course)
+        {
+            courseService.DeleteCourse(course.courseID);
+            return RedirectToAction("AdminIndex");
+        }
     }
 }

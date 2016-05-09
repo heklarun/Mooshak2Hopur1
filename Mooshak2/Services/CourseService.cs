@@ -15,13 +15,24 @@ namespace Mooshak2.DAL
     {
         ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
-        CourseService courseService = new CourseService();
 
-        public List<Courses> GetAllCourses()
+        public List<CoursesViewModels> GetAllCourses()
         {
+            List<CoursesViewModels> courses = new List<CoursesViewModels>();
             List<Courses> result = (from item in db.Course
                                     select item).ToList();
-            return result;
+            foreach(Courses course in result)
+            {
+                List<UsersViewModels> students = GetStudentsInCourse(course.courseID);
+                List<UsersViewModels> teachers = GetTeachersInCourse(course.courseID);
+                CoursesViewModels tmp = new CoursesViewModels();
+                tmp.courseID = course.courseID;
+                tmp.courseName = course.courseName;
+                tmp.students = students;
+                tmp.teachers = teachers;
+                courses.Add(tmp);
+            }
+            return courses;
         }
         public void CreateNewCourse(CoursesViewModels courseToAdd)
         {
@@ -44,8 +55,8 @@ namespace Mooshak2.DAL
                                          courseName = item.courseName
                                      }).SingleOrDefault();
 
-            course.teachers = courseService.GetTeachersInCourse(course.courseID);
-            course.students = courseService.GetStudentsInCourse(course.courseID);
+           // course.teachers = courseService.GetTeachersInCourse(course.courseID);
+           // course.students = courseService.GetStudentsInCourse(course.courseID);
             return course;
         }
 
@@ -108,6 +119,35 @@ namespace Mooshak2.DAL
 
             return users;
 
+        }
+
+
+        public void DeleteCourse(int? courseID)
+        {
+            //Eyða öllum kennurum úr áfanganum
+            List<TeacherGroup> allTeachers = (from item in db.TeacherGroup
+                                              where item.courseID == courseID
+                                        select item).ToList();
+
+            foreach(TeacherGroup t in allTeachers){
+                db.TeacherGroup.Remove(t);
+            }
+            //Eyða öllum nemendum úr áfanganum
+            List<StudentGroup> allStudents = (from item in db.StudentGroup
+                                              where item.courseID == courseID
+                                              select item).ToList();
+
+            foreach (StudentGroup s in allStudents)
+            {
+                db.StudentGroup.Remove(s);
+            }
+            db.SaveChanges();
+
+            //Eyða áfanganum
+            Courses course = db.Course.SingleOrDefault(t => t.courseID == courseID);
+            db.Course.Remove(course);
+
+            db.SaveChanges();
         }
 
     }

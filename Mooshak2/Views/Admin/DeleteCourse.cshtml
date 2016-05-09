@@ -1,0 +1,16 @@
+﻿@model Mooshak2.Models.CoursesViewModels
+@{
+    ViewBag.Title = "DeleteCourse";
+}
+
+<h2>Delete Course</h2>
+
+<form class="form-horizontal" action='' method="POST">
+
+    <div>
+        Are you sure you want to delete <b>@Model.courseName</b>?
+    </div>
+    <div>
+        <input type="submit" value="Delete course">
+    </div>
+</form>
