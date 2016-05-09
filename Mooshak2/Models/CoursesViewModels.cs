@@ -13,5 +13,6 @@ namespace Mooshak2.Models
             public string courseName { get; set; }
             public List<UsersViewModels> students { get; set; }
             public List<UsersViewModels> teachers { get; set; }
-        }
+
+    }
 }

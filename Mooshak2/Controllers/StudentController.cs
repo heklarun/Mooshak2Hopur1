@@ -19,6 +19,10 @@ namespace Mooshak2.Controllers
         {
             return View("StudentCoursesAvailable");
         }
+        public ActionResult StudentAnswerView()
+        {
+            return View("StudentAnswerView");
+        }
 
     }
 }

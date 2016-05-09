@@ -203,7 +203,9 @@
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Models\ProjectViewModels.cs" />
     <Compile Include="Services\CourseService.cs" />
+    <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -307,7 +309,10 @@
     <Content Include="Views\Admin\TeacherGroup.cshtml" />
     <Content Include="Views\Admin\StudentGroup.cshtml" />
     <Content Include="Views\Admin\DeleteCourse.cshtml" />
-  </ItemGroup>
+    <Content Include="Views\Teacher\EditProject.cshtml" />
+    <Content Include="Views\Teacher\EditProject2.cshtml" />
+    <Content Include="Views\Student\StudentAnswerView.cshtml" />
+</ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Course\" />
