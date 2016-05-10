@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Mooshak2.Models;
+using Mooshak2.DAL;
+using SecurityWebAppTest.Models;
 
 namespace Mooshak2.Controllers
 {
@@ -17,6 +19,7 @@ namespace Mooshak2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IdentityManager man = new IdentityManager();
 
         public AccountController()
         {
@@ -79,8 +82,22 @@ namespace Mooshak2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
+                    if(man.UserIsInRole(User.Identity.GetUserId(), "Admin"))
+                    {
+                        return RedirectToAction("../Admin/AdminIndex");
+                    }else if(man.UserIsInRole(User.Identity.GetUserId(), "Teacher"))
+                    {
+                        return RedirectToAction("../Teacher/TeacherIndex");
+                    }
+                    else if(man.UserIsInRole(User.Identity.GetUserId(), "Student"))
+                    {
+                        return RedirectToAction("../Student/StudentIndex");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                  case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Mooshak2.Models;
+using Mooshak2.Services;
 using SecurityWebAppTest.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Mooshak2.DAL
     {
         ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
+        private ProjectService projectService = new ProjectService();
 
         public List<CoursesViewModels> GetAllCourses()
         {
@@ -55,8 +57,10 @@ namespace Mooshak2.DAL
                                          courseName = item.courseName
                                      }).SingleOrDefault();
 
-           // course.teachers = courseService.GetTeachersInCourse(course.courseID);
-           // course.students = courseService.GetStudentsInCourse(course.courseID);
+            course.teachers = GetTeachersInCourse(course.courseID);
+            course.students = GetStudentsInCourse(course.courseID);
+            course.projects = projectService.GetProjectsInCourse(course.courseID);
+            //GetProjectsInCourse
             return course;
         }
 
@@ -72,7 +76,8 @@ namespace Mooshak2.DAL
         {
             List<UsersViewModels> users = new List<UsersViewModels>();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            List<ApplicationUser> allUsers = um.Users.ToList();
+            List<ApplicationUser> allUsers = um.Users.OrderBy(x => x.firstName).ToList();
+
             foreach (ApplicationUser u in allUsers)
             {
                 if (man.UserIsInRole(u.Id, "Student"))
@@ -85,6 +90,7 @@ namespace Mooshak2.DAL
                         tmp.lastName = u.lastName;
                         tmp.username = u.UserName;
                         tmp.userID = u.Id;
+                        tmp.email = u.Email;
                         users.Add(tmp);
                     }
                 }
@@ -99,7 +105,7 @@ namespace Mooshak2.DAL
         {
             List<UsersViewModels> users = new List<UsersViewModels>();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            List<ApplicationUser> allUsers = um.Users.ToList();
+            List<ApplicationUser> allUsers = um.Users.OrderBy(x => x.firstName).ToList();
             foreach (ApplicationUser u in allUsers)
             {
                 if (man.UserIsInRole(u.Id, "Teacher"))
@@ -112,6 +118,7 @@ namespace Mooshak2.DAL
                         tmp.lastName = u.lastName;
                         tmp.username = u.UserName;
                         tmp.userID = u.Id;
+                        tmp.email = u.Email;
                         users.Add(tmp);
                     }
                 }
@@ -148,6 +155,32 @@ namespace Mooshak2.DAL
             db.Course.Remove(course);
 
             db.SaveChanges();
+        }
+
+        public List<CoursesViewModels> GetStudentCourses(string userID)
+        {
+            List<CoursesViewModels> allCourses = (from student in db.StudentGroup
+                                                  join course in db.Course on student.courseID equals course.courseID
+                                                  where student.userID == userID
+                                                  select new CoursesViewModels
+                                                  {
+                                                      courseID = course.courseID,
+                                                      courseName = course.courseName
+                                                  }).ToList();
+            return allCourses;
+        }
+
+        public List<CoursesViewModels> GetTeacherCourses(string userID)
+        {
+            List<CoursesViewModels> allCourses = (from teacher in db.TeacherGroup
+                                                  join course in db.Course on teacher.courseID equals course.courseID
+                                                  where teacher.userID == userID
+                                                  select new CoursesViewModels
+                                                  {
+                                                      courseID = course.courseID,
+                                                      courseName = course.courseName
+                                                  }).ToList();
+            return allCourses;
         }
 
     }

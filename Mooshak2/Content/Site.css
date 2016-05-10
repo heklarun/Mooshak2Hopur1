@@ -4,12 +4,14 @@
    /*background-image: url("Images/BackgroundForMooshak.jpg");*/
     background-color:#C3C3E5;
     margin-top: -40px;
+    font-family: Verdana;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    font-family: Verdana;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -24,6 +26,7 @@ input,
 select,
 textarea
 {
+    font-family: Verdana;
     max-width: 280px;
 }
 
@@ -71,7 +74,7 @@ button
     float: right;
 }
 
-table.table-striped
+div.table-scroll
 {
   display:block;  
   height: 200px;
@@ -80,4 +83,17 @@ table.table-striped
 .btn-primary
 {
     background-color: #443266;
+}
+input.form-control
+{
+    margin:0px auto;
+}
+div.text-center h2{
+    margin-top: 50px;
+    padding-top: 50px;
+
+}
+#createcourse .form-group {
+    margin-bottom: 100px;
+    padding-bottom: 100px;
 }

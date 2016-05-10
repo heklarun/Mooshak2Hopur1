@@ -197,6 +197,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -305,16 +306,18 @@
     <Content Include="Views\Shared\Teacher_Layout.cshtml" />
     <Content Include="Views\Shared\Student_Layout.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
-    <Content Include="Views\Admin\EditCoursePartial.cshtml" />
+    <Content Include="Views\Admin\EditCourse.cshtml" />
     <Content Include="Views\Admin\TeacherGroup.cshtml" />
     <Content Include="Views\Admin\StudentGroup.cshtml" />
     <Content Include="Views\Admin\DeleteCourse.cshtml" />
     <Content Include="Views\Teacher\EditProject.cshtml" />
     <Content Include="Views\Teacher\EditProject2.cshtml" />
     <Content Include="Views\Student\StudentAnswerView.cshtml" />
-</ItemGroup>
+    <Content Include="Views\Teacher\Course.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Course\" />
     <Folder Include="Views\Project\" />
   </ItemGroup>

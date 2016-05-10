@@ -23,6 +23,7 @@ namespace Mooshak2.DAL
             user.firstName = appUser.firstName;
             user.lastName = appUser.lastName;
             user.username = appUser.UserName;
+            user.email = appUser.Email;
             Boolean isAdmin = false;
             Boolean isTeacher = false;
             Boolean isStudent = false;
@@ -52,7 +53,6 @@ namespace Mooshak2.DAL
         public List<ApplicationUser> GetAllUsers()
         {
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-
             return um.Users.ToList();
     }
 
@@ -63,7 +63,7 @@ namespace Mooshak2.DAL
             ApplicationUser newUser = new ApplicationUser
             {
                 UserName = user.username,
-                Email = "test@test.is",
+                Email = user.email,
                 lastName = user.lastName,
                 firstName = user.firstName
             };

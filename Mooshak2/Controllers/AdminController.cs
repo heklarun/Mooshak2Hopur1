@@ -16,7 +16,7 @@ namespace Mooshak2.Controllers
         CourseService courseService = new CourseService();
         // GET: Admin
         [HttpGet]
-        public ActionResult AdminIndex()
+        public ActionResult AdminIndex(int? courseID)
         {
             List<CoursesViewModels> courses = courseService.GetAllCourses();
             ViewBag.courses = courses;
@@ -43,7 +43,7 @@ namespace Mooshak2.Controllers
             userService.CreateNewUser(user);
           
 
-            return RedirectToAction("CreateNewUser");
+            return RedirectToAction("AdminIndex");
         }
         [HttpPost]
         public ActionResult CreateNewCourse(CoursesViewModels course)
@@ -85,17 +85,14 @@ namespace Mooshak2.Controllers
             else
             {
                 CoursesViewModels course = courseService.GetCourseByID(courseID);
-                // return View(course);
-                return PartialView("EditCoursePartial", course);
-
-
+                return View(course);
             }
         }
         [HttpPost]
         public ActionResult EditCourse(CoursesViewModels course)
         {
             courseService.EditCourse(course);
-            return RedirectToAction("AdminIndex");
+            return RedirectToAction("AdminIndex", "Admin", new { courseID = course.courseID });
         }
 
         [HttpGet]
@@ -123,7 +120,7 @@ namespace Mooshak2.Controllers
             {
                 userService.AddTeachersToGroup(courseID, users);
             }
-            return RedirectToAction("AdminIndex");
+            return RedirectToAction("AdminIndex", "Admin", new { courseID = courseID });
         }
 
         
@@ -152,7 +149,7 @@ namespace Mooshak2.Controllers
             {
                 userService.AddStudentsToGroup(courseID, users);
             }
-            return RedirectToAction("AdminIndex");
+            return RedirectToAction("AdminIndex", "Admin", new { courseID = courseID });
         }
 
         

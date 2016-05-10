@@ -1,16 +1,24 @@
-﻿
+﻿@model Mooshak2.Models.ProjectViewModels
+
 @{
     ViewBag.Title = "CreateNewProject";
 }
 
-<h2>CreateNewProject</h2>
+<h2>Create New Project</h2>
 
-<form action="action_page.php">
+<form class="form-horizontal" action='' method="POST">
     <div>
-        Name of course:
-        <input type="text" name="projectName"><br><br>
+        Name of project:
+        @Html.EditorFor(model => model.projectName)
     </div>
     <div>
+        Select course: 
+        @Html.DropDownListFor(m => m.courseID, new SelectList(ViewBag.courses, "courseID", "courseName"))
+
+    </div>
+    <input type="submit" value="Create project">
+</form>
+    <!--div>
         Number of parts in project
         <select>
             <option value="sub1">1</option>
@@ -24,10 +32,9 @@
             <option value="sub9">9</option>
             <option value="sub10">10</option>
         </select><br><br>
-    </div>
-</form>
-<fieldset>
+    </div-->
 
+<!--fieldset>
     <legend>Part 1</legend>
     Name:
     <input type="text" name="projectName"><br>
@@ -41,5 +48,5 @@
     <form action="demo_form.asp">
         <input type="file" name="pic" accept="image/*">
     </form>
-</fieldset>
-<input type="submit" value="Create project">
+    <input type="submit" value="Create project">
+</fieldset-->

@@ -13,31 +13,59 @@ using Mooshak2.Services;
 
 namespace Mooshak2.Controllers
 {
-    public class TeacherController : Controller
+    public class TeacherController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         UserService userService = new UserService();
         ProjectService projectService = new ProjectService();
         CourseService courseService = new CourseService();
+        IdentityManager man = new IdentityManager();
+
 
         // GET: Teacher
         public ActionResult TeacherIndex()
         {
-            return View("TeacherIndex");
+            ApplicationUser appUser = man.GetUser(User.Identity.Name);
+            List<CoursesViewModels> courses = courseService.GetTeacherCourses(appUser.Id);
+            if(courses.Count() > 0)
+            {
+                return RedirectToAction("Course", "Teacher", new { courseID = courses[0].courseID });
+            }
+            else
+            {
+                return View();
+            }
         }
 
+        [HttpGet]
+        public ActionResult Course(int? courseID)
+        {
+            CoursesViewModels courseInfo = courseService.GetCourseByID(courseID);
+            ViewBag.courseInfo = courseInfo;
+            return View(courseInfo);
+        }
         public ActionResult TeacherCoursesAvailable()
         {
             return View("TeacherCoursesAvailable");
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult CreateNewProject()
         {
-            ViewBag.course = courseService.GetAllCourses();
-            ViewBag.projects = projectService.GetAllProjects();
-
+            ApplicationUser appUser = man.GetUser(User.Identity.Name);
+            List<CoursesViewModels> courses = courseService.GetTeacherCourses(appUser.Id);
+            ViewBag.courses = courses;
+            /*ProjectViewModels project = new ProjectViewModels();
+            project.courses = courses;
+            return View(project);*/
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateNewProject(ProjectViewModels project)
+        {
+            projectService.CreateNewProject(project);
+            return View("TeacherIndex");
         }
 
         [HttpGet]

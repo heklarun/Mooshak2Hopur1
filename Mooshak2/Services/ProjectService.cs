@@ -22,8 +22,9 @@ namespace Mooshak2.Services
         public void CreateNewProject(ProjectViewModels projectToAdd)
         {
 
-            var newProject = new Projects();
+            Projects newProject = new Projects();
             newProject.projectName = projectToAdd.projectName;
+            newProject.courseID = projectToAdd.courseID;
 
             db.Project.Add(newProject);
             db.SaveChanges();
@@ -54,12 +55,17 @@ namespace Mooshak2.Services
             db.SaveChanges();
         }
 
-        public List<Projects> GetProjectsInCourse(int? courseID)
+        public List<ProjectViewModels> GetProjectsInCourse(int? courseID)
         {
-            List<Projects> result = (from item in db.Project
-                                     select item).ToList();
+            List<ProjectViewModels> result = (from item in db.Project
+                                     where item.courseID == courseID
+                                     select new ProjectViewModels
+                                     {
+                                         projectID = item.projectID,
+                                         projectName = item.projectName,
+                                         courseID = item.courseID
+                                     }).ToList();
 
-            //Vantar loopu sem fer í gegnum course Id og birtir þau verkefni í áfanganum
             return result;
 
 

@@ -2,11 +2,14 @@
 @{
     ViewBag.Title = "CreateNewCourse";
 }
-
+<div class="text-center">
 <h2>Create new course</h2>
+</div><br />
 
-<form class="form-horizontal" action='' method="POST">
-    Name of course:<br>
-    <input type="text" id="courseName" name="courseName"><br><br>
-    <input type="submit" value="Create course">
+<div id="createcourse">
+<form class="form-group text-center" action='' method="POST">
+    <label for="text">Name of course: </label> <br>
+        <input type="text" class="form-control" id="courseName" name="courseName"><br><br>
+    <input type="submit" class="btn btn-primary" value="Create course">
 </form>
+</div>

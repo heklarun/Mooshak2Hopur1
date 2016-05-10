@@ -29,8 +29,26 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav nav-tabs">
-                        <li>@Html.ActionLink("Courses...", "TeacherCoursesAvailable", "Teacher")</liclass="sr-only">
+                        <li>@Html.ActionLink("Home", "TeacherIndex", "Teacher")</li>
                         <li>@Html.ActionLink("Create new project", "CreateNewProject", "Teacher")</li>
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Courses
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    @foreach (var course in ViewBag.TeacherCourses)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Course", "Teacher" , new {courseID=course.courseID})">
+                                                @course.courseName
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                     <ul class="nav nav-tabs navbar-right">
                         <li class="dropdown">
@@ -53,6 +71,7 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
+
         @RenderBody()
         <hr />
         <footer>
