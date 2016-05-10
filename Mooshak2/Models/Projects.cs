@@ -22,7 +22,6 @@ namespace Mooshak2.Models
         //public List<string> Teachers { get; set; }
         //public List<string> Students { get; set; }
 
-        Courses courseID { get; set; }
 
     }
 }

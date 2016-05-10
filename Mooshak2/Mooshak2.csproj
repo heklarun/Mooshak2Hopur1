@@ -198,7 +198,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
@@ -314,7 +313,7 @@
     <Content Include="Views\Teacher\EditProject2.cshtml" />
     <Content Include="Views\Student\StudentAnswerView.cshtml" />
     <Content Include="Views\Teacher\Course.cshtml" />
-    </ItemGroup>
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />

@@ -65,7 +65,7 @@ namespace Mooshak2.Controllers
         public ActionResult CreateNewProject(ProjectViewModels project)
         {
             projectService.CreateNewProject(project);
-            return View("TeacherIndex");
+            return RedirectToAction("TeacherIndex");
         }
 
         [HttpGet]
