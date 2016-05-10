@@ -34,6 +34,7 @@ input, select, textarea
 div.page-header
 {
     background:url(Images/mooshakBanner.jpg) no-repeat;
+    background-color: #443266;
     display: block;
     width: 100%;
 }
