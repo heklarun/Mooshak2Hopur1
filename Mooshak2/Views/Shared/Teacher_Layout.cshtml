@@ -10,9 +10,9 @@
 </head>
 <body>
     <div class="page-header">
-        <h1>Example page header <small>Subtext for header</small></h1>
+        
     </div>
-    <div class="container body-content">
+    <div class="navbar">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,14 +23,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Mooshak 2.0</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav nav-tabs">
-                        <li>@Html.ActionLink("Home", "TeacherIndex", "Teacher")</li>
-                        <li>@Html.ActionLink("Create new project", "CreateNewProject", "Teacher")</li>
+                    <ul class="nav navbar-nav">
+                        
                         <li>
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -38,23 +36,17 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    @foreach (var course in ViewBag.TeacherCourses)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Course", "Teacher" , new {courseID=course.courseID})">
-                                                @course.courseName
-                                            </a>
-                                        </li>
-                                    }
+                                    
                                 </ul>
                             </div>
                         </li>
+                        <li>@Html.ActionLink("Create new project", "CreateNewProject", "Teacher")</li>
                     </ul>
-                    <ul class="nav nav-tabs navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teacher <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Teacher</a></li>
+                                <li><a href="#">Admin</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#">Student</a></li>
                             </ul>
