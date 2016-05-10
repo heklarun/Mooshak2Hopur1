@@ -1,30 +1,31 @@
-﻿body {
+﻿body 
+{
     padding-top: 40px;
     padding-bottom: 20px;
-   /*background-image: url("Images/BackgroundForMooshak.jpg");*/
     background-color:#C3C3E5;
     margin-top: -40px;
     font-family: Verdana;
 }
 
 /* Set padding to keep content from hitting the edges */
-.body-content {
+.body-content 
+{
     padding-left: 15px;
     padding-right: 15px;
     font-family: Verdana;
+    color: black;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
+.dl-horizontal dt 
+{
     white-space: normal;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea
+input, select, textarea
 {
     font-family: Verdana;
     max-width: 280px;
@@ -32,7 +33,8 @@ textarea
 
 div.page-header
 {
-    background-color:#443266;
+    background:url(Images/mooshakBanner.jpg) no-repeat;
+    background-color: #443266;
     display: block;
     width: 100%;
 }
@@ -40,7 +42,7 @@ div.page-header
 .page-header
 {
     padding-bottom: 150px;
-    margin: -20px 0px 0px;
+    margin: 0px 0px;
     border-bottom: 1px solid #eeeeee;
 }
 
@@ -48,6 +50,7 @@ table.table
 {
     background-color:white;
 }
+
 button
 {
     background-color:#443266;
@@ -60,9 +63,7 @@ button
     display: inline-block;
     font-size: 16px;
     border-radius:8px;
-
 }
-
 
 #left
 {
@@ -80,20 +81,31 @@ div.table-scroll
   height: 200px;
   overflow-y: scroll;
 }
+
 .btn-primary
 {
     background-color: #443266;
 }
+
 input.form-control
 {
     margin:0px auto;
 }
-div.text-center h2{
+
+div.text-center h2
+{
     margin-top: 50px;
     padding-top: 50px;
 
 }
-#createcourse .form-group {
+
+#createcourse .form-group 
+{
     margin-bottom: 100px;
     padding-bottom: 100px;
+}
+
+.glyphicon, .panel-title
+{
+    color: black;
 }
