@@ -197,8 +197,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+=======
+>>>>>>> f37aba31d95ca79639dc50b680f2c9523be1f85a
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
@@ -313,7 +316,10 @@
     <Content Include="Views\Teacher\EditProject.cshtml" />
     <Content Include="Views\Teacher\EditProject2.cshtml" />
     <Content Include="Views\Student\StudentAnswerView.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Teacher\Course.cshtml" />
+=======
+>>>>>>> f37aba31d95ca79639dc50b680f2c9523be1f85a
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
