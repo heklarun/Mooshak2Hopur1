@@ -42,7 +42,14 @@ namespace Mooshak2
                 manager.CreateUser(newAdmin, "123456");
                 manager.AddUserToRole(newAdmin.Id, "Admin");
             }
-
+            if (!manager.UserExists("admin@test.is"))
+            {
+                ApplicationUser newAdmin = new ApplicationUser();
+                newAdmin.UserName = "admin@test.is";
+                newAdmin.Email = "admin@test.is";
+                manager.CreateUser(newAdmin, "123456");
+                manager.AddUserToRole(newAdmin.Id, "Admin");
+            }
         }
     }
 }

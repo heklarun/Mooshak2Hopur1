@@ -9,12 +9,14 @@ using System.Web.Mvc;
 
 namespace Mooshak2.Controllers
 {
+    
     public class AdminController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
         UserService userService = new UserService();
         CourseService courseService = new CourseService();
         // GET: Admin
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult AdminIndex(int? courseID)
         {
