@@ -1,0 +1,18 @@
+﻿@model Mooshak2.Models.SubProjectsViewModels
+@{
+    ViewBag.Title = "DeleteSubProject";
+}
+
+<h2>Delete Sub project</h2>
+
+<form class="form-horizontal" action='' method="POST">
+
+    <div>
+        Are you sure you want to delete <b>@Model.subProjectName</b>?
+        @Html.HiddenFor(model => model.projectID)        
+    </div>
+    <div>
+        <input type="submit" value="Delete Sub project">
+    </div>
+</form>
+

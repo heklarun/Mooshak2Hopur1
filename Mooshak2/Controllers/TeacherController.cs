@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mooshak2.Services;
+using System.IO;
 
 namespace Mooshak2.Controllers
 {
@@ -56,25 +57,36 @@ namespace Mooshak2.Controllers
             ApplicationUser appUser = man.GetUser(User.Identity.Name);
             List<CoursesViewModels> courses = courseService.GetTeacherCourses(appUser.Id);
             ViewBag.courses = courses;
-            /*ProjectViewModels project = new ProjectViewModels();
-            project.courses = courses;
-            return View(project);*/
-            return View();
+            ProjectViewModels project = new ProjectViewModels();
+            project.openDate = DateTime.Today.ToString("dd.MM.yyyy");
+            project.closeDate = DateTime.Today.AddDays(14).ToString("dd.MM.yyyy");
+            return View(project);
         }
 
         [HttpPost]
         public ActionResult CreateNewProject(ProjectViewModels project)
         {
-            projectService.CreateNewProject(project);
-            return RedirectToAction("TeacherIndex");
+            int projectID = projectService.CreateNewProject(project);
+            if(projectID > 0)
+            {
+                return RedirectToAction("Project", "Teacher", new { projectID = projectID });
+            }
+            else
+            {
+                return RedirectToAction("TeacherIndex");
+            }
         }
 
         [HttpGet]
-        public ActionResult EditProject2(ProjectViewModels project)
+        public ActionResult EditProject(int? projectID)
         {
-            projectService.EditProject(project);
-
-            return RedirectToAction("TeacherIndex");
+            ApplicationUser appUser = man.GetUser(User.Identity.Name);
+            List<CoursesViewModels> courses = courseService.GetTeacherCourses(appUser.Id);
+            ViewBag.courses = courses;
+            ProjectViewModels project = projectService.GetProjectByID(projectID);
+            project.openDate = project.open.ToString("dd.MM.yyyy");
+            project.closeDate = project.close.ToString("dd.MM.yyyy");
+            return View(project);
         }
 
         [HttpPost]
@@ -84,5 +96,150 @@ namespace Mooshak2.Controllers
 
             return RedirectToAction("TeacherIndex");
         }
+
+        [HttpGet]
+        public ActionResult Project(int? projectID)
+        {
+            if(projectID != null)
+            {
+                ProjectViewModels pro = projectService.GetProjectByID(projectID);
+                return View(pro);
+            }
+            else
+            {
+                return RedirectToAction("TeacherIndex");
+            }
+        }
+
+        [HttpGet] 
+        public ActionResult AddSubProject(int? projectID)
+        {
+            if(projectID != null)
+            {
+                SubProjectsViewModels subProject = new SubProjectsViewModels();
+                subProject.projectID = (int)projectID;
+                ProjectViewModels pro = projectService.GetProjectByID(projectID);
+                ViewBag.project = pro;
+                return View(subProject);
+            }
+            else
+            {
+                return RedirectToAction("TeacherIndex");
+            }
+            
+        }
+        [HttpPost]
+        public ActionResult AddSubProject(SubProjectsViewModels sub)
+        {
+            projectService.AddSubProject(sub);
+            return RedirectToAction("Project", "Teacher", new { projectID = sub.projectID });
+
+        }
+
+        [HttpGet]
+        public ActionResult DownloadInputFile(int subProjectID)
+        {
+            SubProjectsViewModels sub = projectService.DownloadInputFile(subProjectID);
+            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
+
+            Response.ContentType = sub.inputContentType;
+            Response.AddHeader("content-disposition", "attachment;filename="+sub.inputFileName);
+            Response.Buffer = true;
+            Response.Clear();
+            Response.OutputStream.Write(sub.inputFileBytes, 0, sub.inputFileBytes.Length);
+            Response.OutputStream.Flush();
+            Response.End();
+
+            return new FileStreamResult(Response.OutputStream, sub.inputContentType);
+           
+        }
+
+        [HttpGet]
+        public ActionResult DownloadInputFileInline(int subProjectID)
+        {
+            SubProjectsViewModels sub = projectService.DownloadInputFile(subProjectID);
+            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
+
+            Response.ContentType = sub.inputContentType;
+            Response.AddHeader("content-disposition", "inline;filename=" + sub.inputFileName);
+            Response.Buffer = true;
+            Response.Clear();
+            Response.OutputStream.Write(sub.inputFileBytes, 0, sub.inputFileBytes.Length);
+            Response.OutputStream.Flush();
+            Response.End();
+
+            return new FileStreamResult(Response.OutputStream, sub.inputContentType);
+
+        }
+
+        [HttpGet]
+        public ActionResult DownloadOutputFile(int subProjectID)
+        {
+            SubProjectsViewModels sub = projectService.DownloadInputFile(subProjectID);
+            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
+
+            Response.ContentType = sub.inputContentType;
+            Response.AddHeader("content-disposition", "attachment;filename=" + sub.inputFileName);
+            Response.Buffer = true;
+            Response.Clear();
+            Response.OutputStream.Write(sub.inputFileBytes, 0, sub.inputFileBytes.Length);
+            Response.OutputStream.Flush();
+            Response.End();
+
+            return new FileStreamResult(Response.OutputStream, sub.inputContentType);
+
+        }
+
+        [HttpGet]
+        public ActionResult DownloadOutputFileInline(int subProjectID)
+        {
+            SubProjectsViewModels sub = projectService.DownloadInputFile(subProjectID);
+            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
+
+            Response.ContentType = sub.inputContentType;
+            Response.AddHeader("content-disposition", "inline;filename=" + sub.inputFileName);
+            Response.Buffer = true;
+            Response.Clear();
+            Response.OutputStream.Write(sub.inputFileBytes, 0, sub.inputFileBytes.Length);
+            Response.OutputStream.Flush();
+            Response.End();
+
+            return new FileStreamResult(Response.OutputStream, sub.inputContentType);
+
+        }
+        [HttpGet]
+        public ActionResult DeleteSubProject(int? subProjectID)
+        {
+            SubProjectsViewModels sub = projectService.GetSubProjectByID(subProjectID);
+            return View(sub);
+        }
+        [HttpPost]
+        public ActionResult DeleteSubProject(SubProjectsViewModels subProject)
+        {
+            projectService.DeleteSubProject(subProject.subProjectID);
+            return RedirectToAction("Project", "Teacher", new { projectID = subProject.projectID });
+        }
+
+        [HttpGet]
+        public ActionResult EditSubProject(int? subProjectID)
+        {
+            if (subProjectID != null)
+            {
+                SubProjectsViewModels sub = projectService.GetSubProjectByID(subProjectID);
+                return View(sub);
+            }
+            else
+            {
+                return RedirectToAction("TeacherIndex");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditSubProject(SubProjectsViewModels sub)
+        {
+            projectService.EditSubProject(sub);
+            return RedirectToAction("Project", "Teacher", new { projectID = sub.projectID });
+        }
+
     }
 }

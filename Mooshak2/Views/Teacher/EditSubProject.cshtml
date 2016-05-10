@@ -1,0 +1,51 @@
+﻿@model Mooshak2.Models.SubProjectsViewModels
+@{
+    ViewBag.Title = "EditSubProject";
+    Layout = "~/Views/Shared/Teacher_Layout.cshtml";
+}
+
+<h2>Editing subproject @Model.subProjectName in @Model.projectName</h2>
+@using (Html.BeginForm("EditSubProject", "Teacher", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div>
+        <label for="subProjectName">Sub project name:</label>
+        @Html.EditorFor(model => model.subProjectName, new { htmlAttributes = new { @type = "text" } })
+        @Html.HiddenFor(model => model.projectID)
+    </div>
+
+    <div>
+        <label for="subProjectName">Percentage:</label>
+        @Html.EditorFor(model => model.percentage, new { htmlAttributes = new { @type = "number" } }) %
+    </div>
+    <div>
+        Input
+        @if (Model.inputFileName != null)
+        {
+            <div>Current input file: @Model.inputFileName</div>
+            <a href="@Url.Action("DownloadInputFile", "Teacher" , new {subProjectID=Model.subProjectID})">
+                Download
+            </a>
+            <div>If you put a new file it will overwrite the old one.</div>
+        }
+        @Html.TextBoxFor(model => model.inputFile, new { type = "file" })
+    </div>
+
+    <div>
+        Output
+        @if (Model.outputFileName != null)
+        {
+            <div>Current output file: @Model.outputFileName</div>
+            <a href="@Url.Action("DownloadOutputFile", "Teacher" , new {subProjectID=Model.subProjectID})">
+                Download
+            </a>
+            <div>If you put a new file it will overwrite the old one.</div>
+        }
+        @Html.TextBoxFor(model => model.outputFile, new { type = "file" })
+    </div>
+
+    @Html.HiddenFor(model => model.projectID)
+    @Html.HiddenFor(model => model.subProjectID)
+
+    <input type="submit" value="Edit sub project">
+}

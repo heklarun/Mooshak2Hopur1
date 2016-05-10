@@ -82,12 +82,13 @@ namespace Mooshak2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if(man.UserIsInRole(User.Identity.GetUserId(), "Admin"))
-                    {
-                        return RedirectToAction("../Admin/AdminIndex");
-                    }else if(man.UserIsInRole(User.Identity.GetUserId(), "Teacher"))
+                    if (man.UserIsInRole(User.Identity.GetUserId(), "Teacher"))
                     {
                         return RedirectToAction("../Teacher/TeacherIndex");
+                    }
+                    else if (man.UserIsInRole(User.Identity.GetUserId(), "Admin"))
+                    {
+                        return RedirectToAction("../Admin/AdminIndex");
                     }
                     else if(man.UserIsInRole(User.Identity.GetUserId(), "Student"))
                     {

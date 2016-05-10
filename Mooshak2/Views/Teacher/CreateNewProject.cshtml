@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "CreateNewProject";
+    Layout = "~/Views/Shared/Teacher_Layout.cshtml";
 }
 
 <h2>Create New Project</h2>
@@ -16,37 +17,24 @@
         @Html.DropDownListFor(m => m.courseID, new SelectList(ViewBag.courses, "courseID", "courseName"))
 
     </div>
+    <div>
+        Open: 
+        @Html.EditorFor(model => model.openDate, new { id = "openDate"})
+    </div>
+    <div>
+        Close:
+        @Html.EditorFor(model => model.closeDate, new { id = "closeDate" })
+    </div>
     <input type="submit" value="Create project">
 </form>
-    <!--div>
-        Number of parts in project
-        <select>
-            <option value="sub1">1</option>
-            <option value="sub2">2</option>
-            <option value="sub3">3</option>
-            <option value="sub4">4</option>
-            <option value="sub5">5</option>
-            <option value="sub6">6</option>
-            <option value="sub7">7</option>
-            <option value="sub8">8</option>
-            <option value="sub9">9</option>
-            <option value="sub10">10</option>
-        </select><br><br>
-    </div-->
 
-<!--fieldset>
-    <legend>Part 1</legend>
-    Name:
-    <input type="text" name="projectName"><br>
-    Percentage:
-
-    <form action="action_page.php">
-        (between 1 and 100):
-        <input type="number" name="quantity" min="1" max="100">
-        %
-    </form>
-    <form action="demo_form.asp">
-        <input type="file" name="pic" accept="image/*">
-    </form>
-    <input type="submit" value="Create project">
-</fieldset-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#openDate').datepicker({
+            dateFormat: "dd.mm.yy"
+        });
+        $('#closeDate').datepicker({
+            dateFormat: "dd.mm.yy"
+        });
+    });
+</script>

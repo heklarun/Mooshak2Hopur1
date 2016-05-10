@@ -1,0 +1,89 @@
+﻿
+@model Mooshak2.Models.ProjectViewModels
+
+@{
+    ViewBag.Title = "Course";
+    Layout = "~/Views/Shared/Teacher_Layout.cshtml";
+}
+
+<h2>@Model.projectName</h2>
+<a href="@Url.Action("EditProject", "Teacher" , new {projectID=Model.projectID})">
+    Edit project
+</a>
+
+<div>Subprojects</div>
+
+<table class="table">
+    <tr>
+        <td>Name</td>
+        <td>Percentage</td>
+        <td>Input file</td>
+        <td>Output file</td>
+        <td></td>
+        <td></td>
+    </tr>
+    @if(Model.subProjects.Count() == 0)
+    {
+        <tr>
+            <td>No subprojects registred</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+    @if (Model.subProjects.Count() > 0)
+    {
+        foreach (var subProject in Model.subProjects)
+        {
+            <tr>
+                <td>@subProject.subProjectName</td>
+                <td>@subProject.percentage</td>
+                <td>
+                    @subProject.inputFileName
+                    @if (subProject.inputFileName != null)
+                    {
+                        <a href="@Url.Action("DownloadInputFile", "Teacher" , new {subProjectID=subProject.subProjectID})">
+                            Download
+                        </a>
+                        <a href="@Url.Action("DownloadInputFileInline", "Teacher" , new {subProjectID=subProject.subProjectID})" target="_blank">
+                            View inline if possible
+                        </a>
+                    }
+                    
+                </td>
+                <td>
+                    @subProject.outputFileName
+                    @if (subProject.outputFileName != null)
+                    {
+                        <a href="@Url.Action("DownloadOutputFile", "Teacher" , new {subProjectID=subProject.subProjectID})">
+                            Download
+                        </a>
+                        <a href="@Url.Action("DownloadOutputFileInline", "Teacher" , new {subProjectID=subProject.subProjectID})" target="_blank">
+                            View inline if possible
+                        </a>
+                    }
+
+                </td>
+                <td>
+                    <a href="@Url.Action("EditSubProject", "Teacher" , new {subProjectID=subProject.subProjectID})">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    @if (subProject.nrOfResponses == 0)
+                    {
+                        <a href="@Url.Action("DeleteSubProject", "Teacher" , new {subProjectID=subProject.subProjectID})">
+                            Delete
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<a href="@Url.Action("AddSubProject", "Teacher" , new {projectID=Model.projectID})">
+    Add subproject
+</a>

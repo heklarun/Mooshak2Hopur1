@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mooshak 2.0</title>
     @Styles.Render("~/Content/css")
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui.js"></script>
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <div class="page-header">
@@ -79,9 +80,8 @@
         </footer>
     </div>
 
-
-
-    @Scripts.Render("~/bundles/jquery")
+    <!--Scripts.Render("~/bundles/jquery")-->
+    
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

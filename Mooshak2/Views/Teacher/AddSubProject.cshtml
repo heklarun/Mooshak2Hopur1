@@ -1,0 +1,33 @@
+﻿@model Mooshak2.Models.SubProjectsViewModels
+
+@{
+    ViewBag.Title = "Add SubProject";
+    Layout = "~/Views/Shared/Teacher_Layout.cshtml";
+}
+
+<h2>Add subproject to @ViewBag.project.projectName</h2>
+@using (Html.BeginForm("AddSubProject", "Teacher", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <div>
+        <label for="subProjectName">Sub project name:</label>
+        @Html.EditorFor(model => model.subProjectName, new { htmlAttributes = new { @type = "text" } })
+        @Html.HiddenFor(model => model.projectID)
+    </div>
+
+    <div>
+        <label for="subProjectName">Percentage:</label>
+        @Html.EditorFor(model => model.percentage, new { htmlAttributes = new { @type = "number" } }) %
+    </div>
+    <div>
+        Input
+        @Html.TextBoxFor(model => model.inputFile, new { type = "file" })
+    </div>
+
+    <div>
+        Output
+        @Html.TextBoxFor(model => model.outputFile, new { type = "file" })
+    </div>
+
+    <input type="submit" value="Save sub project">
+}

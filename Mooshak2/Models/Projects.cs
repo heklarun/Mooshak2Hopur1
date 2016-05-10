@@ -11,8 +11,10 @@ namespace Mooshak2.Models
         [Key]
         public int projectID { get; set; }
         public string projectName { get; set; }
-
         public int courseID { get; set; }
+
+        public DateTime open { get; set; }
+        public DateTime close { get; set; }
         //open?
         //close?
 
