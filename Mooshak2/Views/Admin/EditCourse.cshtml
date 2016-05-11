@@ -1,6 +1,7 @@
 ﻿@model Mooshak2.Models.CoursesViewModels
 @{
     ViewBag.Title = "EditCourse";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
 
@@ -8,10 +9,14 @@
 <div class="text-center">
     <h2>Edit course</h2>
 </div><br />
-
-<form class="form-horizontal" action='' method="POST">
-    Name of course:<br>
-    @Html.EditorFor(model => model.courseName)
-    <br><br>
-    <input type="submit" value="Edit course">
-</form>
+<!--"form-horizontal" -->
+<div id="ccourse">
+    <form class="form-group text-center" action='' method="POST">
+        <div class="text-center">
+            <label for="text">Name of course: </label> <br>
+           <div class="form-control">@Html.EditorFor(model => model.courseName)</div>
+        </div>
+        <br><br>
+        <input type="submit" class="btn btn-primary" value="Edit course">
+    </form>
+</div>

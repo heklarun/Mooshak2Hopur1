@@ -1,12 +1,13 @@
 ﻿@model Mooshak2.Models.CoursesViewModels
 @{
     ViewBag.Title = "CreateNewCourse";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 <div class="text-center">
 <h2>Create new course</h2>
 </div><br />
 
-<div id="createcourse">
+<div id="ccourse">
 <form class="form-group text-center" action='' method="POST">
     <label for="text">Name of course: </label> <br>
         <input type="text" class="form-control" id="courseName" name="courseName"><br><br>
