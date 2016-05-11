@@ -218,7 +218,7 @@
     <Compile Include="Models\Courses.cs" />
     <Compile Include="Models\CoursesViewModels.cs" />
     <Compile Include="Models\IdentityManager.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Controllers\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PartResponse.cs" />
     <Compile Include="Models\Projects.cs" />
