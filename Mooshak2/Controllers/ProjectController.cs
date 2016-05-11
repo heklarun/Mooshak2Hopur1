@@ -52,7 +52,7 @@ namespace Mooshak2.Controllers
 
         //Compile code
         [HttpPost]
-        public ActionResult Index(FormCollection data)
+        public ActionResult CompileCode(FormCollection data)
         {
             // To simplify matters, we declare the code here.
             // The code would of course come from the student!
