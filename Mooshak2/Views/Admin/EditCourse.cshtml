@@ -14,7 +14,7 @@
     <form class="form-group text-center" action='' method="POST">
         <div class="text-center">
             <label for="text">Name of course: </label> <br>
-           <div class="form-control">@Html.EditorFor(model => model.courseName)</div>
+           @Html.EditorFor(model => model.courseName)
         </div>
         <br><br>
         <input type="submit" class="btn btn-primary" value="Edit course">

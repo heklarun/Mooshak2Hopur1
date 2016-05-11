@@ -1,5 +1,4 @@
-﻿font-family: Verdana;
-body 
+﻿body 
 {
     padding-top: 40px;
     padding-bottom: 20px;
@@ -88,7 +87,7 @@ div.table-scroll
     background-color: #443266;
 }
 
-div.form-control
+input.form-control
 {
     margin:0px auto;
 }
@@ -100,7 +99,7 @@ div.text-center h2
 
 }
 
-#ccourse .form-group 
+#createcourse .form-group 
 {
     margin-bottom: 100px;
     padding-bottom: 100px;

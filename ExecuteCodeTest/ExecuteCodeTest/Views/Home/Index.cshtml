@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "C++ Compile test page";
+}
+
+<div class="row">
+	<div class="col-md-4">
+
+		@using (Html.BeginForm())
+		{
+			<input type="Submit" class="btn btn-primary" value="Compile Test Code" />
+		}
+
+		@if (ViewBag.Output != null)
+		{
+			<ul>
+				@foreach (var line in ViewBag.Output)
+				{
+					<li>@line</li>
+				}
+			</ul>
+		}
+	</div>
+	<div class="col-md-4">
+	</div>
+	<div class="col-md-4">
+	</div>
+</div>
