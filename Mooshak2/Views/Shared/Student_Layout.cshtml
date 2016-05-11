@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mooshak 2.0</title>
-    @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/css")
+        <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="~/Scripts/jquery-ui.js"></script>
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -26,16 +28,32 @@
                     </button>
 
                 </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                   
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Course <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Courses..", "StudentCoursesAvailable", "Student")</li>
-                            </ul>
-                   
-    
+                    <ul class="nav navbar-nav">
+
+                        <li>
+                            @if (ViewBag.StudentCourses != null && ViewBag.StudentCourses.Count > 0)
+                            {
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Courses
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        @foreach (var course in ViewBag.StudentCourses)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Course", "Student" , new {courseID=course.courseID})">
+                                                    @course.courseName
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+
+                            }
+                        </li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Student <span class="caret"></span></a>
@@ -55,6 +73,7 @@
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
+                
             </div><!-- /.container-fluid -->
         </nav>
         @RenderBody()

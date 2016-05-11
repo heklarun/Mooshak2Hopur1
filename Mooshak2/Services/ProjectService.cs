@@ -57,7 +57,8 @@ namespace Mooshak2.Services
                                              projectName = item.projectName,
                                              courseName = course.courseName,                                             
                                              open = item.open,
-                                             close = item.close
+                                             close = item.close,
+                                             canHandIn = item.close > DateTime.Now
                                          }).SingleOrDefault();
             List<SubProjectsViewModels> subProjects = (from item in db.SubProjects
                                                        where item.projectID == projectID
@@ -107,6 +108,24 @@ namespace Mooshak2.Services
             
         }
 
+        public List<ProjectViewModels> GetStudentProjectsInCourse(int? courseID)
+        {
+            List<ProjectViewModels> result = (from item in db.Project
+                                              where item.courseID == courseID
+                                              && item.open <= DateTime.Now
+                                              select new ProjectViewModels
+                                              {
+                                                  projectID = item.projectID,
+                                                  projectName = item.projectName,
+                                                  courseID = item.courseID,
+                                                  open = item.open,
+                                                  close = item.close,
+                                                  canHandIn = item.close >= DateTime.Now
+                                              }).ToList();
+
+            return result;
+
+        }
         public void AddSubProject(SubProjectsViewModels subProject)
         {
             SubProjects item = new SubProjects();
@@ -163,6 +182,19 @@ namespace Mooshak2.Services
                                              inputFileBytes = item.inputFile,
                                              inputFileName = item.inputFileName,
                                              inputContentType = item.inputFileContentType
+                                         }).SingleOrDefault();
+            return sub;
+        }
+
+        public SubProjectsViewModels DownloadPartResponseFile(int? partResonseID)
+        {
+            SubProjectsViewModels sub = (from item in db.PartResponse
+                                         where item.partResponseID == partResonseID
+                                         select new SubProjectsViewModels
+                                         {
+                                             inputFileBytes = item.file,
+                                             inputFileName = item.fileFileName,
+                                             inputContentType = item.fileMimeType
                                          }).SingleOrDefault();
             return sub;
         }
@@ -226,5 +258,80 @@ namespace Mooshak2.Services
             db.SaveChanges();
 
         }
+
+        public void submitSubProject(PartResponseViewModels response)
+        {
+            ResponseViewModels responseExists = (from item in db.StudentResponse
+                       join res in db.Response on item.responseID equals res.responseID
+                       where item.userID == response.userID && res.projectID == response.projectID
+                       select new ResponseViewModels
+                       {
+                           responseID = item.responseID
+                       }).SingleOrDefault();
+            int responseID = 0;
+            if (responseExists == null)
+            {
+                Response addResponse = new Response();
+                addResponse.projectID = response.projectID;
+                db.Response.Add(addResponse);
+                db.SaveChanges();
+                int? maxID = db.Response.Max(u => (int?)u.responseID);
+                responseID = (int)maxID;
+            }
+            else
+            {
+                responseID = responseExists.responseID;
+            }
+
+
+            StudentsResponse studentResponseExists = (from item in db.StudentResponse
+                                      where item.userID == response.userID && item.responseID == responseID
+                                       select item).SingleOrDefault();
+            if (studentResponseExists == null)
+            {
+                StudentsResponse studentRes = new StudentsResponse();
+                studentRes.responseID = responseID;
+                studentRes.userID = response.userID;
+                db.StudentResponse.Add(studentRes);
+            }
+
+            PartResponse part = new PartResponse();
+            part.subProjectID = response.subProjectID;
+            part.responseID = responseID;
+            part.date = DateTime.Now;
+
+            if (response.file != null)
+            {
+                MemoryStream target = new MemoryStream();
+                response.file.InputStream.CopyTo(target);
+                byte[] data = target.ToArray();
+                var name = response.file.FileName;
+                var mime = response.file.ContentType;
+                part.fileFileName = name;
+                part.fileMimeType = mime;
+                part.file = data;
+            }
+
+            db.PartResponse.Add(part);
+            db.SaveChanges();
+        }
+
+        public List<ResponseViewModels> GetStudentResponses(string userID, int? projectID)
+        {
+            List<ResponseViewModels> responses = (from pRes in db.PartResponse 
+                                                  join stRes in db.StudentResponse on pRes.responseID equals stRes.responseID
+                                                  join res in db.Response on pRes.responseID equals res.responseID
+                                                  join part in db.SubProjects on pRes.subProjectID equals part.subProjectID
+                                                  where res.projectID == projectID && stRes.userID == userID
+                                                  select new ResponseViewModels
+                                                  {
+                                                      fileName = pRes.fileFileName,
+                                                      partResponseID = pRes.partResponseID,
+                                                      subProjectName = part.subProjectName
+
+                                                  }).ToList(); 
+            return responses;
+        }
     }
+
 }

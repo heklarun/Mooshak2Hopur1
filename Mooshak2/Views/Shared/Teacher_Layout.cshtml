@@ -31,15 +31,26 @@
                     <ul class="nav navbar-nav">
                         
                         <li>
+                        @if (ViewBag.TeacherCourses != null && ViewBag.TeacherCourses.Count > 0)
+                        {
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     Courses
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    
+                                    @foreach (var course in ViewBag.TeacherCourses)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Course", "Teacher" , new {courseID=course.courseID})">
+                                                @course.courseName
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
+
+                        }
                         </li>
                         <li>@Html.ActionLink("Create new project", "CreateNewProject", "Teacher")</li>
                     </ul>

@@ -19,5 +19,6 @@ namespace Mooshak2.Models
         public string openDate { get; set; }
         public DateTime close { get; set; }
         public string closeDate { get; set; }
+        public Boolean canHandIn { get; set; }
     }
 }

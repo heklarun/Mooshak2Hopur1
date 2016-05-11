@@ -40,6 +40,8 @@ namespace Mooshak2.Models
         public DbSet<StudentGroup> StudentGroup { get; set; }
         public DbSet<SubProjects> SubProjects { get; set; }
         public DbSet<PartResponse> PartResponse { get; set; }
+        public DbSet<StudentsResponse> StudentResponse { get; set; }
+        public DbSet<Response> Response { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

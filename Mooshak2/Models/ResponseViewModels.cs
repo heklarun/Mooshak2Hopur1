@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Mooshak2.Models
 {
-    public class Response
+    public class ResponseViewModels
     {
-        [Key]
         public int responseID { get; set; }
         public int projectID { get; set; }
+
+        public string fileName { get; set; }
+        public int partResponseID { get; set; }
+        public string subProjectName { get; set; }
     }
 }

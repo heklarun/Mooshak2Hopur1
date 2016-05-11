@@ -64,6 +64,22 @@ namespace Mooshak2.DAL
             return course;
         }
 
+        public CoursesViewModels GetStudentCourseByID(int? courseID)
+        {
+            CoursesViewModels course = (from item in db.Course
+                                        where item.courseID == courseID
+                                        select new CoursesViewModels
+                                        {
+                                            courseID = item.courseID,
+                                            courseName = item.courseName
+                                        }).SingleOrDefault();
+
+            course.teachers = GetTeachersInCourse(course.courseID);
+            course.students = GetStudentsInCourse(course.courseID);
+            course.projects = projectService.GetStudentProjectsInCourse(course.courseID);
+            //GetProjectsInCourse
+            return course;
+        }
         public void EditCourse(CoursesViewModels course)
         {
             Courses courseToEdit = db.Course.Single(u => u.courseID == course.courseID);

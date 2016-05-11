@@ -23,6 +23,6 @@ namespace Mooshak2.Models
 
         public int nrOfResponses { get; set; }
         public string  projectName { get; set; }
-
+        
     }
 }

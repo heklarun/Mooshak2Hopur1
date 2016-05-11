@@ -1,0 +1,18 @@
+﻿@model Mooshak2.Models.PartResponseViewModels
+
+<div style="border: 3px solid black; padding: 20px;">
+    <h4>Skila @Model.subProjectName</h4>
+    @using (Html.BeginForm("SubProjectSubmit", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            Input
+            @Html.TextBoxFor(model => model.file, new { type = "file" })
+        </div>
+        @Html.HiddenFor(model => model.subProjectID)
+        @Html.HiddenFor(model => model.projectID)
+
+        <input type="submit" value="Save sub project">
+    }
+
+
+</div>

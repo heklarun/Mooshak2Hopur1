@@ -1,0 +1,94 @@
+﻿
+@model Mooshak2.Models.ProjectViewModels
+
+@{
+    ViewBag.Title = "Project";
+    Layout = "~/Views/Shared/Student_Layout.cshtml";
+}
+<script type="text/javascript">
+
+$(function() {
+   $('#myddl').change(function() {
+       var url = $(this).data('url');
+       var value = $(this).val();
+       $('#result').load(url, { value: value })
+    });
+});
+
+</script>
+
+<h2>@Model.projectName</h2>
+@if(Model.subProjects == null || Model.subProjects.Count == 0)
+{
+    <div>There are no subprojects in this project!</div>
+}
+
+
+@if (Model.subProjects != null && Model.subProjects.Count > 0 && Model.canHandIn == true)
+{
+    <div>Pick a sub project to hand in</div>
+
+    @Html.DropDownListFor(
+    x => x.subProjects,
+    new SelectList(Model.subProjects, "subProjectId", "subProjectName"),
+    string.Empty,
+    new
+        {
+            id = "myddl",
+            data_url = Url.Action("SubmitSubProject", "Student")
+        }
+    )
+}
+
+<div id="result"></div>
+
+
+
+<h4>My submissions</h4>
+<table class="table">
+    <tr>
+        <td>Name</td>
+        <td>Input file</td>
+        <td>Output file</td>
+        <td></td>
+        <td></td>
+    </tr>
+    @if (ViewBag.responses.Count == 0)
+    {
+        <tr>
+            <td>No responses registred</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+    @if (ViewBag.responses.Count > 0)
+    {
+        foreach (var response in ViewBag.responses)
+        {
+            <tr>
+                <td>@response.subProjectName</td>
+                <td>
+                    @response.fileName
+                    @if (response.fileName != null)
+                    {
+                        <a href="@Url.Action("DownloadFile", "Student" , new {partResponseID=response.partResponseID})">
+                            Download
+                        </a>
+                    }
+
+                </td>
+                <td>
+                    @if (response.fileName != null)
+                    {
+                        <a href="@Url.Action("DownloadFileInline", "Student" , new {partResponseID=response.partResponseID})" target="_blank">
+                            View inline if possible
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>

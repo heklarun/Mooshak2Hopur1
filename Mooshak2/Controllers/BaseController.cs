@@ -18,7 +18,9 @@ namespace Mooshak2.Controllers
         {
             ApplicationUser appUser = man.GetUser(User.Identity.Name);
             List<CoursesViewModels> courses = courseService.GetTeacherCourses(appUser.Id);
+            List<CoursesViewModels> studentCourses = courseService.GetStudentCourses(appUser.Id);
             filterContext.Controller.ViewBag.TeacherCourses = courses;
+            filterContext.Controller.ViewBag.StudentCourses = studentCourses;
         }
     }
 }
