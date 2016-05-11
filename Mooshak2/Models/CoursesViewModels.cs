@@ -8,12 +8,12 @@ namespace Mooshak2.Models
 {
     public class CoursesViewModels
     {
-            [Key]
-            public int courseID { get; set; }
-            public string courseName { get; set; }
-            public List<UsersViewModels> students { get; set; }
-            public List<UsersViewModels> teachers { get; set; }
-            public List<ProjectViewModels> projects { get; set; }
+        [Key]
+        public int courseID { get; set; }
+        public string courseName { get; set; }
+        public List<UsersViewModels> students { get; set; }
+        public List<UsersViewModels> teachers { get; set; }
+        public List<ProjectViewModels> projects { get; set; }
 
     }
 }

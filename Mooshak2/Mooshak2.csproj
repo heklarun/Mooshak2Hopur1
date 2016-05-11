@@ -331,13 +331,13 @@
     <Content Include="Views\Student\StudentCourse.cshtml" />
     <Content Include="Views\Student\StudentProject.cshtml" />
     <Content Include="Views\Student\ProjectPartPartial.cshtml" />
+    <Content Include="Views\Project\CompileCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Course\" />
     <Folder Include="Views\PartResonseViewModel\" />
-    <Folder Include="Views\Project\" />
     <Folder Include="Views\ResponseViewModels\" />
     <Folder Include="Views\SubProjectsViewModel\" />
   </ItemGroup>
