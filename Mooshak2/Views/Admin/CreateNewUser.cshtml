@@ -1,6 +1,7 @@
 ﻿@model Mooshak2.Models.UsersViewModels
 @{
     ViewBag.Title = "CreateNewUser";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
 <h2>Create New User</h2>
@@ -10,21 +11,23 @@
         <!--label class="checkbox-inline"><input type="checkbox" name="isAdmin" value="">Admin</!--label>
         <label class="checkbox-inline"><input type="checkbox" name="isTeacher" value="">Teacher</label>
         <label class="checkbox-inline"><input type="checkbox" name="isStudent" value="">Student</label-->
-        <label class="checkbox-inline">
-            <!--input type="checkbox" name="isAdmin" value=""-->
-            @Html.CheckBoxFor(model => model.isAdmin)
-            Admin
-        </label>
-        <label class="checkbox-inline">
-            <!--input type="checkbox" name="isTeacher" value=""-->
-            @Html.CheckBoxFor(model => model.isTeacher)
-            Teacher
-        </label>
-        <label class="checkbox-inline">
-            <!--input type="checkbox" name="isStudent" value=""-->
-            @Html.CheckBoxFor(model => model.isStudent)
-            Student
-        </label>
+        <div>
+            <label class="checkbox-inline">
+                <!--input type="checkbox" name="isAdmin" value=""-->
+                @Html.CheckBoxFor(model => model.isAdmin)
+                Admin
+            </label>
+            <label class="checkbox-inline">
+                <!--input type="checkbox" name="isTeacher" value=""-->
+                @Html.CheckBoxFor(model => model.isTeacher)
+                Teacher
+            </label>
+            <label class="checkbox-inline">
+                <!--input type="checkbox" name="isStudent" value=""-->
+                @Html.CheckBoxFor(model => model.isStudent)
+                Student
+            </label>
+        </div>
         <table>
             <tr>
                 <td><label class="control-label" for="firstName">First name</label></td>
