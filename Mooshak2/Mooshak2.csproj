@@ -219,7 +219,7 @@
     <Compile Include="Models\Courses.cs" />
     <Compile Include="Models\CoursesViewModels.cs" />
     <Compile Include="Models\IdentityManager.cs" />
-    <Compile Include="Controllers\IdentityModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PartResponse.cs" />
     <Compile Include="Models\Projects.cs" />
@@ -332,9 +332,7 @@
     <Content Include="Views\Student\StudentCourse.cshtml" />
     <Content Include="Views\Student\StudentProject.cshtml" />
     <Content Include="Views\Student\ProjectPartPartial.cshtml" />
-
     <Content Include="Views\Teacher\StudentResponsePartial.cshtml" />
-
     <Content Include="Views\Project\CompileCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
