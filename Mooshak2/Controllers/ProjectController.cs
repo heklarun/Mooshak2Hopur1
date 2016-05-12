@@ -75,7 +75,7 @@ namespace Mooshak2.Controllers
             string serverPath = Server.MapPath("~");
             var workingFolder = ConfigurationManager.AppSettings["workingFolder"];  // Hvað á að fara hér inn? ef við erum að nota gagnagrunstengingu
 
-            string filePathFull = serverPath + workingFolder + "\\" + appUser.UserName;
+            string filePathFull = serverPath + workingFolder + "\\" + appUser.UserName; //það sem exeFilePath var
 
             if (!Directory.Exists(filePathFull))
             {
@@ -121,15 +121,16 @@ namespace Mooshak2.Controllers
             compiler.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
             compiler.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
             compiler.StandardInput.WriteLine("exit");
+
             string output = compiler.StandardOutput.ReadToEnd();
             compiler.WaitForExit();
             compiler.Close();
 
             // Check if the compile succeeded, and if it did,
             // we try to execute the code:
-            if (System.IO.File.Exists(exeFilePath))
+            if (System.IO.File.Exists(filePathFull))
             {
-                var processInfoExe = new ProcessStartInfo(exeFilePath, "");
+                var processInfoExe = new ProcessStartInfo(filePathFull, "");
                 processInfoExe.UseShellExecute = false;
                 processInfoExe.RedirectStandardOutput = true;
                 processInfoExe.RedirectStandardError = true;
@@ -141,7 +142,7 @@ namespace Mooshak2.Controllers
                     // In this example, we don't try to pass any input
                     // to the program, but that is of course also
                     // necessary. We would do that here, using
-                    // processExe.StandardInput.WriteLine(), similar
+                    processExe.StandardInput.WriteLine(); //Það sem var kommentað
                     // to above.
 
                     // We then read the output of the program:
