@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using Mooshak2.Services;
 using System.Diagnostics;
 using System.Configuration;
+using System.IO;
 
 namespace Mooshak2.Controllers
 {
@@ -19,6 +20,7 @@ namespace Mooshak2.Controllers
     public class ProjectController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private IdentityManager man = new IdentityManager();
         UserService userService = new UserService();
         ProjectService projectService = new ProjectService();
         CourseService courseService = new CourseService();
@@ -51,29 +53,39 @@ namespace Mooshak2.Controllers
         }
 
 
-        //Compile code
+        //Compile code function, gets the code from the student and compiles
         [HttpPost]
-        public ActionResult CompileCode(FormCollection data)
+        public ActionResult CompileCode(FormCollection data, int? partResponseID)
         {
             // To simplify matters, we declare the code here.
-            // The code would of course come from the student!
-            var code = "#include <iostream>\n" +
-                    "using namespace std;\n" +
-                    "int main()\n" +
-                    "{\n" +
-                    "cout << \"Hello world\" << endl;\n" +
-                    "cout << \"The output should contain two lines\" << endl;\n" +
-                    "return 0;\n" +
-                    "}";
+            // The code would of course come from the student!   
+            ApplicationUser appUser = man.GetUser(User.Identity.Name);
+            SubProjectsViewModels sub = projectService.DownloadPartResponseFile(partResponseID);
+            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
+
+            var sr = new StreamReader(ms);
+            string myStr = sr.ReadToEnd();
+
+            var code = myStr; 
 
             // Set up our working folder, and the file names/paths.
             // In this example, this is all hardcoded, but in a
             // real life scenario, there should probably be individual
             // folders for each user/assignment/milestone.
+            string serverPath = Server.MapPath("~");
             var workingFolder = ConfigurationManager.AppSettings["workingFolder"];  // Hvað á að fara hér inn? ef við erum að nota gagnagrunstengingu
-            var cppFileName = "Hello.cpp";  //Aðgerð til að ná í cpp skrá
-            var exeFilePath = workingFolder + "Hello.exe";  // Hvað er ex file?
 
+            string filePathFull = serverPath + workingFolder + "\\" + appUser.UserName;
+
+            if (!Directory.Exists(filePathFull))
+            {
+                Directory.CreateDirectory(filePathFull);
+            }
+
+            var username = appUser;
+            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til að ná í cpp skrá
+
+            //var exeFilePath = workingFolder + "Hello.exe";  // Hvað er exe file?
             // Write the code to a file, such that the compiler
             // can find it:
             System.IO.File.WriteAllText(workingFolder + cppFileName, code);
@@ -146,8 +158,40 @@ namespace Mooshak2.Controllers
             // TODO: We might want to clean up after the process, there
             // may be files we should delete etc.
 
-            return View();
+            return View("CompileCode");
+        }
+
+        public void CreateFolderIfMissing(string username)
+        {
+            bool folderExist = Directory.Exists(Server.MapPath(username));
+
+            if (!folderExist)
+            {
+                Directory.CreateDirectory(Server.MapPath(username));
+            }
+        }
+
+        public void CreateFolderIFMissingProject(string projectName)
+        {
+            bool folderExist = Directory.Exists(Server.MapPath(projectName));
+
+            if (!folderExist)
+            {
+                Directory.CreateDirectory(Server.MapPath(projectName));
+            }
+        }
+
+        public void CreateFolderIfMissingMilestone(string milestone)
+        {
+            milestone = "milestone";
+            bool folderExist = Directory.Exists(Server.MapPath(milestone));
+
+            if (!folderExist)
+            {
+                Directory.CreateDirectory(Server.MapPath(milestone));
+            }
         }
 
     }
 }
+ 
