@@ -130,12 +130,12 @@ namespace Mooshak2.Controllers
             }
             
         }
+
         [HttpPost]
         public ActionResult AddSubProject(SubProjectsViewModels sub)
         {
             projectService.AddSubProject(sub);
             return RedirectToAction("Project", "Teacher", new { projectID = sub.projectID });
-
         }
 
         [HttpGet]
