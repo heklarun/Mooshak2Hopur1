@@ -3,15 +3,16 @@
     ViewBag.Title = "DeleteCourse";
     Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
+<div class="text-center">
+    <h2>Delete Course</h2>
+</div><br /> 
 
-<h2>Delete Course</h2>
-
-<form class="form-horizontal" action='' method="POST">
-
-    <div>
-        Are you sure you want to delete <b>@Model.courseName</b>?
-    </div>
-    <div>
-        <input type="submit" value="Delete course">
-    </div>
-</form>
+<div id="ccourse">
+    <form class="form-group text-center" action='' method="POST">
+        <div class="text-center">
+            Are you sure you want to delete <b>@Model.courseName</b>?
+        </div>
+        <br><br>
+        <input type="submit" class="btn btn-primary" value="Delete course">
+    </form>
+</div>

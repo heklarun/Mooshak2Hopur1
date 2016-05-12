@@ -1,7 +1,7 @@
 ﻿@model Mooshak2.Models.PartResponseViewModels
 <br />
 <div style="border: 1px solid #443266; padding: 20px;">
-    <h4 class="text-center"><b>Skila @Model.subProjectName</b></h4>
+    <h4 class="text-center"><b>Submit @Model.subProjectName</b></h4>
     @using (Html.BeginForm("SubProjectSubmit", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="text-center">
@@ -34,4 +34,4 @@
             }
 
 
-        </div>
+        </div><br />
