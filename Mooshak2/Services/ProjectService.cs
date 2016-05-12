@@ -446,6 +446,7 @@ namespace Mooshak2.Services
 
             int status = new Random().Next(1, 5);
             part.status = status;
+
             //TODO compile-a kóða
 
             db.PartResponse.Add(part);

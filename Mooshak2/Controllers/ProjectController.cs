@@ -16,7 +16,7 @@ using System.IO;
 
 namespace Mooshak2.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    [Authorize]
     public class ProjectController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -162,7 +162,7 @@ namespace Mooshak2.Controllers
             return View("CompileCode");
         }
 
-        public void CreateFolderIfMissing(string username)
+       /* public void CreateFolderIfMissing(string username)
         {
             bool folderExist = Directory.Exists(Server.MapPath(username));
 
@@ -192,6 +192,7 @@ namespace Mooshak2.Controllers
                 Directory.CreateDirectory(Server.MapPath(milestone));
             }
         }
+        */
 
     }
 }
