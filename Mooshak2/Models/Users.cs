@@ -14,14 +14,5 @@ namespace Mooshak2.Models
         public string lastName { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        //public string confirmPassword { get; set; }
-
-        //public List<Courses> Course { get; set; }
-        //public List<Projects> Project { get; set; }
-        //public DateTime dueDate { get; set; }
-        
-        //public List<string> Admins { get; set; }
-        //public List<string> Teachers { get; set; }
-        //public List<string> Students { get; set; }
     }
 }
