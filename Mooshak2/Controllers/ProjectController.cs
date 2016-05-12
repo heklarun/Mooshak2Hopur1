@@ -70,9 +70,9 @@ namespace Mooshak2.Controllers
             // In this example, this is all hardcoded, but in a
             // real life scenario, there should probably be individual
             // folders for each user/assignment/milestone.
-            var workingFolder = "C:\\Temp\\Mooshak2Code\\";
-            var cppFileName = "Hello.cpp";
-            var exeFilePath = workingFolder + "Hello.exe";
+            var workingFolder = ConfigurationManager.AppSettings["workingFolder"];  // Hvað á að fara hér inn? ef við erum að nota gagnagrunstengingu
+            var cppFileName = "Hello.cpp";  //Aðgerð til að ná í cpp skrá
+            var exeFilePath = workingFolder + "Hello.exe";  // Hvað er ex file?
 
             // Write the code to a file, such that the compiler
             // can find it:
