@@ -155,9 +155,16 @@ namespace Mooshak2.Controllers
                     ViewBag.Output = lines;
                 }
             }
+            else
+            {
+                //ef skrá er ekki til hvað þá?
+            }
 
             // TODO: We might want to clean up after the process, there
             // may be files we should delete etc.
+            // Delete þeim skrám sem búnar hafa verið til í kjöæfar þess að keyra kóðann
+            // Búa til fall sem tékkar á tímanum sem forritið er að keyrast. Ef 10 sec + þá executea
+
 
             return View("CompileCode");
         }
