@@ -206,6 +206,7 @@
     <Compile Include="Models\PartResonseViewModels.cs" />
     <Compile Include="Models\ProjectViewModels.cs" />
     <Compile Include="Models\ResponseViewModels.cs" />
+    <Compile Include="Models\StudentsResponseViewModels.cs" />
     <Compile Include="Models\SubProjectsViewModels.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\ProjectService.cs" />
@@ -331,6 +332,9 @@
     <Content Include="Views\Student\StudentCourse.cshtml" />
     <Content Include="Views\Student\StudentProject.cshtml" />
     <Content Include="Views\Student\ProjectPartPartial.cshtml" />
+
+    <Content Include="Views\Teacher\StudentResponsePartial.cshtml" />
+
     <Content Include="Views\Project\CompileCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -339,6 +343,7 @@
     <Folder Include="Views\Course\" />
     <Folder Include="Views\PartResonseViewModel\" />
     <Folder Include="Views\ResponseViewModels\" />
+    <Folder Include="Views\StudentsResponseViewModels\" />
     <Folder Include="Views\SubProjectsViewModel\" />
   </ItemGroup>
   <ItemGroup>

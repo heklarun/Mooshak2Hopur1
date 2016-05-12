@@ -11,6 +11,7 @@ namespace Mooshak2.Models
         public string userID { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
+        public string fullName { get; set; }
         public string username { get; set; }
         public string email { get; set; }
         public string password { get; set; }

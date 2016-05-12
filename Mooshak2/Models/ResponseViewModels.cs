@@ -14,5 +14,8 @@ namespace Mooshak2.Models
         public string fileName { get; set; }
         public int partResponseID { get; set; }
         public string subProjectName { get; set; }
+        public string handedIn { get; set; }
+        public string members { get; set; }
+        public int status { get; set; }
     }
 }

@@ -16,79 +16,111 @@ $(function() {
 });
 
 </script>
+<div class="container body-content">
+    <h2>@Model.projectName</h2>
+    @if (Model.subProjects == null || Model.subProjects.Count == 0)
+    {
+        <div>There are no subprojects in this project!</div>
+    }
 
-<h2>@Model.projectName</h2>
-@if(Model.subProjects == null || Model.subProjects.Count == 0)
-{
-    <div>There are no subprojects in this project!</div>
-}
 
+    @if (Model.subProjects != null && Model.subProjects.Count > 0 && Model.canHandIn == true)
+    {
+        <div>Pick a sub project to hand in</div>
 
-@if (Model.subProjects != null && Model.subProjects.Count > 0 && Model.canHandIn == true)
-{
-    <div>Pick a sub project to hand in</div>
-
-    @Html.DropDownListFor(
+        @Html.DropDownListFor(
     x => x.subProjects,
     new SelectList(Model.subProjects, "subProjectId", "subProjectName"),
     string.Empty,
     new
-        {
-            id = "myddl",
-            data_url = Url.Action("SubmitSubProject", "Student")
-        }
-    )
-}
-
-<div id="result"></div>
-
-
-
-<h4>My submissions</h4>
-<table class="table">
-    <tr>
-        <td>Name</td>
-        <td>Input file</td>
-        <td>Output file</td>
-        <td></td>
-        <td></td>
-    </tr>
-    @if (ViewBag.responses.Count == 0)
     {
+        id = "myddl",
+        data_url = Url.Action("SubmitSubProject", "Student")
+    }
+    )
+    }
+
+    <div id="result"></div>
+
+
+    @if (Model.groupMembers != null && Model.groupMembers.Count > 0)
+    {
+        <div>Members</div>
+        foreach (var member in Model.groupMembers)
+        {
+            <div>@member.firstName @member.lastName</div>
+        }
+    }
+
+    <h4>My submissions</h4>
+    <table class="table">
         <tr>
-            <td>No responses registred</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>Download</td>
+            <td>Username</td>
+            <td>View online if possible</td>
+            <td>Status</td>
             <td></td>
         </tr>
-    }
-    @if (ViewBag.responses.Count > 0)
-    {
-        foreach (var response in ViewBag.responses)
+        @if (ViewBag.responses.Count == 0)
         {
             <tr>
-                <td>@response.subProjectName</td>
-                <td>
-                    @response.fileName
-                    @if (response.fileName != null)
-                    {
-                        <a href="@Url.Action("DownloadFile", "Student" , new {partResponseID=response.partResponseID})">
-                            Download
-                        </a>
-                    }
-
-                </td>
-                <td>
-                    @if (response.fileName != null)
-                    {
-                        <a href="@Url.Action("DownloadFileInline", "Student" , new {partResponseID=response.partResponseID})" target="_blank">
-                            View inline if possible
-                        </a>
-                    }
-                </td>
+                <td>No responses registred</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         }
-    }
-</table>
+        @if (ViewBag.responses.Count > 0)
+        {
+            foreach (var response in ViewBag.responses)
+            {
+                <tr>
+                    <td>
+                         @if (response.fileName != null)
+                         {
+                            <a href="@Url.Action("DownloadFile", "Student" , new {partResponseID=response.partResponseID})">
+                                @response.fileName
+                            </a>
+                         }
+
+                    </td>
+
+                    <td>@response.members</td>
+                    
+                    <td>
+                        @if (response.fileName != null)
+                    {
+                            <a href="@Url.Action("DownloadFileInline", "Student" , new {partResponseID=response.partResponseID})" target="_blank">
+                                @response.subProjectName
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        @if(response.status == 1)
+                        {
+                            <div>Accepted</div>
+                        }
+                        @if (response.status == 2)
+                        {
+                            <div>Wrong answer</div>
+                        }
+                        @if (response.status == 3)
+                        {
+                            <div>Compile time error</div>
+                        }
+                        @if (response.status == 4)
+                        {
+                            <div>Timelimit exceeded</div>
+                        }
+                        @if (response.status == 5)
+                        {
+                            <div>Memory error</div>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>

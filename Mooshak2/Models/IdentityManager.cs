@@ -76,6 +76,29 @@ namespace SecurityWebAppTest.Models
             }
         }
 
+        public bool UserNameIsInRole(string username, string roleName)
+        {
+            if (username != null && username != "")
+            {
+                ApplicationUser user = GetUser(username);
+                var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                if(user.Id != null)
+                {
+                    var result = um.IsInRole(user.Id, roleName);
+                    return result;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void ClearUserRoles(string userId)
         {
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));

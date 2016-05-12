@@ -6,6 +6,9 @@ using Mooshak2.Models;
 using SecurityWebAppTest.Models;
 using System.IO;
 using System.Globalization;
+using Mooshak2.DAL;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Mooshak2.Services
 {
@@ -13,6 +16,7 @@ namespace Mooshak2.Services
     {
         ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
+        private UserService userService = new UserService();
 
         public List<Projects> GetAllProjects()
         {
@@ -27,6 +31,14 @@ namespace Mooshak2.Services
             Projects newProject = new Projects();
             newProject.projectName = projectToAdd.projectName;
             newProject.courseID = projectToAdd.courseID;
+            if(projectToAdd.memberCount > 0)
+            {
+                newProject.memberCount = projectToAdd.memberCount-1;
+            }
+            else
+            {
+                newProject.memberCount = 0;
+            }
             DateTime openDate = DateTime.ParseExact(projectToAdd.openDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             DateTime closeDate = DateTime.ParseExact(projectToAdd.closeDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             newProject.open = openDate;
@@ -55,10 +67,12 @@ namespace Mooshak2.Services
                                          {
                                              projectID = item.projectID,
                                              projectName = item.projectName,
-                                             courseName = course.courseName,                                             
+                                             courseName = course.courseName,
                                              open = item.open,
                                              close = item.close,
-                                             canHandIn = item.close > DateTime.Now
+                                             memberCount = item.memberCount + 1,
+                                             canHandIn = item.close > DateTime.Now,
+                                             courseID = course.courseID
                                          }).SingleOrDefault();
             List<SubProjectsViewModels> subProjects = (from item in db.SubProjects
                                                        where item.projectID == projectID
@@ -77,6 +91,91 @@ namespace Mooshak2.Services
                 sub.nrOfResponses = Count;
             }
             project.subProjects = subProjects;
+
+
+            return project;
+        }
+
+        public ProjectViewModels GetStudentProjectByID(int? projectID, string userID)
+        {
+            ProjectViewModels project = (from item in db.Project
+                                         join course in db.Course on item.courseID equals course.courseID
+                                         where item.projectID == projectID
+                                         select new ProjectViewModels
+                                         {
+                                             projectID = item.projectID,
+                                             projectName = item.projectName,
+                                             courseName = course.courseName,
+                                             courseID = course.courseID,
+                                             open = item.open,
+                                             close = item.close,
+                                             memberCount = item.memberCount + 1,
+                                             canHandIn = item.close > DateTime.Now
+                                         }).SingleOrDefault();
+            List<SubProjectsViewModels> subProjects = (from item in db.SubProjects
+                                                       where item.projectID == projectID
+                                                       select new SubProjectsViewModels
+                                                       {
+                                                           subProjectID = item.subProjectID,
+                                                           projectID = item.projectID,
+                                                           subProjectName = item.subProjectName,
+                                                           percentage = item.percentage,
+                                                           inputFileName = item.inputFileName,
+                                                           outputFileName = item.outputFileName
+                                                       }).ToList();
+            foreach (SubProjectsViewModels sub in subProjects)
+            {
+                int Count = (from item in db.PartResponse where item.subProjectID == sub.subProjectID select item).Count();
+                sub.nrOfResponses = Count;
+            }
+            project.subProjects = subProjects;
+
+            if(project.memberCount > 1)
+            {
+                ResponseViewModels response = (from item in db.Response
+                                               join sRes in db.StudentResponse on item.responseID equals sRes.responseID
+                                               where item.projectID == (int)projectID && sRes.userID == userID
+                                               select new ResponseViewModels
+                                               {
+                                                   responseID = item.responseID
+                                               }).SingleOrDefault();
+                if(response != null)
+                {
+                    List<StudentsResponseViewModels> students = (from item in db.StudentResponse
+                                                                 where item.responseID == response.responseID
+                                                                 select new StudentsResponseViewModels
+                                                                 {
+                                                                     userID = item.userID
+                                                                 }).ToList();
+
+                    if (students != null && students.Count > 1)
+                    {
+                        List<ApplicationUser> users = new List<ApplicationUser>();
+
+                        var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                        List<ApplicationUser> allUsers = um.Users.ToList();
+
+                        List<ApplicationUser> members = new List<ApplicationUser>();
+                        foreach (StudentsResponseViewModels student in students)
+                        {
+                            if (student.userID != userID)
+                            {
+                                foreach (ApplicationUser tmp in allUsers)
+                                {
+                                    if (tmp.Id == student.userID)
+                                    {
+                                        members.Add(tmp);
+                                    }
+                                }
+                            }
+                        }
+                        project.groupMembers = members;
+
+                    }
+                }
+    
+            }
+            
             return project;
         }
 
@@ -84,6 +183,14 @@ namespace Mooshak2.Services
         {
             Projects projectToEdit = (from item in db.Project where item.projectID == project.projectID select item).SingleOrDefault();
             projectToEdit.projectName = project.projectName;
+            if (project.memberCount > 0)
+            {
+                projectToEdit.memberCount = project.memberCount - 1;
+            }
+            else
+            {
+                projectToEdit.memberCount = 0;
+            }
             DateTime openDate = DateTime.ParseExact(project.openDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             DateTime closeDate = DateTime.ParseExact(project.closeDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             projectToEdit.open = openDate;
@@ -201,17 +308,18 @@ namespace Mooshak2.Services
         public SubProjectsViewModels GetSubProjectByID(int? subProjectID)
         {
             SubProjectsViewModels subProject = (from item in db.SubProjects
-                                            join project in db.Project on item.projectID equals project.projectID
-                                            where item.subProjectID == subProjectID
-                                            select new SubProjectsViewModels
-                                            {
-                                                projectID = item.projectID,
-                                                subProjectID = item.subProjectID,
-                                                subProjectName = item.subProjectName,
-                                                percentage = item.percentage,
-                                                inputFileName = item.inputFileName,
-                                                outputFileName = item.outputFileName,
-                                                projectName = project.projectName
+                                                join project in db.Project on item.projectID equals project.projectID
+                                                where item.subProjectID == subProjectID
+                                                select new SubProjectsViewModels
+                                                {
+                                                    projectID = item.projectID,
+                                                    subProjectID = item.subProjectID,
+                                                    subProjectName = item.subProjectName,
+                                                    percentage = item.percentage,
+                                                    inputFileName = item.inputFileName,
+                                                    outputFileName = item.outputFileName,
+                                                    projectName = project.projectName,
+                                                    memberCount = project.memberCount
                                          }).SingleOrDefault();
           
             return subProject;
@@ -284,9 +392,12 @@ namespace Mooshak2.Services
             }
 
 
-            StudentsResponse studentResponseExists = (from item in db.StudentResponse
+            StudentsResponseViewModels studentResponseExists = (from item in db.StudentResponse
                                       where item.userID == response.userID && item.responseID == responseID
-                                       select item).SingleOrDefault();
+                                       select new StudentsResponseViewModels
+                                       {
+                                           userID = item.userID
+                                       }).SingleOrDefault();
             if (studentResponseExists == null)
             {
                 StudentsResponse studentRes = new StudentsResponse();
@@ -295,10 +406,31 @@ namespace Mooshak2.Services
                 db.StudentResponse.Add(studentRes);
             }
 
+            if(response.groupMembers != null)
+            {
+                foreach (UsersViewModels member in response.groupMembers)
+                {
+                    if (member.userID != null)
+                    {
+                        StudentsResponse memberResponseExists = (from item in db.StudentResponse
+                                                                 where item.userID == member.userID && item.responseID == responseID
+                                                                 select item).SingleOrDefault();
+                        if (memberResponseExists == null)
+                        {
+                            StudentsResponse studentRes = new StudentsResponse();
+                            studentRes.responseID = responseID;
+                            studentRes.userID = member.userID;
+                            db.StudentResponse.Add(studentRes);
+                        }
+                    }
+                }
+            }
+            
             PartResponse part = new PartResponse();
             part.subProjectID = response.subProjectID;
             part.responseID = responseID;
             part.date = DateTime.Now;
+            part.handedIn = response.userID;
 
             if (response.file != null)
             {
@@ -311,6 +443,10 @@ namespace Mooshak2.Services
                 part.fileMimeType = mime;
                 part.file = data;
             }
+
+            int status = new Random().Next(1, 5);
+            part.status = status;
+            //TODO compile-a kóða
 
             db.PartResponse.Add(part);
             db.SaveChanges();
@@ -327,9 +463,29 @@ namespace Mooshak2.Services
                                                   {
                                                       fileName = pRes.fileFileName,
                                                       partResponseID = pRes.partResponseID,
-                                                      subProjectName = part.subProjectName
+                                                      subProjectName = part.subProjectName,
+                                                      handedIn = pRes.handedIn,
+                                                      status = pRes.status
+                                                  }).ToList();
+            List<UsersViewModels> users = new List<UsersViewModels>();
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            List<ApplicationUser> allUsers = um.Users.ToList();
 
-                                                  }).ToList(); 
+            foreach (ResponseViewModels res in responses)
+            {
+                if(res.handedIn != null)
+                {
+                    foreach(ApplicationUser us in allUsers)
+                    {
+                        if(us.Id == res.handedIn)
+                        {
+                            res.members = us.UserName;
+                        }
+                    }
+                }
+                
+            }
+
             return responses;
         }
     }

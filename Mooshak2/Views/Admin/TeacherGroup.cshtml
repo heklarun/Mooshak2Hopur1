@@ -6,31 +6,36 @@
 
 @using (Html.BeginForm())
 {
-    <div class="row">
-        <div class="col-md-12">
-            <h2>@ViewBag.course.courseName</h2>
-            <table class="table">
-                <tr>
-                    <td></td>
-                    <td>Name</td>
-                    <td>Username</td>
-                </tr>
-               @for (var i = 0; i < Model.Count(); i++)
+    <div class="container body-content">
+        <h2 class="text-center">@ViewBag.course.courseName</h2>
+        <div class="group">
+            <div class="row">
+                <div class="col-md-3">&nbsp;</div>
+                <div class="col-md-6 col-xs-12 table-scroll">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <td></td>
+                            <th>All teachers</th>
+                        </tr>
+                        @for (var i = 0; i < Model.Count(); i++)
                 {
-                    <tr>
-                        <td>
-                            @Html.CheckBoxFor(x => Model[i].selected)
-                            @Html.HiddenFor(item => Model[i].userID)
-                            @Html.HiddenFor(item => Model[i].selected)
-                        </td>
-                        <td>@Model[i].firstName @Model[i].lastName</td>
-                        <td>@Model[i].username</td>
-                    </tr>
-                }
-            </table>
+                            <tr>
+                                <td>
+                                    @Html.CheckBoxFor(x => Model[i].selected)
+                                    @Html.HiddenFor(item => Model[i].userID)
+                                    @Html.HiddenFor(item => Model[i].selected)
+                                </td>
+                                <td>@Model[i].firstName @Model[i].lastName</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
+       </div><br />
 
-    <input type="submit" value="Add teachers">
+    <div class="row text-center">
+        <input type="submit" value="Confirm">
+    </div>
 }
 

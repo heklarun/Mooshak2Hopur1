@@ -33,23 +33,53 @@
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Home", "AdminIndex", "Admin")</li>
                         <li>@Html.ActionLink("Create new course", "CreateNewCourse", "Admin")</li>
-                        <li>@Html.ActionLink("Create new user", "CreateNewUser", "Admin")</li>
+                        <li>@Html.ActionLink("Create new user", "Register", "Account")</li>
                     </ul>
                   <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Teacher</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Student</a></li>
-                            </ul>
-                        </li>
+                      @if (ViewBag.accesses <= 1)
+                      {
+                          <li class="dropdown">
+                              <a class="dropdown-toggle" aria-expanded="false">Admin</a>
+                          </li>
+                      }
+                      @if (ViewBag.accesses > 1)
+                      {
+                          <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                  @if (ViewBag.isTeacher == true)
+                                  {
+                                      <li>
+                                          <a href="@Url.Action("TeacherIndex", "Teacher")">
+                                              Teacher
+                                          </a>
+                                      </li>
+                                  }
+                                  @if (ViewBag.isStudent == true && ViewBag.isTeacher == true)
+                                  {
+                                      <li role="separator" class="divider"></li>
+                                  }
+                                  @if (ViewBag.isStudent == true)
+                                  {
+                                      <li>
+                                          <a href="@Url.Action("StudentIndex", "Student")">
+                                              Student
+                                          </a>
+                                      </li>
+                                  }
+                              </ul>
+                          </li>
+                      }
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"/>Change password</li>
                                 <li role="separator" class="divider"></li>
-                                <li>@Html.ActionLink("Log Off", "LogOff", "Account")</li>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                {
+                                @Html.AntiForgeryToken()
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                                }
                            </ul>
                         </li>
                     </ul>

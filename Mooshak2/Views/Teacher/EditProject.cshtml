@@ -18,7 +18,15 @@
         Close:
         @Html.EditorFor(model => model.closeDate, new { id = "closeDate" })
     </div>
+
     <input type="submit" value="Submit changes">
+
+    <div>
+        Member count:
+        @Html.EditorFor(model => model.memberCount)
+                
+    </div>
+    <input type="submit" value="Edit project">
 </form>
 
 <script type="text/javascript">

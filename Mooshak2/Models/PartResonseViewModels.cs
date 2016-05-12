@@ -20,5 +20,10 @@ namespace Mooshak2.Models
         public string fileName { get; set; }
         public string fileContentType { get; set; }
         public string userID { get; set; }
+
+        public List<UsersViewModels> students { get; set; }
+        public List<UsersViewModels> groupMembers { get; set; }
+        public string handedIn { get; set; }
+        public int nrGroupMembers { get; set; }
     }
 }

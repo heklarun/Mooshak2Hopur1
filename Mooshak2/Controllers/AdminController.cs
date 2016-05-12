@@ -16,7 +16,7 @@ namespace Mooshak2.Controllers
         UserService userService = new UserService();
         CourseService courseService = new CourseService();
         // GET: Admin
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult AdminIndex(int? courseID)
         {
@@ -178,7 +178,7 @@ namespace Mooshak2.Controllers
         }
 
         //Það sem patti gerði er hér fyrir neðan
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         // GET: Course
         public ActionResult Index()
         {

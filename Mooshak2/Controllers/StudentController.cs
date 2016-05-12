@@ -19,7 +19,7 @@ namespace Mooshak2.Controllers
         private CourseService courseService = new CourseService();
         private ProjectService projectService = new ProjectService();
         // GET: Student
-        [Authorize(Roles = "Student")]
+        //[Authorize(Roles = "Student")]
         public ActionResult StudentIndex()
         {
             ApplicationUser appUser = man.GetUser(User.Identity.Name);
@@ -69,7 +69,7 @@ namespace Mooshak2.Controllers
             if (projectID != null)
             {
                 ApplicationUser appUser = man.GetUser(User.Identity.Name);
-                ProjectViewModels pro = projectService.GetProjectByID(projectID);
+                ProjectViewModels pro = projectService.GetStudentProjectByID(projectID, appUser.Id);
                 List<ResponseViewModels> responses = projectService.GetStudentResponses(appUser.Id, projectID);
                 ViewBag.responses = responses;
                 return View(pro);
@@ -86,15 +86,28 @@ namespace Mooshak2.Controllers
             if(value != null)
             {
                 SubProjectsViewModels sub = projectService.GetSubProjectByID(value);
+                ApplicationUser appUser = man.GetUser(User.Identity.Name);
+                ProjectViewModels pro = projectService.GetStudentProjectByID(sub.projectID, appUser.Id);
+                List<UsersViewModels> students =  courseService.GetStudentsInCourseExceptMe(pro.courseID, appUser.Id);
+
                 PartResponseViewModels response = new PartResponseViewModels();
                 response.subProjectID = sub.subProjectID;
                 response.subProjectName = sub.subProjectName;
                 response.projectID = sub.projectID;
+                response.nrGroupMembers = pro.groupMembers != null ? pro.groupMembers.Count: 0;
+                List<UsersViewModels> groupMembers = new List<UsersViewModels>();
+                for(int i = 0; i < sub.memberCount; i++)
+                {
+                    UsersViewModels tmp = new UsersViewModels();
+                    groupMembers.Add(tmp);
+                }
+                response.groupMembers = groupMembers;
+                response.students = students;
                 return PartialView("ProjectPartPartial", response);
             }
             else
             {
-                return null;
+                return RedirectToAction("StudentIndex") ;
             }
         }
         [HttpPost]
