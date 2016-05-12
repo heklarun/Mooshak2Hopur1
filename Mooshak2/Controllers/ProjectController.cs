@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mooshak2.Services;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace Mooshak2.Controllers
 {
@@ -79,7 +80,7 @@ namespace Mooshak2.Controllers
 
             // In this case, we use the C++ compiler (cl.exe) which ships
             // with Visual Studio. It is located in this folder:
-            var compilerFolder = "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\";
+            var compilerFolder = ConfigurationManager.AppSettings["compilerFolder"];
             // There is a bit more to executing the compiler than
             // just calling cl.exe. In order for it to be able to know
             // where to find #include-d files (such as <iostream>),
