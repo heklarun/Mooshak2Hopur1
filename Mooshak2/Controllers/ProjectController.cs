@@ -143,6 +143,10 @@ namespace Mooshak2.Controllers
                     // to the program, but that is of course also
                     // necessary. We would do that here, using
                     processExe.StandardInput.WriteLine(); //Það sem var kommentað
+                    /*processExe.Start();
+                    processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
+                    processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
+                    processExe.StandardInput.WriteLine("exit"); */
                     // to above.
 
                     // We then read the output of the program:
@@ -166,7 +170,7 @@ namespace Mooshak2.Controllers
             // Búa til fall sem tékkar á tímanum sem forritið er að keyrast. Ef 10 sec + þá executea
 
 
-            return View("CompileCode");
+            return View("ProjectPartPartial");
         }
 
        /* public void CreateFolderIfMissing(string username)

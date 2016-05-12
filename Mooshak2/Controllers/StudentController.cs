@@ -34,11 +34,6 @@ namespace Mooshak2.Controllers
             }
         }
 
-      //  public ActionResult StudentCoursesAvailable()
-        //{
-          //  return View("StudentCoursesAvailable");
-        //}
-
         public ActionResult StudentAnswerView()
         {
             return View("StudentAnswerView");
