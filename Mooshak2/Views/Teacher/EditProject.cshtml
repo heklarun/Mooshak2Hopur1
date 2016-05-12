@@ -30,6 +30,23 @@
     <div class="text-center">
         <input class="btn btn-primary" type="submit" value="Submit changes">
     </div>
+    <div>
+        Open:
+        @Html.EditorFor(model => model.openDate, new { id = "openDate" })
+    </div>
+    <div>
+        Close:
+        @Html.EditorFor(model => model.closeDate, new { id = "closeDate" })
+    </div>
+
+    <input type="submit" value="Submit changes">
+
+    <div>
+        Member count:
+        @Html.EditorFor(model => model.memberCount)
+                
+    </div>
+    <input type="submit" value="Edit project">
 </form>
     </div>
 

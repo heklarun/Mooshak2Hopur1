@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mooshak2.Services;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace Mooshak2.Controllers
 {
@@ -69,9 +70,9 @@ namespace Mooshak2.Controllers
             // In this example, this is all hardcoded, but in a
             // real life scenario, there should probably be individual
             // folders for each user/assignment/milestone.
-            var workingFolder = "C:\\Temp\\Mooshak2Code\\";
-            var cppFileName = "Hello.cpp";
-            var exeFilePath = workingFolder + "Hello.exe";
+            var workingFolder = ConfigurationManager.AppSettings["workingFolder"];  // Hvað á að fara hér inn? ef við erum að nota gagnagrunstengingu
+            var cppFileName = "Hello.cpp";  //Aðgerð til að ná í cpp skrá
+            var exeFilePath = workingFolder + "Hello.exe";  // Hvað er ex file?
 
             // Write the code to a file, such that the compiler
             // can find it:
@@ -79,7 +80,7 @@ namespace Mooshak2.Controllers
 
             // In this case, we use the C++ compiler (cl.exe) which ships
             // with Visual Studio. It is located in this folder:
-            var compilerFolder = "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\";
+            var compilerFolder = ConfigurationManager.AppSettings["compilerFolder"];
             // There is a bit more to executing the compiler than
             // just calling cl.exe. In order for it to be able to know
             // where to find #include-d files (such as <iostream>),

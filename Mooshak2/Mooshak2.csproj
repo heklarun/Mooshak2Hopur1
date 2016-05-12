@@ -332,7 +332,9 @@
     <Content Include="Views\Student\StudentCourse.cshtml" />
     <Content Include="Views\Student\StudentProject.cshtml" />
     <Content Include="Views\Student\ProjectPartPartial.cshtml" />
+
     <Content Include="Views\Teacher\StudentResponsePartial.cshtml" />
+
     <Content Include="Views\Project\CompileCode.cshtml" />
   </ItemGroup>
   <ItemGroup>

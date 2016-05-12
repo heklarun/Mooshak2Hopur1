@@ -155,7 +155,5 @@ namespace Mooshak2.Controllers
             return new FileStreamResult(Response.OutputStream, sub.inputContentType);
 
         }
-
-
     }
 }
