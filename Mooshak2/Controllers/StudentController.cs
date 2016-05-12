@@ -19,7 +19,7 @@ namespace Mooshak2.Controllers
         private CourseService courseService = new CourseService();
         private ProjectService projectService = new ProjectService();
         // GET: Student
-        //[Authorize(Roles = "Student")]
+        [Authorize]
         public ActionResult StudentIndex()
         {
             ApplicationUser appUser = man.GetUser(User.Identity.Name);

@@ -119,6 +119,7 @@ div.text-center h2
 table.createUser{
     margin: 0 auto;
     font-family: Verdana;
+    text-align: center;
     
 }
  .group .col-md-6 table.table-scroll{

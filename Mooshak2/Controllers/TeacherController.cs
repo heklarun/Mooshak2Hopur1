@@ -24,7 +24,7 @@ namespace Mooshak2.Controllers
 
 
         // GET: Teacher
-        //[Authorize(Roles = "Teacher")]
+        [Authorize]
         public ActionResult TeacherIndex()
         {
             ApplicationUser appUser = man.GetUser(User.Identity.Name);

@@ -18,22 +18,28 @@ $(function() {
 
 </script>
 <div class="container body-content">
-    <div>
-        <h2>@Model.projectName</h2>
-       <a class="btn btn-primary" href="@Url.Action("EditProject", "Teacher" , new {projectID=Model.projectID})">
-            Edit project
-        </a>
-    </div> <br />
-    <h4>Subprojects</h4>
+    <table cellpadding="5">
+        <tr>
+            <td><a href="@Url.Action("EditProject", "Teacher" , new {projectID=Model.projectID})">
+                      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            </a></td>
+            <td><h2>@Model.projectName</h2></td>
+        </tr>
+    </table>
+       
+     <br />
+    <div class="text-center">
+        <h4>Subprojects</h4>
+    </div><br />
 
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
-            <th>Percentage</th>
-            <th>Input file</th>
-            <th>Output file</th>
-            <th></th>
-            <th></th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Percentage</th>
+            <th class="text-center">Input file</th>
+            <th class="text-center">Output file</th>
+            <th class="text-center">Edit</th>
+            <th class="text-center">Delete</th>
         </tr>
         @if (Model.subProjects.Count() == 0)
         {
@@ -51,44 +57,42 @@ $(function() {
             foreach (var subProject in Model.subProjects)
             {
                 <tr>
-                    <td>@subProject.subProjectName</td>
-                    <td>@subProject.percentage %</td>
-                    <td>
-                        @subProject.inputFileName
+                    <td class="text-center">@subProject.subProjectName</td>
+                    <td class="text-center">@subProject.percentage %</td>
+                    <td class="text-center">
                         @if (subProject.inputFileName != null)
                     {
                             <a href="@Url.Action("DownloadInputFile", "Teacher" , new {subProjectID=subProject.subProjectID})">
-                                Download
+                                @subProject.inputFileName
                             </a>
-                            <a href="@Url.Action("DownloadInputFileInline", "Teacher" , new {subProjectID=subProject.subProjectID})" target="_blank">
+                            <!--<a href="Url.Action("DownloadInputFileInline", "Teacher" , new {subProjectID=subProject.subProjectID})" target="_blank">
                                 View inline if possible
-                            </a>
+                            </a>-->
                         }
 
                     </td>
-                    <td>
-                        @subProject.outputFileName
+                    <td class="text-center">
                         @if (subProject.outputFileName != null)
                     {
                             <a href="@Url.Action("DownloadOutputFile", "Teacher" , new {subProjectID=subProject.subProjectID})">
-                                Download
+                                @subProject.outputFileName
                             </a>
-                            <a href="@Url.Action("DownloadOutputFileInline", "Teacher" , new {subProjectID=subProject.subProjectID})" target="_blank">
+                            <!--<a href="Url.Action("DownloadOutputFileInline", "Teacher" , new {subProjectID=subProject.subProjectID})" target="_blank">
                                 View inline if possible
-                            </a>
+                            </a>-->
                         }
 
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a href="@Url.Action("EditSubProject", "Teacher" , new {subProjectID=subProject.subProjectID})">
-                            Edit
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </a>
                     </td>
-                    <td>
+                    <td class="text-center">
                         @if (subProject.nrOfResponses == 0)
                     {
                             <a href="@Url.Action("DeleteSubProject", "Teacher" , new {subProjectID=subProject.subProjectID})">
-                                Delete
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </a>
                         }
                     </td>
@@ -102,24 +106,14 @@ $(function() {
     </a>
     </div>
 
-<div>
+<div class="text-center">
     View student responses
 </div>
-<div>
-    @Html.DropDownListFor(
-    x => x.students,
-    new SelectList(ViewBag.students, "userID", "fullName"),
-    string.Empty,
-    new
-    {
-        id = "myddl",
-        data_url = Url.Action("ViewStudentResponses", "Teacher")
-    }
-    )
-    
-    @Html.HiddenFor(m => @Model.projectID)
+<div class="text-center">
+    @Html.DropDownListFor( x => x.students, new SelectList(ViewBag.students, "userID", "fullName"), string.Empty, new { id = "myddl", data_url = Url.Action("ViewStudentResponses", "Teacher") } )
+           @Html.HiddenFor(m => @Model.projectID)
 
-</div>
+</div><br />
 <div id="result"></div>
 
 

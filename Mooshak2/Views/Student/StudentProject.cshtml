@@ -17,7 +17,9 @@ $(function() {
 
 </script>
 <div class="container body-content">
-    <h2>@Model.projectName</h2>
+    <div class="text-center">
+        <h2>@Model.projectName</h2>
+    </div><br />
     @if (Model.subProjects == null || Model.subProjects.Count == 0)
     {
         <div>There are no subprojects in this project!</div>
@@ -26,9 +28,10 @@ $(function() {
 
     @if (Model.subProjects != null && Model.subProjects.Count > 0 && Model.canHandIn == true)
     {
-        <div>Pick a sub project to hand in</div>
+        <div class="text-center">
+            Pick a sub project to hand in
 
-        @Html.DropDownListFor(
+            @Html.DropDownListFor(
     x => x.subProjects,
     new SelectList(Model.subProjects, "subProjectId", "subProjectName"),
     string.Empty,
@@ -38,6 +41,7 @@ $(function() {
         data_url = Url.Action("SubmitSubProject", "Student")
     }
     )
+        </div>
     }
 
     <div id="result"></div>
@@ -45,31 +49,29 @@ $(function() {
 
     @if (Model.groupMembers != null && Model.groupMembers.Count > 0)
     {
-        <div>Members</div>
+        <div class="text-center"><h4>Members</h4></div>
         foreach (var member in Model.groupMembers)
         {
-            <div>@member.firstName @member.lastName</div>
+            <div class="text-center">@member.firstName @member.lastName</div>
         }
     }
 
     <h4>My submissions</h4>
     <table class="table">
         <tr>
-            <td>Download</td>
-            <td>Username</td>
-            <td>View online if possible</td>
-            <td>Status</td>
-            <td></td>
+            <th class="text-center">Download</th>
+            <th class="text-center">Username</th>
+            <th class="text-center">View online if possible</th>
+            <th class="text-center">Status</th>
         </tr>
         @if (ViewBag.responses.Count == 0)
         {
             <tr>
-                <td>No responses registred</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="text-center">No responses registred</td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
             </tr>
         }
         @if (ViewBag.responses.Count > 0)
@@ -77,7 +79,7 @@ $(function() {
             foreach (var response in ViewBag.responses)
             {
                 <tr>
-                    <td>
+                    <td class="text-center">
                          @if (response.fileName != null)
                          {
                             <a href="@Url.Action("DownloadFile", "Student" , new {partResponseID=response.partResponseID})">
@@ -87,9 +89,9 @@ $(function() {
 
                     </td>
 
-                    <td>@response.members</td>
+                    <td class="text-center">@response.members</td>
                     
-                    <td>
+                    <td class="text-center">
                         @if (response.fileName != null)
                     {
                             <a href="@Url.Action("DownloadFileInline", "Student" , new {partResponseID=response.partResponseID})" target="_blank">
@@ -97,7 +99,7 @@ $(function() {
                             </a>
                         }
                     </td>
-                    <td>
+                    <td class="text-center">
                         @if(response.status == 1)
                         {
                             <div>Accepted</div>
