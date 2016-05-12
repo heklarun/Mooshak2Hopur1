@@ -104,6 +104,7 @@ namespace Mooshak2.DAL
                         UsersViewModels tmp = new UsersViewModels();
                         tmp.firstName = u.firstName;
                         tmp.lastName = u.lastName;
+                        tmp.fullName = u.firstName + " " + u.lastName;
                         tmp.username = u.UserName;
                         tmp.userID = u.Id;
                         tmp.email = u.Email;
@@ -115,7 +116,37 @@ namespace Mooshak2.DAL
             return users;
 
         }
+        public List<UsersViewModels> GetStudentsInCourseExceptMe(int? courseID, string userId)
+        {
+            List<UsersViewModels> users = new List<UsersViewModels>();
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            List<ApplicationUser> allUsers = um.Users.OrderBy(x => x.firstName).ToList();
 
+            foreach (ApplicationUser u in allUsers)
+            {
+                if(u.Id != userId)
+                {
+                    if (man.UserIsInRole(u.Id, "Student"))
+                    {
+                        StudentGroup studentExists = db.StudentGroup.SingleOrDefault(t => t.userID == u.Id && t.courseID == courseID);
+                        if (studentExists != null)
+                        {
+                            UsersViewModels tmp = new UsersViewModels();
+                            tmp.firstName = u.firstName;
+                            tmp.lastName = u.lastName;
+                            tmp.fullName = u.firstName + " " + u.lastName;
+                            tmp.username = u.UserName;
+                            tmp.userID = u.Id;
+                            tmp.email = u.Email;
+                            users.Add(tmp);
+                        }
+                    }
+                }
+            }
+
+            return users;
+
+        }
 
         public List<UsersViewModels> GetTeachersInCourse(int? courseID)
         {

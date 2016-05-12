@@ -60,7 +60,7 @@ namespace Mooshak2.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            //ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -71,6 +71,7 @@ namespace Mooshak2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            returnUrl = "";
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -82,22 +83,24 @@ namespace Mooshak2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (man.UserIsInRole(User.Identity.GetUserId(), "Teacher"))
+                    return RedirectToLocal(returnUrl);
+                    //return RedirectToAction("Index", "Home");
+                    /*if (man.UserIsInRole(User.Identity.GetUserId(), "Teacher") || man.UserNameIsInRole(User.Identity.Name, "Teacher"))
                     {
-                        return RedirectToAction("../Teacher/TeacherIndex");
+                        return RedirectToAction("TeacherIndex", "Teacher");
                     }
-                    else if (man.UserIsInRole(User.Identity.GetUserId(), "Admin"))
+                    else if (man.UserIsInRole(User.Identity.GetUserId(), "Admin") || man.UserNameIsInRole(User.Identity.Name, "Admin"))
                     {
-                        return RedirectToAction("../Admin/AdminIndex");
+                        return RedirectToAction("AdminIndex", "Admin");
                     }
-                    else if(man.UserIsInRole(User.Identity.GetUserId(), "Student"))
+                    else if(man.UserIsInRole(User.Identity.GetUserId(), "Student") || man.UserNameIsInRole(User.Identity.Name, "Student"))
                     {
-                        return RedirectToAction("../Student/StudentIndex");
+                        return RedirectToAction("StudentIndex", "Student");
                     }
                     else
                     {
                         return RedirectToLocal(returnUrl);
-                    }
+                    }*/
                   case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -119,7 +122,7 @@ namespace Mooshak2.Controllers
             {
                 return View("Error");
             }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = "", RememberMe = rememberMe });
         }
 
         //
@@ -142,7 +145,7 @@ namespace Mooshak2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
+                    return RedirectToLocal("");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.Failure:
@@ -173,15 +176,31 @@ namespace Mooshak2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    ApplicationUser addRoles = man.GetUser(model.Email);
 
-                    return RedirectToAction("Index", "Home");
+                    if (model.isAdmin == true)
+                    {
+                        man.AddUserToRole(addRoles.Id, "Admin");
+                    }
+                    if (model.isTeacher == true)
+                    {
+                        man.AddUserToRole(addRoles.Id, "Teacher");
+                    }
+                    if (model.isStudent == true)
+                    {
+                        man.AddUserToRole(addRoles.Id, "Student");
+                    }
+
+
+                    return RedirectToAction("AdminIndex", "Admin");
+                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
@@ -410,7 +429,8 @@ namespace Mooshak2.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
+            //return RedirectToAction("Index", "Home");
         }
 
         //
@@ -463,11 +483,12 @@ namespace Mooshak2.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            /*if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
-            }
+            }*/
             return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Login", "Account");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

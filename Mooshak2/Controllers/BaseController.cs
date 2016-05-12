@@ -21,6 +21,27 @@ namespace Mooshak2.Controllers
             List<CoursesViewModels> studentCourses = courseService.GetStudentCourses(appUser.Id);
             filterContext.Controller.ViewBag.TeacherCourses = courses;
             filterContext.Controller.ViewBag.StudentCourses = studentCourses;
+            bool isAdmin = man.UserNameIsInRole(appUser.UserName, "Admin");
+            bool isTeacher = man.UserNameIsInRole(appUser.UserName, "Teacher");
+            bool isStudent = man.UserNameIsInRole(appUser.UserName, "Student");
+            var accesses = 0;
+            if(isAdmin== true)
+            {
+                accesses++;
+            }
+            if (isTeacher == true)
+            {
+                accesses++;
+            }
+            if (isStudent == true)
+            {
+                accesses++;
+            }
+            filterContext.Controller.ViewBag.isAdmin = isAdmin;
+            filterContext.Controller.ViewBag.isTeacher = isTeacher;
+            filterContext.Controller.ViewBag.isStudent = isStudent;
+            filterContext.Controller.ViewBag.accesses = accesses;
+
         }
     }
 }

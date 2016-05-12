@@ -13,6 +13,7 @@ namespace Mooshak2.Models
         public string projectName { get; set; }
         public int courseID { get; set; }
 
+        public int memberCount { get; set; }
         public DateTime open { get; set; }
         public DateTime close { get; set; }
         //open?

@@ -24,7 +24,7 @@ namespace Mooshak2.Controllers
 
 
         // GET: Teacher
-        [Authorize(Roles = "Teacher")]
+        //[Authorize(Roles = "Teacher")]
         public ActionResult TeacherIndex()
         {
             ApplicationUser appUser = man.GetUser(User.Identity.Name);
@@ -103,6 +103,8 @@ namespace Mooshak2.Controllers
             if(projectID != null)
             {
                 ProjectViewModels pro = projectService.GetProjectByID(projectID);
+                List<UsersViewModels> students = courseService.GetStudentsInCourse(pro.courseID);
+                ViewBag.students = students;
                 return View(pro);
             }
             else
@@ -239,6 +241,51 @@ namespace Mooshak2.Controllers
         {
             projectService.EditSubProject(sub);
             return RedirectToAction("Project", "Teacher", new { projectID = sub.projectID });
+        }
+
+        public ActionResult ViewStudentResponses(string value, int? projectID)
+        {
+            ProjectViewModels pro = projectService.GetStudentProjectByID(projectID, value);
+            ViewBag.project = pro;
+            List<ResponseViewModels> responses = projectService.GetStudentResponses(value, projectID);
+            ViewBag.responses = responses;
+            return PartialView("StudentResponsePartial");
+        }
+
+        [HttpGet]
+        public ActionResult DownloadFile(int partResponseID)
+        {
+            SubProjectsViewModels sub = projectService.DownloadPartResponseFile(partResponseID);
+            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
+
+            Response.ContentType = sub.inputContentType;
+            Response.AddHeader("content-disposition", "attachment;filename=" + sub.inputFileName);
+            Response.Buffer = true;
+            Response.Clear();
+            Response.OutputStream.Write(sub.inputFileBytes, 0, sub.inputFileBytes.Length);
+            Response.OutputStream.Flush();
+            Response.End();
+
+            return new FileStreamResult(Response.OutputStream, sub.inputContentType);
+
+        }
+
+        [HttpGet]
+        public ActionResult DownloadFileInline(int partResponseID)
+        {
+            SubProjectsViewModels sub = projectService.DownloadPartResponseFile(partResponseID);
+            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
+
+            Response.ContentType = sub.inputContentType;
+            Response.AddHeader("content-disposition", "inline;filename=" + sub.inputFileName);
+            Response.Buffer = true;
+            Response.Clear();
+            Response.OutputStream.Write(sub.inputFileBytes, 0, sub.inputFileBytes.Length);
+            Response.OutputStream.Flush();
+            Response.End();
+
+            return new FileStreamResult(Response.OutputStream, sub.inputContentType);
+
         }
 
     }

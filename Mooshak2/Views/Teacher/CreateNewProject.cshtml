@@ -4,37 +4,49 @@
     ViewBag.Title = "CreateNewProject";
     Layout = "~/Views/Shared/Teacher_Layout.cshtml";
 }
+<div class="text-center">
+    <h2>Create New Project</h2>
+</div><br />
+<div id="ccourse">
+    <form class="form-group">
+        <form class="form-horizontal" action='' method="POST">
+            <table class="createUser" cellpadding="10">
+                <tr>
+                    <td>Name of project:</td>
+                    <td><input class="form-control" @Html.EditorFor(model => model.projectName)</td>
+                </tr>
+                <tr>
+                    <td>Select course:</td>
+                    <td>@Html.DropDownListFor(m => m.courseID, new SelectList(ViewBag.courses, "courseID", "courseName"))</tdclass="dropdown-menu">
 
-<h2>Create New Project</h2>
+                </tr>
+                <tr>
+                    <td>Open:</td>
+                    <td>@Html.EditorFor(model => model.openDate, new { id = "openDate" , @class = "form-control" })</td>
+                </tr>
+                <tr>
+                    <td>Close:</td>
+                    <td><input class="form-control" @Html.EditorFor(model => model.closeDate, new { id = "closeDate" })</td>
+                </tr>
+                <tr>
+                    <td>Member count:</td>
+                    <td><input class="form-control" @Html.EditorFor(model => model.memberCount)</td>
+                </tr>
+            </table><br />
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Create project">
+            </div>
+        </form>
+        </form>
+    </div>
 
-<form class="form-horizontal" action='' method="POST">
-    <div>
-        Name of project:
-        @Html.EditorFor(model => model.projectName)
-    </div>
-    <div>
-        Select course: 
-        @Html.DropDownListFor(m => m.courseID, new SelectList(ViewBag.courses, "courseID", "courseName"))
-
-    </div>
-    <div>
-        Open: 
-        @Html.EditorFor(model => model.openDate, new { id = "openDate"})
-    </div>
-    <div>
-        Close:
-        @Html.EditorFor(model => model.closeDate, new { id = "closeDate" })
-    </div>
-    <input type="submit" value="Create project">
-</form>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#openDate').datepicker({
-            dateFormat: "dd.mm.yy"
-        });
-        $('#closeDate').datepicker({
-            dateFormat: "dd.mm.yy"
-        });
-    });
-</script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#openDate').datepicker({
+                    dateFormat: "dd.mm.yy"
+                });
+                $('#closeDate').datepicker({
+                    dateFormat: "dd.mm.yy"
+                });
+            });
+        </script>

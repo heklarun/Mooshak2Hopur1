@@ -16,6 +16,7 @@ namespace Mooshak2.Models
         public DateTime date { get; set; }
         public string fileMimeType { get; set; }
         public string fileFileName { get; set; }
-
+        public string handedIn { get; set; }
+        public int status { get; set; }
     }
 }

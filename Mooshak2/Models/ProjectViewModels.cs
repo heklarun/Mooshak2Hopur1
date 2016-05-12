@@ -13,6 +13,7 @@ namespace Mooshak2.Models
         public int projectID { get; set; }
         public string projectName { get; set; }
         public int courseID { get; set; }
+        public int memberCount { get; set; }
         public string courseName { get; set; }
         public List<SubProjectsViewModels> subProjects { get; set; }
         public DateTime open { get; set; }
@@ -20,5 +21,9 @@ namespace Mooshak2.Models
         public DateTime close { get; set; }
         public string closeDate { get; set; }
         public Boolean canHandIn { get; set; }
+
+        public List<ApplicationUser> groupMembers { get; set; }
+
+        public List<ApplicationUser> students { get; set; }
     }
 }
