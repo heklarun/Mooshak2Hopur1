@@ -6,14 +6,16 @@
 
 <h2>Delete Sub project</h2>
 
-<form class="form-horizontal" action='' method="POST">
+<div class="text-center">
+    <h2>Delete Sub project</h2>
+</div><br />
 
-    <div>
-        Are you sure you want to delete <b>@Model.subProjectName</b>?
-        @Html.HiddenFor(model => model.projectID)        
-    </div>
-    <div>
-        <input type="submit" value="Delete Sub project">
-    </div>
-</form>
-
+<div id="ccourse">
+    <form class="form-group text-center" action='' method="POST">
+        <div class="text-center">
+            Are you sure you want to delete <b>@Model.subProjectName</b>?
+        </div>
+        <br><br>
+        <input type="submit" class="btn btn-primary" value="Delete Sub project">
+    </form>
+</div>
