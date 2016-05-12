@@ -16,15 +16,5 @@ namespace Mooshak2.Models
         public int memberCount { get; set; }
         public DateTime open { get; set; }
         public DateTime close { get; set; }
-        //open?
-        //close?
-
-       // public DateTime dueDate { get; set; }
-
-        //public List<string> Admins { get; set; }
-        //public List<string> Teachers { get; set; }
-        //public List<string> Students { get; set; }
-
-
     }
 }
