@@ -1,79 +1,80 @@
-﻿@if (ViewBag.project.groupMembers != null && ViewBag.project.groupMembers.Count > 0)
-{
-    <div>Members</div>
-    foreach (var member in ViewBag.project.groupMembers)
+﻿<div class="container body-content">
+    <div class="text-center">
+    @if (ViewBag.project.groupMembers != null && ViewBag.project.groupMembers.Count > 0)
     {
-        <div>@member.firstName @member.lastName</div>
-    }
-}
-
-<table class="table">
-    <tr>
-        <td>Download</td>
-        <td>Username</td>
-        <td>View online if possible</td>
-        <td>Status</td>
-        <td></td>
-    </tr>
-    @if (ViewBag.responses.Count == 0)
-    {
-        <tr>
-            <td>No responses registred</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    }
-    @if (ViewBag.responses.Count > 0)
-    {
-        foreach (var response in ViewBag.responses)
+        <div><h4>Members:</h4></div>
+        foreach (var member in ViewBag.project.groupMembers)
         {
-            <tr>
-                <td>
-                    @if (response.fileName != null)
-                    {
-                        <a href="@Url.Action("DownloadFile", "Teacher" , new {partResponseID=response.partResponseID})">
-                            @response.fileName
-                        </a>
-                    }
-
-                </td>
-
-                <td>@response.members</td>
-
-                <td>
-                    @if (response.fileName != null)
-                    {
-                        <a href="@Url.Action("DownloadFileInline", "Teacher" , new {partResponseID=response.partResponseID})" target="_blank">
-                            @response.subProjectName
-                        </a>
-                    }
-                </td>
-                <td>
-                    @if (response.status == 1)
-                    {
-                        <div>Accepted</div>
-                    }
-                    @if (response.status == 2)
-                    {
-                        <div>Wrong answer</div>
-                    }
-                    @if (response.status == 3)
-                    {
-                        <div>Compile time error</div>
-                    }
-                    @if (response.status == 4)
-                    {
-                        <div>Timelimit exceeded</div>
-                    }
-                    @if (response.status == 5)
-                    {
-                        <div>Memory error</div>
-                    }
-                </td>
-            </tr>
+            <div>@member.firstName @member.lastName</div>
         }
     }
-</table>
+    </div><br />
+
+    <table class="table table-striped">
+        <tr>
+            <th class="text-center">Download</th>
+            <th class="text-center">Username</th>
+            <th class="text-center">View online if possible</th>
+            <th class="text-center">Status</th>
+        </tr>
+        @if (ViewBag.responses.Count == 0)
+        {
+            <tr>
+                <td>No responses registred</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+        @if (ViewBag.responses.Count > 0)
+        {
+            foreach (var response in ViewBag.responses)
+            {
+                <tr>
+                    <td class="text-center">
+                        @if (response.fileName != null)
+                    {
+                            <a href="@Url.Action("DownloadFile", "Teacher" , new {partResponseID=response.partResponseID})">
+                                @response.fileName
+                            </a>
+                        }
+
+                    </td>
+
+                    <td class="text-center">@response.members</td>
+
+                    <td class="text-center">
+                        @if (response.fileName != null)
+                    {
+                            <a href="@Url.Action("DownloadFileInline", "Teacher" , new {partResponseID=response.partResponseID})" target="_blank">
+                                @response.subProjectName
+                            </a>
+                        }
+                    </td>
+                    <td class="text-center">
+                        @if (response.status == 1)
+                    {
+                            <div>Accepted</div>
+                        }
+                        @if (response.status == 2)
+                    {
+                            <div>Wrong answer</div>
+                        }
+                        @if (response.status == 3)
+                    {
+                            <div>Compile time error</div>
+                        }
+                        @if (response.status == 4)
+                    {
+                            <div>Timelimit exceeded</div>
+                        }
+                        @if (response.status == 5)
+                    {
+                            <div>Memory error</div>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>

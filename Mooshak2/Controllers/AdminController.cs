@@ -16,7 +16,7 @@ namespace Mooshak2.Controllers
         UserService userService = new UserService();
         CourseService courseService = new CourseService();
         // GET: Admin
-        //[Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet]
         public ActionResult AdminIndex(int? courseID)
         {

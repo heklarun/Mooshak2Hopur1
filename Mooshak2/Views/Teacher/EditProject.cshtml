@@ -3,12 +3,32 @@
     ViewBag.Title = "EditProject";
     Layout = "~/Views/Shared/Teacher_Layout.cshtml";
 }
+<div class="text-center">
+    <h2>Edit project</h2>
+</div><br />
+<div id="ccourse">
+<form class="form-group" action='' method="POST">
+    <table class="createUser" cellpadding="10">
+        <tr>
+            <td>Name of project:</td>
+            <td><input class="form-control" @Html.EditorFor(model => model.projectName)</td>
+        </tr>
+        <tr>
+            <td>Open:</td>
+            <td><input class="form-control" @Html.EditorFor(model => model.openDate, new { id = "openDate" })</td>
+        </tr>
+        <tr>
+            <td>Close:</td>
+            <td><input class="form-control" @Html.EditorFor(model => model.closeDate, new { id = "closeDate" })</td>
+        </tr>
+        <tr>
+            <td>Member count:</td>
+            <td><input class="form-control" @Html.EditorFor(model => model.memberCount)</td>
 
-<h2>Edit Project</h2>
-<form class="form-horizontal" action='' method="POST">
-    <div>
-        Name of project:
-        @Html.EditorFor(model => model.projectName)
+        </tr>
+    </table><br />
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Submit changes">
     </div>
     <div>
         Open:
@@ -28,6 +48,7 @@
     </div>
     <input type="submit" value="Edit project">
 </form>
+    </div>
 
 <script type="text/javascript">
     $(document).ready(function () {

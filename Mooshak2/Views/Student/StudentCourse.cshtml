@@ -5,15 +5,17 @@
     Layout = "~/Views/Shared/Student_Layout.cshtml";
 }
 <div class="container body-content">
-    <h2>@Model.courseName</h2>
+    <div class="text-center">
+        <h2>@Model.courseName</h2>
+    </div><br />
 
     <div class="row">
         <div class="col-md-12">
             <table class="table table-striped table-bordered">
                 <tr>
-                    <th>Projects</th>
-                    <th>Opening date</th>
-                    <th>Closing date</th>
+                    <th class="text-center">Projects</th>
+                    <th class="text-center">Opening date</th>
+                    <th class="text-center">Closing date</th>
                 </tr>
                 @if (Model.projects == null || Model.projects.Count() == 0)
             {
@@ -28,13 +30,13 @@
                 foreach (var project in Model.projects)
                 {
                         <tr>
-                            <td>
+                            <td class="text-center">
                                 <a href="@Url.Action("StudentProject", "Student" , new {projectID=project.projectID})">
                                     @project.projectName
                                 </a>
                             </td>
-                            <td>@project.open.ToString("dd.MM.yyyy") </td>
-                            <td>@project.close.ToString("dd.MM.yyyy")</td>
+                            <td class="text-center">@project.open.ToString("dd.MM.yyyy") </td>
+                            <td class="text-center">@project.close.ToString("dd.MM.yyyy")</td>
                         </tr>
                     }
                 }
