@@ -426,6 +426,10 @@ namespace Mooshak2.Services
 
         //check if the response exists, if it doesnt it add the response and saves changes, 
         //else it gives the existing response the same responseID as the response sent into the function
+        //it checks if the student response doesnt exist, it creates a new one
+        //if it does exist it gets all the responses of the group it they exist
+        //adds part to PartResponse and saves to database
+        //adds random status to the response, because we dont have the compile code ready
         public void submitSubProject(PartResponseViewModels response)
         {
             ResponseViewModels responseExists = (from item in db.StudentResponse
@@ -450,7 +454,6 @@ namespace Mooshak2.Services
                 responseID = responseExists.responseID;
             }
 
-            //it checks if the student respon
             StudentsResponseViewModels studentResponseExists = (from item in db.StudentResponse
                                                                 where item.userID == response.userID && item.responseID == responseID
                                                                 select new StudentsResponseViewModels
@@ -512,6 +515,8 @@ namespace Mooshak2.Services
             db.SaveChanges();
         }
 
+        //gets the student response and everything that is in them
+        //gets the username of those who handed in a solution 
         public List<ResponseViewModels> GetStudentResponses(string userID, int? projectID)
         {
             List<ResponseViewModels> responses = (from pRes in db.PartResponse

@@ -7,7 +7,6 @@
     <h2>Editing subproject @Model.subProjectName in @Model.projectName</h2>
 </div><br />
 <div id="ccourse">
-    <form class="form-group">
         @using (Html.BeginForm("EditSubProject", "Teacher", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
 
@@ -80,5 +79,4 @@
                 </div>
 
         }
-    </form>
 </div>
