@@ -18,8 +18,8 @@
             {
             for (var i = 0; i < Model.groupMembers.Count(); i++)
             {
-            <div>
-                @Html.DropDownListFor(item => Model.groupMembers[i].userID, new SelectList(Model.students, "userID", "fullName"), string.Empty)
+            <div class="text-center margin-top-10">
+                @Html.DropDownListFor(item => Model.groupMembers[i].userID, new SelectList(Model.students, "userID", "fullName"), string.Empty, new {@class="form-control display-inline" })
                 @Html.HiddenFor(item => Model.groupMembers[i].userID)
 
             </div>

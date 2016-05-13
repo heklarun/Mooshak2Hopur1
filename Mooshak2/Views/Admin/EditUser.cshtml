@@ -4,63 +4,53 @@
     Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
-<h2>Edit User</h2>
+<div class="text-center">
+    <h2>Edit user</h2>
+</div><br />
 
 <form class="form-horizontal" action='' method="POST">
     <fieldset>
-        <label class="checkbox-inline">
-            <!--input type="checkbox" name="isAdmin" value=""-->
-            @Html.CheckBoxFor(model => model.isAdmin)
-            Admin
-        </label>
-        <label class="checkbox-inline">
-            <!--input type="checkbox" name="isTeacher" value=""-->
-            @Html.CheckBoxFor(model => model.isTeacher)
-            Teacher
-        </label>
-        <label class="checkbox-inline">
-            <!--input type="checkbox" name="isStudent" value=""-->
-            @Html.CheckBoxFor(model => model.isStudent)
-            Student
-        </label>
-        <div class="control-group">
-            <!-- Firstname -->
-            <label class="control-label" for="firstName">First name</label>
+        <div class="text-center">
+            <label class="checkbox-inline">
+                <!--input type="checkbox" name="isAdmin" value=""-->
+                @Html.CheckBoxFor(model => model.isAdmin)
+                Admin
+            </label>
+            <label class="checkbox-inline">
+                <!--input type="checkbox" name="isTeacher" value=""-->
+                @Html.CheckBoxFor(model => model.isTeacher)
+                Teacher
+            </label>
+            <label class="checkbox-inline">
+                <!--input type="checkbox" name="isStudent" value=""-->
+                @Html.CheckBoxFor(model => model.isStudent)
+                Student
+            </label>
+        </div>
+        <table class="createUser" cellpadding="10">
+            <tr>
+                <td><label class="control-label" for="firstName">First name</label></td>
+                <td><input class="form-control" @Html.EditorFor(model => model.firstName)</td>
+            </tr>
+            <tr>
+                <td><label class="control-label" for="lastName">Last name</label></td>
+                <td><input class="form-control" @Html.EditorFor(model => model.lastName)</td>
+            </tr>
+            <tr>
+                <td><label class="control-label" for="username">Username</label></td>
+                <td><input class="form-control" @Html.EditorFor(model => model.username)</td>
+            </tr>
+            <tr>
+                <td><label class="control-label" for="email">Email</label></td>
+                <td><input class="form-control" @Html.EditorFor(model => model.email)</td>
+            </tr>  
+           </table> 
+            @Html.HiddenFor(model => model.userID)
+        <br />
+        <div class="control-group text-center">
             <div class="controls">
-                @Html.EditorFor(model => model.firstName)
-                <!--input type="text" id="firstName" name="firstName" placeholder="" class="input-xlarge"-->
+                <input type="submit" class="btn btn-primary" value="Edit user" />
             </div>
         </div>
-        <div class="control-group">
-            <!-- Lastname -->
-            <label class="control-label" for="lastName">Last name</label>
-            <div class="controls">
-                @Html.EditorFor(model => model.lastName)
-                <!--input type="text" id="lastName" name="lastName" placeholder="" class="input-xlarge"-->
-            </div>
-        </div>
-        <div class="control-group">
-            <!-- Username -->
-            <label class="control-label" for="username">Username</label>
-            <div class="controls">
-                @Html.EditorFor(model => model.username)
-                <!--input type="text" id="username" name="username" placeholder="" class="input-xlarge"-->
-                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
-            </div>
-        </div>
-        <div class="control-group">
-            <!-- Username -->
-            <label class="control-label" for="email">Email</label>
-            <div class="controls">
-                @Html.EditorFor(model => model.email)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <!-- Button -->
-            <div class="controls">
-                <input type="submit" value="Edit user">
-            </div>
-        </div>
-    </fieldset>
+</fieldset>
 </form>

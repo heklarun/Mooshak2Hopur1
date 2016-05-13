@@ -1,9 +1,12 @@
-﻿using Mooshak2.DAL;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Mooshak2.DAL;
 using Mooshak2.Models;
 using SecurityWebAppTest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -69,10 +72,20 @@ namespace Mooshak2.Controllers
             }
         }
         [HttpPost]
-        public ActionResult EditUser(UsersViewModels user)
+        public async Task<ActionResult> EditUser(UsersViewModels user)
         {
+            var userContext = new ApplicationDbContext();
+            var userStore = new UserStore<ApplicationUser>(userContext);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            var userToUpdate = await userManager.FindByIdAsync(user.userID);
+            userToUpdate.Email = user.email;
+            userToUpdate.firstName = user.firstName;
+            userToUpdate.lastName = user.lastName;
+            userToUpdate.UserName = user.username;
+            
+            var result = await userManager.UpdateAsync(userToUpdate);
             userService.EditUser(user);
-            return RedirectToAction("AdminIndex");
+            return RedirectToAction("AllUsers");
         }
 
 
@@ -190,5 +203,15 @@ namespace Mooshak2.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public ActionResult AllUsers()
+        {
+           
+            List<UsersViewModels> allUsers = userService.GetAllUsers();
+            ViewBag.allUsers = allUsers;
+           
+            return View("AllUsers");
+        }
+
     }
 }

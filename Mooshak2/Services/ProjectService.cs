@@ -153,7 +153,7 @@ namespace Mooshak2.Services
                         List<ApplicationUser> users = new List<ApplicationUser>();
 
                         var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                        List<ApplicationUser> allUsers = um.Users.ToList();
+                        List<ApplicationUser> allUsers = um.Users.OrderBy(x => x.firstName).ToList();
 
                         List<ApplicationUser> members = new List<ApplicationUser>();
                         foreach (StudentsResponseViewModels student in students)
@@ -469,7 +469,7 @@ namespace Mooshak2.Services
                                                   }).ToList();
             List<UsersViewModels> users = new List<UsersViewModels>();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            List<ApplicationUser> allUsers = um.Users.ToList();
+            List<ApplicationUser> allUsers = um.Users.OrderBy(x => x.firstName).ToList();
 
             foreach (ResponseViewModels res in responses)
             {

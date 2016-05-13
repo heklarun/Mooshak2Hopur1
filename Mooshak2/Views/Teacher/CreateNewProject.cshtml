@@ -17,7 +17,7 @@
                 </tr>
                 <tr>
                     <td>Select course:</td>
-                    <td>@Html.DropDownListFor(m => m.courseID, new SelectList(ViewBag.courses, "courseID", "courseName"))</tdclass="dropdown-menu">
+                    <td>@Html.DropDownListFor(m => m.courseID, new SelectList(ViewBag.courses, "courseID", "courseName"),new { @class = "form-control" })</td>
 
                 </tr>
                 <tr>

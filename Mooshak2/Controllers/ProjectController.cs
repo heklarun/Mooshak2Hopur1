@@ -15,7 +15,7 @@ using System.Configuration;
 using System.IO;
 
 namespace Mooshak2.Controllers
-{
+{/*
     [Authorize(Roles = "Teacher")]
     public class ProjectController : Controller
     {
@@ -192,6 +192,5 @@ namespace Mooshak2.Controllers
             }
         }
 
-    }
+    } */
 }
- 

@@ -1,0 +1,77 @@
+﻿@model List<Mooshak2.Models.UsersViewModels>
+@{
+    ViewBag.Title = "AllUsers";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    <div class="container body-content">
+        <div class="row">
+            <h2>AllUsers</h2>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-10 col-xs-12 table-scroll">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Admin</th>
+                        <th>Teacher</th>
+                        <th>Student</th>
+                       
+                    </tr>
+                   @foreach (var user in ViewBag.allUsers)
+                {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("EditUser", "Admin" , new {username=user.username})">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td>@user.firstName @user.lastName</td>
+                            <td>@user.email</td>
+                            <td>@user.username</td>
+                            <td>
+                                @if(user.isAdmin == true){
+                                    <div>X</div>
+                                }
+                            </td>
+                            
+                            <td>
+                                @if (user.isTeacher == true)
+                                {
+                                    <div>X</div>
+                                }
+                            </td>
+                            <td>
+                                @if (user.isStudent == true)
+                                {
+                                    <div>X</div>
+                                }
+                            </td>
+
+
+                           
+                        </tr>
+                    }<!--
+                    
+                    {
+                        <tr>
+                            <td>user.firstName user.lastName</td>
+                            <td>user.email</td>
+                            <td>user.username</td>
+                        
+                            
+                        </tr>
+                    }-->
+                </table>
+            </div>
+
+        </div>
+
+    </div><br />
+   
+}

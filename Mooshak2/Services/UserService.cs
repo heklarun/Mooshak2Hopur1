@@ -24,6 +24,7 @@ namespace Mooshak2.DAL
             user.lastName = appUser.lastName;
             user.username = appUser.UserName;
             user.email = appUser.Email;
+            user.userID = appUser.Id;
             Boolean isAdmin = false;
             Boolean isTeacher = false;
             Boolean isStudent = false;
@@ -50,11 +51,46 @@ namespace Mooshak2.DAL
         }
 
         //Nær í alla notendur
-        public List<ApplicationUser> GetAllUsers()
+        public List<UsersViewModels> GetAllUsers()
         {
+           // var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+           // return um.Users.ToList();
+
+            List<UsersViewModels> allUsers = new List<UsersViewModels>();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            return um.Users.ToList();
-    }
+            List<ApplicationUser> users = um.Users.OrderBy(x => x.firstName).ToList();
+            foreach (ApplicationUser u in users)
+            {
+                    UsersViewModels tmp = new UsersViewModels();
+                    tmp.firstName = u.firstName;
+                    tmp.lastName = u.lastName;
+                    tmp.username = u.UserName;
+                    tmp.userID = u.Id;
+                    tmp.email = u.Email;
+                Boolean isTeacher = false;
+                Boolean isStudent = false;
+                Boolean isAdmin = false;
+                if(man.UserIsInRole(tmp.userID, "Teacher"))
+                {
+                    isTeacher = true;
+                }
+                if(man.UserIsInRole(tmp.userID, "Student"))
+                {
+                    isStudent = true;
+                }
+                if(man.UserIsInRole(tmp.userID, "Admin"))
+                {
+                    isAdmin = true;
+                }
+                tmp.isAdmin = isAdmin;
+                tmp.isTeacher = isTeacher;
+                tmp.isStudent = isStudent;
+                allUsers.Add(tmp);
+            }
+            
+            return allUsers;
+        }
+    
 
 
         //Býr til notanda
@@ -100,16 +136,26 @@ namespace Mooshak2.DAL
             appUser.UserName = user.username;
             appUser.firstName = user.firstName;
             appUser.lastName = user.lastName;
+            /*
+            //var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            //var manager = new UserManager(store);
+
+            var userContext = new ApplicationDbContext();
+            var userStore = new UserStore<ApplicationUser>(userContext);
+
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            userManager.Update(appUser);
+            userContext.SaveChanges();*/
 
             //Uppfæra admin
             if (user.isAdmin == true)
             {
-                if(man.UserIsInRole(appUser.Id, "Admin") == false)
+                if (man.UserIsInRole(appUser.Id, "Admin") == false)
                 {
                     man.AddUserToRole(appUser.Id, "Admin");
                 }
             }
-            else if(user.isAdmin == false)
+            else if (user.isAdmin == false)
             {
                 if (man.UserIsInRole(appUser.Id, "Admin") == true)
                 {
@@ -155,7 +201,7 @@ namespace Mooshak2.DAL
         {
             List<UsersViewModels> users = new List<UsersViewModels>();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            List<ApplicationUser> allUsers = um.Users.ToList();
+            List<ApplicationUser> allUsers = um.Users.OrderBy(x => x.firstName).ToList();
             foreach (ApplicationUser u in allUsers)
             {
                 if(man.UserIsInRole(u.Id, "Teacher"))
@@ -210,7 +256,7 @@ namespace Mooshak2.DAL
         {
             List<UsersViewModels> users = new List<UsersViewModels>();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            List<ApplicationUser> allUsers = um.Users.ToList();
+            List<ApplicationUser> allUsers = um.Users.OrderBy(x => x.firstName).ToList();
             foreach (ApplicationUser u in allUsers)
             {
                 if (man.UserIsInRole(u.Id, "Student"))

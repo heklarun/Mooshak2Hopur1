@@ -135,3 +135,32 @@ table.createUser{
  table.table{
      background-color: white;
  }
+
+ div.overwriteLink{
+     padding-top:14px;
+     color:#777;
+ }
+ div.overwriteLink a{
+     color:#777;
+     cursor:pointer;
+ }
+  div.overwriteLink a span.caret{
+    border-top-color: #777;
+    border-bottom-color: #777;
+  }
+  div.overwriteLink a:hover{
+      color:#777;
+      text-decoration: none;
+  }
+
+  .display-inline{
+      display:inline;
+  }
+
+  .project-pencil{
+      font-size:20px;
+      padding-top:6px;
+  }
+  .margin-top-10{
+      margin-top:10px;
+  }

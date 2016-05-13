@@ -84,23 +84,7 @@ namespace Mooshak2.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
-                    //return RedirectToAction("Index", "Home");
-                    /*if (man.UserIsInRole(User.Identity.GetUserId(), "Teacher") || man.UserNameIsInRole(User.Identity.Name, "Teacher"))
-                    {
-                        return RedirectToAction("TeacherIndex", "Teacher");
-                    }
-                    else if (man.UserIsInRole(User.Identity.GetUserId(), "Admin") || man.UserNameIsInRole(User.Identity.Name, "Admin"))
-                    {
-                        return RedirectToAction("AdminIndex", "Admin");
-                    }
-                    else if(man.UserIsInRole(User.Identity.GetUserId(), "Student") || man.UserNameIsInRole(User.Identity.Name, "Student"))
-                    {
-                        return RedirectToAction("StudentIndex", "Student");
-                    }
-                    else
-                    {
-                        return RedirectToLocal(returnUrl);
-                    }*/
+                    
                   case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -172,7 +156,7 @@ namespace Mooshak2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, firstName = model.firstName, lastName = model.lastName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

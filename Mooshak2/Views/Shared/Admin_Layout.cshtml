@@ -33,6 +33,7 @@
                         <li>@Html.ActionLink("Home", "AdminIndex", "Admin")</li>
                         <li>@Html.ActionLink("Create new course", "CreateNewCourse", "Admin")</li>
                         <li>@Html.ActionLink("Create new user", "Register", "Account")</li>
+                        <li>@Html.ActionLink("All users", "AllUsers", "Admin")</li>
                     </ul>
                   <ul class="nav navbar-nav navbar-right">
                       @if (ViewBag.accesses <= 1)
@@ -69,18 +70,18 @@
                               </ul>
                           </li>
                       }
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#"/>Change password</li>
-                                <li role="separator" class="divider"></li>
-                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                                {
-                                @Html.AntiForgeryToken()
-                                <li class="text-center"><a href="javascript:document.getElementById('logoutForm').submit()">Log out</a></li>
-                                }
-                           </ul>
-                        </li>
+                      <li class="text-center">
+                          <div class="overwriteLink" style="padding-right:10px;">
+                              @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                              {
+                                  @Html.AntiForgeryToken()
+                                  <a href="javascript:document.getElementById('logoutForm').submit()">
+                                      Log out
+                                  </a>
+                              }
+                          </div>
+                      </li>
+
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

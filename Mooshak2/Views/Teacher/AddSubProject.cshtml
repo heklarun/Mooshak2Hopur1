@@ -9,7 +9,6 @@
     <h2>Add subproject to @ViewBag.project.projectName</h2>
 </div><br />
 <div id="ccourse">
-    <form class="form-group">
         @using (Html.BeginForm("AddSubProject", "Teacher", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <table class="createUser" cellpadding="10">
@@ -50,5 +49,4 @@
                 <input class="btn btn-primary" type="submit" value="Add subproject">
             </div>
         }
-    </form>
 </div>
