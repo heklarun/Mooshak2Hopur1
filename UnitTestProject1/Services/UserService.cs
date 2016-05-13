@@ -13,7 +13,7 @@ namespace UnitTestProject1.Controllers
         [TestInitialize]
         public void Initialize()
         {
-            var mockDB = new MockDatabase();
+         //   var mockDB = new MockDatabase();
             _service = new UserService();
         }
 

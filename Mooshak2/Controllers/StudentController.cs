@@ -18,11 +18,13 @@ namespace Mooshak2.Controllers
         private IdentityManager man = new IdentityManager();
         private CourseService courseService = new CourseService();
         private ProjectService projectService = new ProjectService();
-        
+       
         // creates an appuser and creates a list of courses for appuser ID by calling the GetStudentCourses function
         //for that ID
         //if the number of courses is larger then 0 it redirects to the StudentCourse View
         //otherwise it displays the StudentIndex View
+
+
         [Authorize]
         public ActionResult StudentIndex()
         {

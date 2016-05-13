@@ -16,6 +16,7 @@ namespace Mooshak2.DAL
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
+
         public UsersViewModels GetUserById(string username)
         {
             ApplicationUser appUser = man.GetUser(username);
