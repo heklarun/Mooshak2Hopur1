@@ -12,7 +12,7 @@
 
             <table class="createUser" cellpadding="5">
                 <tr>
-                    <td><label for="subProjectName">Sub project name:</label></td>
+                    <td><label for="subProjectName">Subproject name:</label></td>
                     <td>
                         <input class="form-control" @Html.EditorFor(model => model.subProjectName, new { htmlAttributes = new { @type = "text" } })
                                @Html.HiddenFor(model => model.projectID)
@@ -75,7 +75,7 @@
                 @Html.HiddenFor(model => model.projectID)
                 @Html.HiddenFor(model => model.subProjectID)
                 <div class="text-center">
-                    <input class="btn btn-primary" type="submit" value="Edit sub project">
+                    <input class="btn btn-primary" type="submit" value="Edit subproject">
                 </div>
 
         }
