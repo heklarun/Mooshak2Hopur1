@@ -26,29 +26,23 @@ namespace Mooshak2.Controllers
         ProjectService projectService = new ProjectService();
         CourseService courseService = new CourseService();
 
-        //Compile code function, gets the code from the student and compiles
+        //Compile code function, gets the code from the student and compiles the code.
+        //The user will get a response wich is eather accepted, wrong answer, compile time error or a memmory error.
         [HttpPost]
-        public ActionResult CompileCode(FormCollection data, int? partResponseID)
+        public ActionResult CompileCode(FormCollection data, int? partResponseID, PartResponseViewModels response)
         {
-            // To simplify matters, we declare the code here.
-            // The code would of course come from the student!   
             ApplicationUser appUser = man.GetUser(User.Identity.Name);
             SubProjectsViewModels sub = projectService.DownloadPartResponseFile(partResponseID);
             MemoryStream ms = new MemoryStream(sub.inputFileBytes);
 
             var sr = new StreamReader(ms);
             string myStr = sr.ReadToEnd();
-
             var code = myStr;
 
-            // Set up our working folder, and the file names/paths.
-            // In this example, this is all hardcoded, but in a
-            // real life scenario, there should probably be individual
-            // folders for each user/assignment/milestone.
             string serverPath = Server.MapPath("~");
             var workingFolder = ConfigurationManager.AppSettings["workingFolder"]; //býr til möppuna
 
-            string filePath = serverPath + workingFolder + "\\" + appUser.UserName; //það sem exeFilePath var
+            string filePath = serverPath + workingFolder + "\\" + appUser.UserName; 
 
             if (!Directory.Exists(filePath))
             {
@@ -56,9 +50,8 @@ namespace Mooshak2.Controllers
             }
 
             var username = appUser;
-            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til að skrifa í cpp skrá
+            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //To put the input in .cpp file named after the user
 
-            //var exeFilePath = workingFolder + "Hello.exe";  // Hvað er exe file?
             // Write the code to a file, such that the compiler
             // can find it:
             System.IO.File.WriteAllText(workingFolder + cppFileName, code);
@@ -115,15 +108,41 @@ namespace Mooshak2.Controllers
                     // In this example, we don't try to pass any input
                     // to the program, but that is of course also
                     // necessary. We would do that here, using
-                    processExe.StandardInput.WriteLine(); //Það sem var kommentað
-                    processExe.Start();
-                    processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
-                    processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
-                    processExe.StandardInput.WriteLine("exit");
+                    // processExe.StandardInput.WriteLine();
+                    /* processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
+                       processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
+                       processExe.StandardInput.WriteLine("exit");  */
                     // to above.
+                    var lines = new List<string>();
+                    var timeError = processExe.WaitForExit(3000);
+                    if (!timeError) //If the input runtime is to slow.
+                    {
+                        string message = "Compile Time Error";
+                      //ines.Add(processExe.StandardOutput.ReadLine(message));
+                        lines.Add(message);
+                        processExe.Kill();
+                        //return lines;
+                    }
+
+                    if (output != myStr) //If the output from the student is wrong, student output is myStr.
+                    {
+                        //projectService.submitSubProject(response); 
+                        string message = "Wrong Answer";
+                        lines.Add(message);
+                        processExe.Kill();
+                        //return lines;
+                    }
+
+                    if (output == myStr) //If the output from the student is correct, student output is myStr.
+                    {
+                        string message = "Accepted";
+                        lines.Add(message);
+                        processExe.Kill();
+                        //return lines;
+                    }
 
                     // We then read the output of the program:
-                    var lines = new List<string>();
+
                     while (!processExe.StandardOutput.EndOfStream)
                     {
                         lines.Add(processExe.StandardOutput.ReadLine());
@@ -134,17 +153,7 @@ namespace Mooshak2.Controllers
                 }
             }
 
-            else
-            {
-                //ef skrá er ekki til hvað þá?
-            }
-
-            // TODO: We might want to clean up after the process, there
-            // may be files we should delete etc.
-            // Delete þeim skrám sem búnar hafa verið til í kjöæfar þess að keyra kóðann
-            // Búa til fall sem tékkar á tímanum sem forritið er að keyrast. Ef 10 sec + þá executea
-
-
+            db.SaveChanges();
             return View("ProjectPartPartial");
         }
     }

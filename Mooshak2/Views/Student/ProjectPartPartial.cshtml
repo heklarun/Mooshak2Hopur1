@@ -33,14 +33,14 @@
                 }
             }
         }
+     
             <br />
             <div class="text-center">
-               <!--<input class="btn btn-primary" type="submit" value="Submit"> --> 
                 <div class="row">
                     <div class="col-md-4">
                         @using (Html.BeginForm())
                         {
-                            <input type="Submit" class="btn btn-primary" value="Compile Test Code" />
+                            <input type="Submit" class="btn btn-primary control-group text-center" value="Compile Code"/>
                         }
                         @if (ViewBag.Output != null)
                         {
