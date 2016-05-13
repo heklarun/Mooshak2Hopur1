@@ -81,7 +81,12 @@ namespace Mooshak2.Controllers
             }
         }
 
-        //
+        //creates a user and creates a list of courses by calling the GetTeacherCourses function
+        // in courseService for that user
+        //creates a project by calling the GetprojectByID in CourseService for a particular projectID
+        //and gets open- and closedate for the project
+        //pisplays the EditProject view
+
         [HttpGet]
         public ActionResult EditProject(int? projectID)
         {
@@ -94,6 +99,7 @@ namespace Mooshak2.Controllers
             return View(project);
         }
 
+        //calls the EditProject function in projectService and redirects to the TeacherIndex view
         [HttpPost]
         public ActionResult EditProject(ProjectViewModels project)
         {
@@ -102,6 +108,10 @@ namespace Mooshak2.Controllers
             return RedirectToAction("TeacherIndex");
         }
 
+        //if projectID is null it redirects straight to TeacherIndex
+        //else it creates a list of students in a particular course by calling the
+        //GetStudentsInCourse function in courseService for a particular courseID
+        //displays the project view
         [HttpGet]
         public ActionResult Project(int? projectID)
         {
@@ -118,6 +128,10 @@ namespace Mooshak2.Controllers
             }
         }
 
+        //if projectID is null it redirects straight to TeacherIndex
+        //else it creates a subproject and calls the GetProjectByID function in projectService
+        //for the projectID of the subproject
+        //then displays the AddSubProject view
         [HttpGet] 
         public ActionResult AddSubProject(int? projectID)
         {
@@ -136,6 +150,7 @@ namespace Mooshak2.Controllers
             
         }
 
+        //calls the AddSubProject function  and then redirects to the Project View
         [HttpPost]
         public ActionResult AddSubProject(SubProjectsViewModels sub)
         {
@@ -143,6 +158,8 @@ namespace Mooshak2.Controllers
             return RedirectToAction("Project", "Teacher", new { projectID = sub.projectID });
         }
 
+        //calls the DownloadInputFile in ProjectService
+        //it lets the teacher download the file he has put in
         [HttpGet]
         public ActionResult DownloadInputFile(int subProjectID)
         {
@@ -161,6 +178,8 @@ namespace Mooshak2.Controllers
            
         }
 
+        //Does the same as the function DownloadInputFile but instead of letting you download the file it lets you
+        //view it online
         [HttpGet]
         public ActionResult DownloadInputFileInline(int subProjectID)
         {
@@ -179,6 +198,7 @@ namespace Mooshak2.Controllers
 
         }
 
+        //Does the same as DownloadInputFile, but for the outputfile
         [HttpGet]
         public ActionResult DownloadOutputFile(int subProjectID)
         {
@@ -197,6 +217,7 @@ namespace Mooshak2.Controllers
 
         }
 
+        //Does the same as DownloadInputFileInline, but for the outputfile
         [HttpGet]
         public ActionResult DownloadOutputFileInline(int subProjectID)
         {
@@ -214,12 +235,18 @@ namespace Mooshak2.Controllers
             return new FileStreamResult(Response.OutputStream, sub.inputContentType);
 
         }
+
+        //calls GetSubProjectByID function in projectService
+        //and displays the DeleteSubProject view for that subproject
         [HttpGet]
         public ActionResult DeleteSubProject(int? subProjectID)
         {
             SubProjectsViewModels sub = projectService.GetSubProjectByID(subProjectID);
             return View(sub);
         }
+
+        //calls the DeleteSubProject function in ProjectService
+        //and then redirects to the Project view
         [HttpPost]
         public ActionResult DeleteSubProject(SubProjectsViewModels subProject)
         {
@@ -227,6 +254,9 @@ namespace Mooshak2.Controllers
             return RedirectToAction("Project", "Teacher", new { projectID = subProject.projectID });
         }
 
+        //if the subprojectID is null it redirects straight to TeacherIndex
+        //else it gets a project by calling the GetSubProjectByID for a particular subprojectID
+        //and displays the EditSubproject view for that particular subproject
         [HttpGet]
         public ActionResult EditSubProject(int? subProjectID)
         {
@@ -241,6 +271,8 @@ namespace Mooshak2.Controllers
             }
         }
 
+        //calls the EditSubProject function in projectservice and then
+        //redirects to Project view
         [HttpPost]
         public ActionResult EditSubProject(SubProjectsViewModels sub)
         {
@@ -248,6 +280,8 @@ namespace Mooshak2.Controllers
             return RedirectToAction("Project", "Teacher", new { projectID = sub.projectID });
         }
 
+
+        //calls the GetsS
         public ActionResult ViewStudentResponses(string value, int? projectID)
         {
             ProjectViewModels pro = projectService.GetStudentProjectByID(projectID, value);
