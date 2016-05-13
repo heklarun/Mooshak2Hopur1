@@ -208,6 +208,7 @@
     <Compile Include="Models\ResponseViewModels.cs" />
     <Compile Include="Models\StudentsResponseViewModels.cs" />
     <Compile Include="Models\SubProjectsViewModels.cs" />
+    <Compile Include="Services\CompileCode.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\UserService.cs" />
