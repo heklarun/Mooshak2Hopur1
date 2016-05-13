@@ -92,9 +92,6 @@
                         @if (Request.IsAuthenticated)
                         {
                             <li class="text-center">
-                                <a href="@Url.Action("ResetPassword", "Account")">Change Password</a>
-                            </li>
-                            <li class="text-center">
                                 <div class="overwriteLink" style="padding-right:10px;">
                                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                                     {

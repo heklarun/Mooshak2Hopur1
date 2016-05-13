@@ -18,11 +18,14 @@ namespace Mooshak2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
-        UserService userService = new UserService();
-        ProjectService projectService = new ProjectService();
-        CourseService courseService = new CourseService();
+        private UserService userService = new UserService();
+        private ProjectService projectService = new ProjectService();
+        private CourseService courseService = new CourseService();
         
-        // GET: Teacher
+        //creates an appUser and creates a list of courses for that user by calling the GetTeacherCourses
+        //function in CourseService
+        //if the number of courses is more than 0 it redirects to the Course view
+        //otherwise it goes to the TeacherIndex view
         [Authorize]
         public ActionResult TeacherIndex()
         {
@@ -38,6 +41,7 @@ namespace Mooshak2.Controllers
             }
         }
 
+        //calls GetCourseByID in CourseService for a particular courseID and displays the Course View for that particular course
         [HttpGet]
         public ActionResult Course(int? courseID)
         {
@@ -45,11 +49,10 @@ namespace Mooshak2.Controllers
             ViewBag.courseInfo = courseInfo;
             return View(courseInfo);
         }
-        public ActionResult TeacherCoursesAvailable()
-        {
-            return View("TeacherCoursesAvailable");
-        }
 
+        //Creates a user and creates a list of courses by calling the function GetTeacherCourses in CourseService
+        //for that particular user
+        //Displays the CreateNewProject View
         [HttpGet]
         public ActionResult CreateNewProject()
         {
@@ -62,6 +65,8 @@ namespace Mooshak2.Controllers
             return View(project);
         }
 
+        //gets the projectID for a particular project by calling the CreateNewProject function in ProjectService
+        //if projectID is larger then 0 it redirects to the Project View, else it redirects to TeacherIndex
         [HttpPost]
         public ActionResult CreateNewProject(ProjectViewModels project)
         {
@@ -76,6 +81,7 @@ namespace Mooshak2.Controllers
             }
         }
 
+        //
         [HttpGet]
         public ActionResult EditProject(int? projectID)
         {

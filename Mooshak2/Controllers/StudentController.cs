@@ -65,7 +65,7 @@ namespace Mooshak2.Controllers
         //and gets  list of responses by calling the GetStudentResponses function in ProjectService
         //for a particular user in a particular project
         //then displays the StudentProject View
-        //if the projectID is null it redirects to the StudentCourse view
+        //if the projectID is null it redirects to the StudentIndex view
         [HttpGet]
         public ActionResult StudentProject(int? projectID)
         {
@@ -79,11 +79,17 @@ namespace Mooshak2.Controllers
             }
             else
             {
-                return RedirectToAction("StudentCourse");
+                return RedirectToAction("StudentIndex");
             }
 
         }
-        //
+        //if the value is not null it calls the GetSubProjectByID function in Projectservice
+        //it creates an appUser and calls GetStudentProjectByID for that user in ProjectService
+        //it creates að list of students and calls the GetStudentsInCourseExceptMe function in CourseService
+        //Creates a response and gets the subprojectID, subProjectName, projecgtID and groupmembers if they are allowed
+        //and alse gets students except the user itself
+        //then it returns the ProjectPartPartial View
+        //if the value is null then it redirects straight to the StudentIndex view
         public ActionResult SubmitSubProject(int? value)
         {
             if(value != null)
@@ -113,6 +119,9 @@ namespace Mooshak2.Controllers
                 return RedirectToAction("StudentIndex") ;
             }
         }
+
+        //it calls the submitSubProject function in Project Service
+        //and then it redirects to the StudentProject View
         [HttpPost]
         public ActionResult SubProjectSubmit(PartResponseViewModels response)
         {
@@ -122,7 +131,8 @@ namespace Mooshak2.Controllers
             return RedirectToAction("StudentProject", "Student", new { projectID = response.projectID });
         }
 
-
+        //calls the DownloadPartResponseFile in ProjectService
+        //it lets the user download the file he has submitted
         [HttpGet]
         public ActionResult DownloadFile(int partResponseID)
         {
@@ -141,7 +151,8 @@ namespace Mooshak2.Controllers
             return new FileStreamResult(Response.OutputStream, sub.inputContentType);
 
         }
-
+        //Does the same as the function DownloadFile but instead of letting you download the file it lets you
+        //view it online
         [HttpGet]
         public ActionResult DownloadFileInline(int partResponseID)
         {

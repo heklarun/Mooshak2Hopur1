@@ -14,7 +14,7 @@ namespace Mooshak2.DAL
 {
     public class CourseService
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
         private ProjectService projectService = new ProjectService();
 

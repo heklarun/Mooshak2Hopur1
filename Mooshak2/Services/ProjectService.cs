@@ -16,11 +16,11 @@ namespace Mooshak2.Services
 {
     public class ProjectService
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
         private UserService userService = new UserService();
 
-        CourseService courseService = new CourseService();
+        private CourseService courseService = new CourseService();
 
 
         public List<Projects> GetAllProjects()
