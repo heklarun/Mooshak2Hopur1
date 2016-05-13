@@ -35,28 +35,24 @@
         }
      
             <br />
-            <div class="text-center">
-                <div class="row">
-                    <div class="col-md-4">
-                        @using (Html.BeginForm())
-                        {
-                            <input type="Submit" class="btn btn-primary control-group text-center" value="Compile Code"/>
-                        }
-                        @if (ViewBag.Output != null)
-                        {
-                            <ul>
-                                @foreach (var line in ViewBag.Output)
-                                {
-                                    <li>@line</li>
-                                }
-                            </ul>
-                        }
-                    </div>
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-4">
-                    </div>
+            <div class="control-group text-center">
+                <!-- Button -->
+                <div class="controls">
+                    @using (Html.BeginForm())
+                    {
+                        <input type="Submit" class="btn btn-primary" value="Compile Code" />
+                    }
+                    @if (ViewBag.Output != null)
+                    {
+                        <ul>
+                            @foreach (var line in ViewBag.Output)
+                            {
+                                <li>@line</li>
+                            }
+                        </ul>
+                    }
                 </div>
             </div>
+
     }
 </div><br />
