@@ -18,7 +18,6 @@ namespace Mooshak2.Controllers
         private IdentityManager man = new IdentityManager();
         private CourseService courseService = new CourseService();
         private ProjectService projectService = new ProjectService();
-        private StudentController studentController = new StudentController();
 
         // creates an appuser and creates a list of courses for appuser ID by calling the GetStudentCourses function
         //for that ID
