@@ -281,7 +281,8 @@ namespace Mooshak2.Controllers
         }
 
 
-        //calls the GetsS
+        //calls the GetStudentProjectByID and GetStudentResponses in projectService
+        // displays the StudentResponsePartial partialview
         public ActionResult ViewStudentResponses(string value, int? projectID)
         {
             ProjectViewModels pro = projectService.GetStudentProjectByID(projectID, value);
@@ -291,6 +292,8 @@ namespace Mooshak2.Controllers
             return PartialView("StudentResponsePartial");
         }
 
+        //calls the DownloadPartResponseFile in ProjectService
+        //it lets the teacher download the file the students have submitted
         [HttpGet]
         public ActionResult DownloadFile(int partResponseID)
         {
@@ -309,6 +312,8 @@ namespace Mooshak2.Controllers
 
         }
 
+        //Does the same as the function DownloadFile but instead of letting you download the file it lets you
+        //view it online
         [HttpGet]
         public ActionResult DownloadFileInline(int partResponseID)
         {

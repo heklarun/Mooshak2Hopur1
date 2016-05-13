@@ -40,18 +40,7 @@ namespace Mooshak2.Controllers
                 return View("StudentIndex");
             }
         }
-        //gets a username and calls the GetAllCoursesfunction in CourseService
-        //And displays the view
-        public ActionResult StudentCoursesAvailable()
-        {
-            string username = User.Identity.GetUserName(); //ná í notendanafn
-
-            CourseService service = new CourseService();
-
-            var model = service.GetAllCourses();
-
-            return View(model);
-        }
+        
         //Gets the course Information by calling the GetStudentCourseBtID function in CourseService
         //for a particular courseID and displays the Studentcourse view for a particular course
         [HttpGet]

@@ -17,6 +17,10 @@ namespace Mooshak2.DAL
         private ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
 
+        //creates a ApplicationUser appUser and gets its values by calling the GetUser function
+        // creates a new UsersViewModels called user
+        //and puts all the values from appUser into user
+        // and returns user
         public UsersViewModels GetUserById(string username)
         {
             ApplicationUser appUser = man.GetUser(username);
@@ -51,11 +55,13 @@ namespace Mooshak2.DAL
             return user;
         }
 
-        //Nær í alla notendur
+        //Creates a list of allUsers that is a UsersViewModels list
+        //creates a list users that selects everything from the Users model and orders them by first name
+        //for each users in the users list it gets the values from the Users model and
+        //and puts them into UsersViewModels list which was created at the top of the function
+        //then it returns the allUsers list
         public List<UsersViewModels> GetAllUsers()
         {
-           // var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-           // return um.Users.ToList();
 
             List<UsersViewModels> allUsers = new List<UsersViewModels>();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
@@ -91,10 +97,11 @@ namespace Mooshak2.DAL
             
             return allUsers;
         }
-    
 
 
-        //Býr til notanda
+
+        //creates a ApplicationUser newUser and adds all the informations of the user sent into the function
+        //saves it to the database
         public void CreateNewUser(UsersViewModels user)
         {
             ApplicationUser newUser = new ApplicationUser
@@ -129,26 +136,21 @@ namespace Mooshak2.DAL
 
         }
 
-        //Breytir notanda
+        //creates appUser and adds all the informations of the user sent into the function
+        //if the Admin checkbox is checked and the user was not in role Admin, he is put in role Admin
+        //if the Admin checkbox is not Checked and the user was in role Admin, he is removed from role Admin
+        //if the Teacher checkbox is checked and the user was not in role Teacher, he is put in role Teacher
+        //if the Teacher checkbox is not Checked and the user was in role Teacher, he is removed from role Teacher
+        //if the Student checkbox is checked and the user was not in role Student, he is put in role Student
+        //if the Student checkbox is not Checked and the user was in role Student, he is removed from role Student
+        //then it is saved to the database
         public void EditUser(UsersViewModels user)
         {
-            //ATH VIRKAR BARA ROLES EKKI AÐ BREYTA FIRST/LAST/USER NAME
             ApplicationUser appUser = man.GetUser(user.username);
             appUser.UserName = user.username;
             appUser.firstName = user.firstName;
             appUser.lastName = user.lastName;
-            /*
-            //var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-            //var manager = new UserManager(store);
-
-            var userContext = new ApplicationDbContext();
-            var userStore = new UserStore<ApplicationUser>(userContext);
-
-            var userManager = new UserManager<ApplicationUser>(userStore);
-            userManager.Update(appUser);
-            userContext.SaveChanges();*/
-
-            //Uppfæra admin
+           
             if (user.isAdmin == true)
             {
                 if (man.UserIsInRole(appUser.Id, "Admin") == false)
@@ -197,7 +199,12 @@ namespace Mooshak2.DAL
             db.SaveChanges();
         }
 
-        //Nær í alla kennara og athugar hvort þeir séu í ákveðnum áfanga
+        //Creates a list of users that is a UsersViewModels list
+        //creates a list allUsers that selects everything from the Users model and orders them by first name
+        //for each user in the allUsers list it checks if user is in role Teacher
+       // and gets the values from the Users model and
+        //and puts them into UsersViewModels list which was created at the top of the function
+        //then it returns the users list
         public List<UsersViewModels> GetAllTeachers(int? courseID)
         {
             List<UsersViewModels> users = new List<UsersViewModels>();
@@ -225,6 +232,10 @@ namespace Mooshak2.DAL
             return users;
         }
 
+        //for each user in users it checks if it was selected, and if it already is in group
+        //if it is not already in group it is added to the group
+        //if it is not selected but was in the group, it is removed from the group
+        //then it is saved to the database
         public void AddTeachersToGroup(int? courseID, List<UsersViewModels> users)
         {
             foreach (UsersViewModels user in users)
@@ -253,6 +264,13 @@ namespace Mooshak2.DAL
             }
 
         }
+
+        //Creates a list of users that is a UsersViewModels list
+        //creates a list allUsers that selects everything from the Users model and orders them by first name
+        //for each user in the allUsers list it checks if user is in role Student
+        // and gets the values from the Users model and
+        //and puts them into UsersViewModels list which was created at the top of the function
+        //then it returns the users list
         public List<UsersViewModels> GetAllStudents(int? courseID)
         {
             List<UsersViewModels> users = new List<UsersViewModels>();
@@ -279,6 +297,11 @@ namespace Mooshak2.DAL
             }
             return users;
         }
+
+        //for each user in users it checks if it was selected, and if it already is in group
+        //if it is not already in group it is added to the group
+        //if it is not selected but was in the group, it is removed from the group
+        //then it is saved to the database
         public void AddStudentsToGroup(int? courseID, List<UsersViewModels> users)
         {
             foreach (UsersViewModels user in users)
