@@ -19,14 +19,14 @@ namespace Mooshak2.Controllers
     
 {
     [Authorize]
-public class ProjectController : Controller
-{
-    private ApplicationDbContext db = new ApplicationDbContext();
-    private IdentityManager man = new IdentityManager();
-    UserService userService = new UserService();
-    ProjectService projectService = new ProjectService();
-    CourseService courseService = new CourseService();
-    
+    public class ProjectController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private IdentityManager man = new IdentityManager();
+        UserService userService = new UserService();
+        ProjectService projectService = new ProjectService();
+        CourseService courseService = new CourseService();
+       
 namespace Mooshak2.Controllers
 {
     [Authorize]
@@ -121,117 +121,118 @@ namespace Mooshak2.Controllers
             processInfoExe.RedirectStandardOutput = true;
             processInfoExe.RedirectStandardError = true;
             processInfoExe.CreateNoWindow = true;
-            using (var processExe = new Process())
-            {
-                processExe.StartInfo = processInfoExe;
-                processExe.Start();
-                // In this example, we don't try to pass any input
-                // to the program, but that is of course also
-                // necessary. We would do that here, using
-                processExe.StandardInput.WriteLine(); //Það sem var kommentað
-                                                      /*processExe.Start();
-                                                      processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
-                                                      processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
-                                                      processExe.StandardInput.WriteLine("exit"); */
-                                                      // to above.
-
-                // We then read the output of the program:
-                var lines = new List<string>();
-                while (!processExe.StandardOutput.EndOfStream)
-                {
-                    lines.Add(processExe.StandardOutput.ReadLine());
-                Directory.CreateDirectory(filePathFull);
-            }
-
-            var username = appUser;
-            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til copya allt í cpp skrá
-
-            //var exeFilePath = workingFolder + "Hello.exe";  // Hvað er exe file?
-            // Write the code to a file, such that the compiler
-            // can find it:
-            System.IO.File.WriteAllText(workingFolder + cppFileName, code);
-
-            // In this case, we use the C++ compiler (cl.exe) which ships
-            // with Visual Studio. It is located in this folder:
-            var compilerFolder = ConfigurationManager.AppSettings["compilerFolder"];
-            // There is a bit more to executing the compiler than
-            // just calling cl.exe. In order for it to be able to know
-            // where to find #include-d files (such as <iostream>),
-            // we need to add certain folders to the PATH.
-            // There is a .bat file which does that, and it is
-            // located in the same folder as cl.exe, so we need to execute
-            // that .bat file first.
-
-            // Using this approach means that:
-            // * the computer running our web application must have
-            //   Visual Studio installed. This is an assumption we can
-            //   make in this project.
-            // * Hardcoding the path to the compiler is not an optimal
-            //   solution. A better approach is to store the path in
-            //   web.config, and access that value using ConfigurationManager.AppSettings.
-
-            // Execute the compiler:
-            Process compiler = new Process();
-            compiler.StartInfo.FileName = "cmd.exe";
-            compiler.StartInfo.WorkingDirectory = workingFolder;
-            compiler.StartInfo.RedirectStandardInput = true;
-            compiler.StartInfo.RedirectStandardOutput = true;
-            compiler.StartInfo.UseShellExecute = false;
-
-            compiler.Start();
-            compiler.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
-            compiler.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
-            compiler.StandardInput.WriteLine("exit");
-
-            string output = compiler.StandardOutput.ReadToEnd();
-            compiler.WaitForExit();
-            compiler.Close();
-
-            // Check if the compile succeeded, and if it did,
-            // we try to execute the code:
-            if (System.IO.File.Exists(filePathFull))
-            {
-                var processInfoExe = new ProcessStartInfo(filePathFull, "");
-                processInfoExe.UseShellExecute = false;
-                processInfoExe.RedirectStandardOutput = true;
-                processInfoExe.RedirectStandardError = true;
-                processInfoExe.CreateNoWindow = true;
-                using (var processExe = new Process())
-                {
-                    processExe.StartInfo = processInfoExe;
-                    processExe.Start();
-                    // In this example, we don't try to pass any input
-                    // to the program, but that is of course also
-                    // necessary. We would do that here, using
-                    processExe.StandardInput.WriteLine(); //Það sem var kommentað
-                    processExe.Start();
-                    processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
-                    processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
-                    processExe.StandardInput.WriteLine("exit");
-                    // to above.
-
-                    // We then read the output of the program:
-                    var lines = new List<string>();
-                    while (!processExe.StandardOutput.EndOfStream)
+                    using (var processExe = new Process())
                     {
-                        lines.Add(processExe.StandardOutput.ReadLine());
+                        processExe.StartInfo = processInfoExe;
+                        processExe.Start();
+                        // In this example, we don't try to pass any input
+                        // to the program, but that is of course also
+                        // necessary. We would do that here, using
+                        processExe.StandardInput.WriteLine(); //Það sem var kommentað
+                                                              /*processExe.Start();
+                                                              processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
+                                                              processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
+                                                              processExe.StandardInput.WriteLine("exit"); */
+                                                              // to above.
+
+                        // We then read the output of the program:
+                        var lines = new List<string>();
+                        while (!processExe.StandardOutput.EndOfStream)
+                        {
+                            lines.Add(processExe.StandardOutput.ReadLine());
+                            Directory.CreateDirectory(filePathFull);
+                        }
+
+                        var username = appUser;
+                        var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til copya allt í cpp skrá
+
+                        //var exeFilePath = workingFolder + "Hello.exe";  // Hvað er exe file?
+                        // Write the code to a file, such that the compiler
+                        // can find it:
+                        System.IO.File.WriteAllText(workingFolder + cppFileName, code);
+
+                        // In this case, we use the C++ compiler (cl.exe) which ships
+                        // with Visual Studio. It is located in this folder:
+                        var compilerFolder = ConfigurationManager.AppSettings["compilerFolder"];
+                        // There is a bit more to executing the compiler than
+                        // just calling cl.exe. In order for it to be able to know
+                        // where to find #include-d files (such as <iostream>),
+                        // we need to add certain folders to the PATH.
+                        // There is a .bat file which does that, and it is
+                        // located in the same folder as cl.exe, so we need to execute
+                        // that .bat file first.
+
+                        // Using this approach means that:
+                        // * the computer running our web application must have
+                        //   Visual Studio installed. This is an assumption we can
+                        //   make in this project.
+                        // * Hardcoding the path to the compiler is not an optimal
+                        //   solution. A better approach is to store the path in
+                        //   web.config, and access that value using ConfigurationManager.AppSettings.
+
+                        // Execute the compiler:
+                        Process compiler = new Process();
+                        compiler.StartInfo.FileName = "cmd.exe";
+                        compiler.StartInfo.WorkingDirectory = workingFolder;
+                        compiler.StartInfo.RedirectStandardInput = true;
+                        compiler.StartInfo.RedirectStandardOutput = true;
+                        compiler.StartInfo.UseShellExecute = false;
+
+                        compiler.Start();
+                        compiler.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
+                        compiler.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
+                        compiler.StandardInput.WriteLine("exit");
+
+                        string output = compiler.StandardOutput.ReadToEnd();
+                        compiler.WaitForExit();
+                        compiler.Close();
+
+                        // Check if the compile succeeded, and if it did,
+                        // we try to execute the code:
+                        if (System.IO.File.Exists(filePathFull))
+                        {
+                            var processInfoExe = new ProcessStartInfo(filePathFull, "");
+                            processInfoExe.UseShellExecute = false;
+                            processInfoExe.RedirectStandardOutput = true;
+                            processInfoExe.RedirectStandardError = true;
+                            processInfoExe.CreateNoWindow = true;
+                            using (var processExe = new Process())
+                            {
+                                processExe.StartInfo = processInfoExe;
+                                processExe.Start();
+                                // In this example, we don't try to pass any input
+                                // to the program, but that is of course also
+                                // necessary. We would do that here, using
+                                processExe.StandardInput.WriteLine(); //Það sem var kommentað
+                                processExe.Start();
+                                processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
+                                processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
+                                processExe.StandardInput.WriteLine("exit");
+                                // to above.
+
+                                // We then read the output of the program:
+                                var lines = new List<string>();
+                                while (!processExe.StandardOutput.EndOfStream)
+                                {
+                                    lines.Add(processExe.StandardOutput.ReadLine());
+                                }
+
+                                ViewBag.Output = lines;
+                            }
+
+                            ViewBag.Output = lines;
+                        }
+
+                        else
+                        {
+                            //ef skrá er ekki til hvað þá?
+                        }
+
+                        // TODO: We might want to clean up after the process, there
+                        // may be files we should delete etc.
+                        // Delete þeim skrám sem búnar hafa verið til í kjöæfar þess að keyra kóðann
+                        // Búa til fall sem tékkar á tímanum sem forritið er að keyrast. Ef 10 sec + þá executea
                     }
-
-                    ViewBag.Output = lines;                }
-
-                ViewBag.Output = lines;
-            }
-        }
-        else
-        {
-            //ef skrá er ekki til hvað þá?
-        }
-
-        // TODO: We might want to clean up after the process, there
-        // may be files we should delete etc.
-        // Delete þeim skrám sem búnar hafa verið til í kjöæfar þess að keyra kóðann
-        // Búa til fall sem tékkar á tímanum sem forritið er að keyrast. Ef 10 sec + þá executea
-
 
        return View("ProjectPartPartial");
     }
