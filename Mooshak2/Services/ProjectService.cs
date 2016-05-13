@@ -20,9 +20,6 @@ namespace Mooshak2.Services
         IdentityManager man = new IdentityManager();
         private UserService userService = new UserService();
 
-        CourseService courseService = new CourseService();
-
-
         public List<Projects> GetAllProjects()
         {
             List<Projects> result = (from item in db.Project
