@@ -1,6 +1,6 @@
 ﻿@model Mooshak2.Models.PartResponseViewModels
 <br />
-<div style="border: 1px solid #443266; padding: 20px;">
+<div style="border: 1px solid #443266; padding: 20px;">  <!--ATH BANNAÐ MEÐ CSS-IÐ -->
     <h4 class="text-center"><b>Submit @Model.subProjectName</b></h4>
     @using (Html.BeginForm("SubProjectSubmit", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
@@ -16,22 +16,42 @@
 
             if (Model.nrGroupMembers == 0)
             {
-            for (var i = 0; i < Model.groupMembers.Count(); i++)
+           for (var i = 0; i < Model.groupMembers.Count(); i++)
             {
             <div class="text-center margin-top-10">
                 @Html.DropDownListFor(item => Model.groupMembers[i].userID, new SelectList(Model.students, "userID", "fullName"), string.Empty, new {@class="form-control display-inline" })
                 @Html.HiddenFor(item => Model.groupMembers[i].userID)
 
-            </div>
-
-            }
+            </div>              for (var i = 0; i < Model.groupMembers.Count(); i++)
+                {
+                    <div>
+                        @Html.DropDownListFor(item => Model.groupMembers[i].userID, new SelectList(Model.students, "userID", "fullName"), string.Empty)
+                        @Html.HiddenFor(item => Model.groupMembers[i].userID)                    </div>
+                }
             }
             <br />
             <div class="text-center">
-                <input class="btn btn-primary" type="submit" value="Submit">
+               <!--<input class="btn btn-primary" type="submit" value="Submit"> --> 
+                <div class="row">
+                    <div class="col-md-4">
+                        @using (Html.BeginForm())
+                        {
+                            <input type="Submit" class="btn btn-primary" value="Compile Test Code" />}
+                        @if (ViewBag.Output != null)
+                        {
+                            <ul>
+                                @foreach (var line in ViewBag.Output)
+                                {
+                                    <li>@line</li>
+                                }
+                            </ul>}
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
             </div>
 
-            }
-
-
-        </div><br />
+     }
+</div><br />
