@@ -21,7 +21,8 @@ namespace Mooshak2.Services
         private UserService userService = new UserService();
         
 
-
+        //creates a Projects list called result, and puts the items in the Projects Model 
+        //and returns result
         public List<Projects> GetAllProjects()
         {
             List<Projects> result = (from item in db.Project
@@ -29,6 +30,8 @@ namespace Mooshak2.Services
             return result;
         }
 
+        //creates a newProject and adds all the information needed in that project
+        //and saves it to the database
         public int CreateNewProject(ProjectViewModels projectToAdd)
         {
 
@@ -63,6 +66,13 @@ namespace Mooshak2.Services
 
         }
 
+        // Creates a project that is an item in the Projects model 
+        //and joins course in the Course model where the course courseID is the same as the item courseID
+        //and where the projectID that is sent into the function and the projectID of the item
+        //add all the information needed to the ProjectViewModel project
+        //and gets a list of the subprojects in the project and adds all the information needed to the SubprojectViewModels subprojects
+        //checks how many responses there are to each subproject 
+        // adds the subprojects list to to the project list under subprojects
         public ProjectViewModels GetProjectByID(int? projectID)
         {
             ProjectViewModels project = (from item in db.Project
@@ -101,6 +111,18 @@ namespace Mooshak2.Services
             return project;
         }
 
+
+        // Creates a project that is an item in the Projects model 
+        //and joins course in the Course model where the course courseID is the same as the item courseID
+        //and where the projectID that is sent into the function and the projectID of the item
+        //add all the information needed to the ProjectViewModel project
+        //and gets a list of the subprojects in the project and adds all the information needed to the SubprojectViewModels subprojects
+        //checks how many responses there are to each subproject 
+        // adds the subprojects list to to the project list under subprojects
+        //if it is allowed to handin in a group then it every response for the students
+        //then it gets all students in the course that can be picked as groupmembers  
+        //and add the ones that are picked to members list and adds them to project.groupMembers
+        //then it returns project
         public ProjectViewModels GetStudentProjectByID(int? projectID, string userID)
         {
             ProjectViewModels project = (from item in db.Project
@@ -134,7 +156,6 @@ namespace Mooshak2.Services
                 sub.nrOfResponses = Count;
             }
             project.subProjects = subProjects;
-
             if (project.memberCount > 1)
             {
                 ResponseViewModels response = (from item in db.Response
@@ -184,6 +205,10 @@ namespace Mooshak2.Services
             return project;
         }
 
+        //gets item from Project model where the item projectID is the same as 
+        //the projectID sent into the funtion and put it into projectToEdit
+        //and gets all the information in the project and puts it into projectToEdit
+        //then saves it to the database
         public void EditProject(ProjectViewModels project)
         {
             Projects projectToEdit = (from item in db.Project where item.projectID == project.projectID select item).SingleOrDefault();
@@ -203,6 +228,9 @@ namespace Mooshak2.Services
             db.SaveChanges();
         }
 
+        //creates a ProjectViewModels list called result and gets all items from Project model where 
+        //courseID is the same as the courseID sent into the function
+        //adds all the information needed into result and returns result
         public List<ProjectViewModels> GetProjectsInCourse(int? courseID)
         {
             List<ProjectViewModels> result = (from item in db.Project
@@ -220,6 +248,10 @@ namespace Mooshak2.Services
 
         }
 
+        //creates a ProjectViewModels list called result
+        //and gets all the items from the Project model where the item courseID is the same as
+        //the courseID that is sent into the function and where the project is open
+        //then it adds all the information needed into the result list and then returns result
         public List<ProjectViewModels> GetStudentProjectsInCourse(int? courseID)
         {
             List<ProjectViewModels> result = (from item in db.Project
@@ -238,6 +270,10 @@ namespace Mooshak2.Services
             return result;
 
         }
+
+        //create a Subprojects item and adds all the information needed in the item
+        //saves to database 
+
         public void AddSubProject(SubProjectsViewModels subProject)
         {
             SubProjects item = new SubProjects();
@@ -272,6 +308,8 @@ namespace Mooshak2.Services
             db.SaveChanges();
         }
 
+        //creates SubProjectsViewModels item called sub where the item subProjectID is the same as the
+        //subprojectID sent into the function, gets all the information needed and then returns sub
         public SubProjectsViewModels DownloadInputFile(int? subProjectID)
         {
             SubProjectsViewModels sub = (from item in db.SubProjects
@@ -285,19 +323,25 @@ namespace Mooshak2.Services
             return sub;
         }
 
+
+        //creates SubProjectsViewModels item called sub where the item subProjectID is the same as the
+        //subprojectID sent into the function, gets all the information needed and then returns sub
         public SubProjectsViewModels DownloadOutputFile(int? subProjectID)
         {
             SubProjectsViewModels sub = (from item in db.SubProjects
                                          where item.subProjectID == subProjectID
                                          select new SubProjectsViewModels
                                          {
-                                             inputFileBytes = item.inputFile,
-                                             inputFileName = item.inputFileName,
+                                             outputFileBytes = item.outputFile,
+                                             outputFileName = item.outputFileName,
                                              inputContentType = item.inputFileContentType
                                          }).SingleOrDefault();
             return sub;
         }
 
+
+        //creates SubProjectsViewModels item called sub where the item partResponseID is the same as the
+        //partResponseID sent into the function, gets all the information needed and then returns sub
         public SubProjectsViewModels DownloadPartResponseFile(int? partResonseID)
         {
             SubProjectsViewModels sub = (from item in db.PartResponse
@@ -310,6 +354,10 @@ namespace Mooshak2.Services
                                          }).SingleOrDefault();
             return sub;
         }
+
+        //creates a SubProjectsViewModels item called subProject where the
+        //subprojectID sent into the function is the same as the subproject subprojectID
+        //gets all the information necessary and returns subproject
         public SubProjectsViewModels GetSubProjectByID(int? subProjectID)
         {
             SubProjectsViewModels subProject = (from item in db.SubProjects
@@ -329,6 +377,8 @@ namespace Mooshak2.Services
 
             return subProject;
         }
+
+        //gets the rigth subproject and removes it
         public void DeleteSubProject(int? subProjectID)
         {
             SubProjects sub = (from item in db.SubProjects
@@ -338,7 +388,8 @@ namespace Mooshak2.Services
             db.SaveChanges();
 
         }
-
+        //gets the subproject that has the ssame ID as the one that is sent into the function
+        //gets all the information necessary and saves the changes
         public void EditSubProject(SubProjectsViewModels sub)
         {
             SubProjects subProject = (from item in db.SubProjects where item.subProjectID == sub.subProjectID select item).SingleOrDefault();
