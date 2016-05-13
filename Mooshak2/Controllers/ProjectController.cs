@@ -21,6 +21,7 @@ namespace Mooshak2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private IdentityManager man = new IdentityManager();
+
         UserService userService = new UserService();
         ProjectService projectService = new ProjectService();
         CourseService courseService = new CourseService();

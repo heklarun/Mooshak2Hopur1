@@ -17,12 +17,11 @@ namespace Mooshak2.Controllers
     public class TeacherController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        IdentityManager man = new IdentityManager();
         UserService userService = new UserService();
         ProjectService projectService = new ProjectService();
         CourseService courseService = new CourseService();
-        IdentityManager man = new IdentityManager();
-
-
+        
         // GET: Teacher
         [Authorize]
         public ActionResult TeacherIndex()

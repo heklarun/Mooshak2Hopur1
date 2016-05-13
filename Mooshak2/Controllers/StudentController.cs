@@ -18,6 +18,7 @@ namespace Mooshak2.Controllers
         private IdentityManager man = new IdentityManager();
         private CourseService courseService = new CourseService();
         private ProjectService projectService = new ProjectService();
+
         // GET: Student
         [Authorize]
         public ActionResult StudentIndex()
