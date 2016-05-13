@@ -144,10 +144,10 @@ namespace Mooshak2.Controllers
                     // to the program, but that is of course also
                     // necessary. We would do that here, using
                     processExe.StandardInput.WriteLine(); //Það sem var kommentað
-                    /*processExe.Start();
+                    processExe.Start();
                     processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
                     processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
-                    processExe.StandardInput.WriteLine("exit"); */
+                    processExe.StandardInput.WriteLine("exit");
                     // to above.
 
                     // We then read the output of the program:
@@ -173,37 +173,5 @@ namespace Mooshak2.Controllers
 
             return View("ProjectPartPartial");
         }
-
-       /* public void CreateFolderIfMissing(string username)
-        {
-            bool folderExist = Directory.Exists(Server.MapPath(username));
-
-            if (!folderExist)
-            {
-                Directory.CreateDirectory(Server.MapPath(username));
-            }
-        }
-
-        public void CreateFolderIFMissingProject(string projectName)
-        {
-            bool folderExist = Directory.Exists(Server.MapPath(projectName));
-
-            if (!folderExist)
-            {
-                Directory.CreateDirectory(Server.MapPath(projectName));
-            }
-        }
-
-        public void CreateFolderIfMissingMilestone(string milestone)
-        {
-            milestone = "milestone";
-            bool folderExist = Directory.Exists(Server.MapPath(milestone));
-
-            if (!folderExist)
-            {
-                Directory.CreateDirectory(Server.MapPath(milestone));
-            }
-        }
-        */
     }
 }
