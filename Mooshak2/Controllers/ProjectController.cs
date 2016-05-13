@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mooshak2.DAL;
@@ -56,7 +56,7 @@ namespace Mooshak2.Controllers
             }
 
             var username = appUser;
-            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til að ná í cpp skrá
+            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til að skrifa í cpp skrá
 
             //var exeFilePath = workingFolder + "Hello.exe";  // Hvað er exe file?
             // Write the code to a file, such that the compiler
@@ -149,4 +149,3 @@ namespace Mooshak2.Controllers
         }
     }
 }
- */

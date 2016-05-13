@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Mooshak2.DAL;
 using Mooshak2.Models;
+using Mooshak2.Controllers;
 using Mooshak2.Services;
 using SecurityWebAppTest.Models;
 using System;

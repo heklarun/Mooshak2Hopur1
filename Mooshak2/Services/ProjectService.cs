@@ -424,6 +424,8 @@ namespace Mooshak2.Services
 
         }
 
+        //check if the response exists, if it doesnt it add the response and saves changes, 
+        //else it gives the existing response the same responseID as the response sent into the function
         public void submitSubProject(PartResponseViewModels response)
         {
             ResponseViewModels responseExists = (from item in db.StudentResponse
@@ -448,7 +450,7 @@ namespace Mooshak2.Services
                 responseID = responseExists.responseID;
             }
 
-
+            //it checks if the student respon
             StudentsResponseViewModels studentResponseExists = (from item in db.StudentResponse
                                                                 where item.userID == response.userID && item.responseID == responseID
                                                                 select new StudentsResponseViewModels
@@ -546,5 +548,5 @@ namespace Mooshak2.Services
 
             return responses;
         }
-    }
+    } 
 }
