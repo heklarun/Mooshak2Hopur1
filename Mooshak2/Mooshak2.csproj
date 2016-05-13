@@ -312,7 +312,6 @@
     <Content Include="Views\Admin\CreateNewCourse.cshtml" />
     <Content Include="Views\Admin\CreateNewUser.cshtml" />
     <Content Include="Views\Teacher\CreateNewProject.cshtml" />
-    <Content Include="Views\Teacher\TeacherCoursesAvailable.cshtml" />
     <Content Include="Views\Student\StudentCoursesAvailable.cshtml" />
     <Content Include="Views\Shared\Teacher_Layout.cshtml" />
     <Content Include="Views\Shared\Student_Layout.cshtml" />
