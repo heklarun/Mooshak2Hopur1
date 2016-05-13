@@ -15,9 +15,6 @@ using System.Configuration;
 using System.IO;
 
 namespace Mooshak2.Controllers
-
-    [Authorize(Roles = "Teacher")]
-    
 {
     [Authorize]
     public class ProjectController : Controller
@@ -86,7 +83,7 @@ namespace Mooshak2.Controllers
             }
 
             var username = appUser;
-            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til að ná í cpp skrá
+            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til copya allt í cpp skrá
 
             //var exeFilePath = workingFolder + "Hello.exe";  // Hvað er exe file?
             // Write the code to a file, such that the compiler
@@ -207,6 +204,5 @@ namespace Mooshak2.Controllers
             }
         }
         */
-
-    } */
+    }
 }
