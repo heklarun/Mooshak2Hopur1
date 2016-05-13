@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Mooshak2.DAL;
-using Mooshak2.test;
-
+using Mooshak2.test
 namespace Mooshak.test
 {
     /// <summary>
@@ -55,3 +55,4 @@ namespace Mooshak.test
         }
     }
 }
+*/

@@ -18,7 +18,9 @@ namespace Mooshak2.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         UserService userService = new UserService();
         CourseService courseService = new CourseService();
-        // GET: Admin
+
+        //Creates að list of all courses by callinu the GetAllCourses() function in CourseService
+        //then Displays the AdminIndex View
         [Authorize]
         [HttpGet]
         public ActionResult AdminIndex(int? courseID)
@@ -27,7 +29,7 @@ namespace Mooshak2.Controllers
             ViewBag.courses = courses;
             return View();
         }
-
+        //Displays the CreateNewCourse View
         [HttpGet]
         public ActionResult CreateNewCourse()
         {
@@ -35,7 +37,7 @@ namespace Mooshak2.Controllers
         }
 
         
-
+        /*Birtir 
         [HttpGet]
         public ActionResult CreateNewUser()
         {
@@ -49,14 +51,17 @@ namespace Mooshak2.Controllers
           
 
             return RedirectToAction("AdminIndex");
-        }
+        }*/
+        //Calls the CreateNewCourse function in CourseService
+        //Redirects to the AdminIndex view when a new course has been created
         [HttpPost]
         public ActionResult CreateNewCourse(CoursesViewModels course)
         {
             courseService.CreateNewCourse(course);
             return RedirectToAction("AdminIndex");
         }
-
+        //If the username is null it redirects straight to the AdminIndex View
+        //Otherwise it calls the GetUserById() function and displays the EditUser View for that user
         [HttpGet]
         public ActionResult EditUser(string username)
         {
@@ -71,6 +76,8 @@ namespace Mooshak2.Controllers
 
             }
         }
+        //Uses a built-in function to uppdate the user
+        //Then redirects to the AllUsers View
         [HttpPost]
         public async Task<ActionResult> EditUser(UsersViewModels user)
         {
@@ -87,8 +94,9 @@ namespace Mooshak2.Controllers
             userService.EditUser(user);
             return RedirectToAction("AllUsers");
         }
-
-
+        //If courseID is null then it redirects straight to the AdminIndex View
+        //Otherwise it calls the GetCourseByID()function in CourseService and 
+        //displays the EditCourse View for that course 
         [HttpGet]
         public ActionResult EditCourse(int? courseID)
         {
@@ -103,13 +111,18 @@ namespace Mooshak2.Controllers
                 return View(course);
             }
         }
+        //Calls the EditCourse function in CourseService
+        //then redirects to the AdminIndex View
         [HttpPost]
         public ActionResult EditCourse(CoursesViewModels course)
         {
             courseService.EditCourse(course);
             return RedirectToAction("AdminIndex", "Admin", new { courseID = course.courseID });
         }
-
+        //If the courseID is null it redirects straight to the AdminIndex view
+        //Otherwise it calls the GetCourseByID function in CourseService an the GetAllTeachers function
+        //in UserService for a particular courseID
+        //Then Displays the TeacherGroup view
         [HttpGet]
         public ActionResult TeacherGroup(int? courseID)
         {
@@ -127,7 +140,8 @@ namespace Mooshak2.Controllers
 
             }
         }
-
+        //if the courseID is not null it calls the AddTeachersToGroup function in UserService
+        //and then redirects to the AdminIndex view
         [HttpPost]
         public ActionResult TeacherGroup(int? courseID, List<UsersViewModels> users)
         {
@@ -138,7 +152,10 @@ namespace Mooshak2.Controllers
             return RedirectToAction("AdminIndex", "Admin", new { courseID = courseID });
         }
 
-        
+        //if the courseID is null it redirects straight to the AdminIndex view
+        //Otherwise it calls the GetCourseByID function in CourseService an the GetAllStudents function
+        //in UserService for a particular courseID
+        //Then Displays the StudentGroup view 
         [HttpGet]
         public ActionResult StudentGroup(int? courseID)
         {
@@ -156,7 +173,8 @@ namespace Mooshak2.Controllers
 
             }
         }
-
+        //if the courseID is not null it calls the AddStudentsToGroup function in UserService
+        //and then redirects to the AdminIndex view
         [HttpPost]
         public ActionResult StudentGroup(int? courseID, List<UsersViewModels> users)
         {
@@ -167,7 +185,9 @@ namespace Mooshak2.Controllers
             return RedirectToAction("AdminIndex", "Admin", new { courseID = courseID });
         }
 
-        
+        //if the courseID is null it redirects straight to the AdminIndex view
+        //Otherwise it calls GetCourseByID in CourseService for a particular courseID to get a particular course
+        //And then displays the DeleteCourse View for that particular course
         [HttpGet]
         public ActionResult DeleteCourse(int? courseID)
         {
@@ -181,8 +201,11 @@ namespace Mooshak2.Controllers
                  return View(course);
 
             }
-            //courseService.DeleteCourse(courseID);
+            
         }
+
+        // calls the DeleteCourse funtion in CourseService for a particular courseID
+        //then redirects to the AdminIndex view
         [HttpPost]
         public ActionResult DeleteCourse(CoursesViewModels course)
         {
@@ -190,19 +213,20 @@ namespace Mooshak2.Controllers
             return RedirectToAction("AdminIndex");
         }
 
-        //Það sem patti gerði er hér fyrir neðan
-        //[Authorize(Roles = "Admin")]
-        // GET: Course
+       
+      /* held þetta fall geri ekkert
         public ActionResult Index()
         {
-           // string username = User.Identity.GetUserName(); //ná í notendanafn
 
             CourseService service = new CourseService();
 
             var model = service.GetAllCourses();
 
             return View(model);
-        }
+        }*/
+
+       //creates a list of All users by calling the GetAllUsers function in UserService
+       //then in displays the AllUsers View
         [HttpGet]
         public ActionResult AllUsers()
         {

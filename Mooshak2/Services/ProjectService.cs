@@ -19,7 +19,6 @@ namespace Mooshak2.Services
         ApplicationDbContext db = new ApplicationDbContext();
         IdentityManager man = new IdentityManager();
         private UserService userService = new UserService();
-        ProjectService projectService = new ProjectService();
         CourseService courseService = new CourseService();
 
         public List<Projects> GetAllProjects()
@@ -35,9 +34,9 @@ namespace Mooshak2.Services
             Projects newProject = new Projects();
             newProject.projectName = projectToAdd.projectName;
             newProject.courseID = projectToAdd.courseID;
-            if(projectToAdd.memberCount > 0)
+            if (projectToAdd.memberCount > 0)
             {
-                newProject.memberCount = projectToAdd.memberCount-1;
+                newProject.memberCount = projectToAdd.memberCount - 1;
             }
             else
             {
@@ -51,10 +50,11 @@ namespace Mooshak2.Services
             db.Project.Add(newProject);
             db.SaveChanges();
 
-            int? maxID = db.Project.Max(u => (int?)u.projectID) ;
+            int? maxID = db.Project.Max(u => (int?)u.projectID);
 
             int projectId = 0;
-            if (maxID != null) {
+            if (maxID != null)
+            {
                 projectId = (int)maxID;
             }
 
@@ -89,9 +89,9 @@ namespace Mooshak2.Services
                                                            inputFileName = item.inputFileName,
                                                            outputFileName = item.outputFileName
                                                        }).ToList();
-            foreach(SubProjectsViewModels sub in subProjects)
+            foreach (SubProjectsViewModels sub in subProjects)
             {
-                int Count =  (from item in db.PartResponse where item.subProjectID == sub.subProjectID select item).Count();
+                int Count = (from item in db.PartResponse where item.subProjectID == sub.subProjectID select item).Count();
                 sub.nrOfResponses = Count;
             }
             project.subProjects = subProjects;
@@ -134,7 +134,7 @@ namespace Mooshak2.Services
             }
             project.subProjects = subProjects;
 
-            if(project.memberCount > 1)
+            if (project.memberCount > 1)
             {
                 ResponseViewModels response = (from item in db.Response
                                                join sRes in db.StudentResponse on item.responseID equals sRes.responseID
@@ -143,7 +143,7 @@ namespace Mooshak2.Services
                                                {
                                                    responseID = item.responseID
                                                }).SingleOrDefault();
-                if(response != null)
+                if (response != null)
                 {
                     List<StudentsResponseViewModels> students = (from item in db.StudentResponse
                                                                  where item.responseID == response.responseID
@@ -177,9 +177,9 @@ namespace Mooshak2.Services
 
                     }
                 }
-    
+
             }
-            
+
             return project;
         }
 
@@ -216,7 +216,7 @@ namespace Mooshak2.Services
                                               }).ToList();
 
             return result;
-            
+
         }
 
         public List<ProjectViewModels> GetStudentProjectsInCourse(int? courseID)
@@ -324,13 +324,14 @@ namespace Mooshak2.Services
                                                     outputFileName = item.outputFileName,
                                                     projectName = project.projectName,
                                                     memberCount = project.memberCount
-                                         }).SingleOrDefault();
-          
+                                                }).SingleOrDefault();
+
             return subProject;
         }
         public void DeleteSubProject(int? subProjectID)
         {
-            SubProjects sub = (from item in db.SubProjects where item.subProjectID ==subProjectID
+            SubProjects sub = (from item in db.SubProjects
+                               where item.subProjectID == subProjectID
                                select item).SingleOrDefault();
             db.SubProjects.Remove(sub);
             db.SaveChanges();
@@ -366,7 +367,7 @@ namespace Mooshak2.Services
                 subProject.outputFileContentType = mime;
                 subProject.outputFile = data;
             }
-            
+
             db.SaveChanges();
 
         }
@@ -374,12 +375,12 @@ namespace Mooshak2.Services
         public void submitSubProject(PartResponseViewModels response)
         {
             ResponseViewModels responseExists = (from item in db.StudentResponse
-                       join res in db.Response on item.responseID equals res.responseID
-                       where item.userID == response.userID && res.projectID == response.projectID
-                       select new ResponseViewModels
-                       {
-                           responseID = item.responseID
-                       }).SingleOrDefault();
+                                                 join res in db.Response on item.responseID equals res.responseID
+                                                 where item.userID == response.userID && res.projectID == response.projectID
+                                                 select new ResponseViewModels
+                                                 {
+                                                     responseID = item.responseID
+                                                 }).SingleOrDefault();
             int responseID = 0;
             if (responseExists == null)
             {
@@ -397,11 +398,11 @@ namespace Mooshak2.Services
 
 
             StudentsResponseViewModels studentResponseExists = (from item in db.StudentResponse
-                                      where item.userID == response.userID && item.responseID == responseID
-                                       select new StudentsResponseViewModels
-                                       {
-                                           userID = item.userID
-                                       }).SingleOrDefault();
+                                                                where item.userID == response.userID && item.responseID == responseID
+                                                                select new StudentsResponseViewModels
+                                                                {
+                                                                    userID = item.userID
+                                                                }).SingleOrDefault();
             if (studentResponseExists == null)
             {
                 StudentsResponse studentRes = new StudentsResponse();
@@ -410,7 +411,7 @@ namespace Mooshak2.Services
                 db.StudentResponse.Add(studentRes);
             }
 
-            if(response.groupMembers != null)
+            if (response.groupMembers != null)
             {
                 foreach (UsersViewModels member in response.groupMembers)
                 {
@@ -429,7 +430,7 @@ namespace Mooshak2.Services
                     }
                 }
             }
-            
+
             PartResponse part = new PartResponse();
             part.subProjectID = response.subProjectID;
             part.responseID = responseID;
@@ -459,7 +460,7 @@ namespace Mooshak2.Services
 
         public List<ResponseViewModels> GetStudentResponses(string userID, int? projectID)
         {
-            List<ResponseViewModels> responses = (from pRes in db.PartResponse 
+            List<ResponseViewModels> responses = (from pRes in db.PartResponse
                                                   join stRes in db.StudentResponse on pRes.responseID equals stRes.responseID
                                                   join res in db.Response on pRes.responseID equals res.responseID
                                                   join part in db.SubProjects on pRes.subProjectID equals part.subProjectID
@@ -478,138 +479,20 @@ namespace Mooshak2.Services
 
             foreach (ResponseViewModels res in responses)
             {
-                if(res.handedIn != null)
+                if (res.handedIn != null)
                 {
-                    foreach(ApplicationUser us in allUsers)
+                    foreach (ApplicationUser us in allUsers)
                     {
-                        if(us.Id == res.handedIn)
+                        if (us.Id == res.handedIn)
                         {
                             res.members = us.UserName;
                         }
                     }
                 }
-                
+
             }
 
             return responses;
         }
-
-        public ActionResult CompileCode(FormCollection data, int? partResponseID)
-        {
-            // To simplify matters, we declare the code here.
-            // The code would of course come from the student!   
-            ApplicationUser appUser = man.GetUser(User.Identity.Name);
-            SubProjectsViewModels sub = projectService.DownloadPartResponseFile(partResponseID);
-            MemoryStream ms = new MemoryStream(sub.inputFileBytes);
-
-            var sr = new StreamReader(ms);
-            string myStr = sr.ReadToEnd();
-
-            var code = myStr;
-
-            // Set up our working folder, and the file names/paths.
-            // In this example, this is all hardcoded, but in a
-            // real life scenario, there should probably be individual
-            // folders for each user/assignment/milestone.
-            string serverPath = Server.MapPath("~");
-            var workingFolder = ConfigurationManager.AppSettings["workingFolder"];  // Hvað á að fara hér inn? ef við erum að nota gagnagrunstengingu
-
-            string filePathFull = serverPath + workingFolder + "\\" + appUser.UserName; //það sem exeFilePath var
-
-            if (!Directory.Exists(filePathFull))
-            {
-                Directory.CreateDirectory(filePathFull);
-            }
-
-            var username = appUser;
-            var cppFileName = partResponseID + "_" + appUser.UserName + ".cpp";  //Aðgerð til að ná í cpp skrá
-
-            //var exeFilePath = workingFolder + "Hello.exe";  // Hvað er exe file?
-            // Write the code to a file, such that the compiler
-            // can find it:
-            System.IO.File.WriteAllText(workingFolder + cppFileName, code);
-
-            // In this case, we use the C++ compiler (cl.exe) which ships
-            // with Visual Studio. It is located in this folder:
-            var compilerFolder = ConfigurationManager.AppSettings["compilerFolder"];
-            // There is a bit more to executing the compiler than
-            // just calling cl.exe. In order for it to be able to know
-            // where to find #include-d files (such as <iostream>),
-            // we need to add certain folders to the PATH.
-            // There is a .bat file which does that, and it is
-            // located in the same folder as cl.exe, so we need to execute
-            // that .bat file first.
-
-            // Using this approach means that:
-            // * the computer running our web application must have
-            //   Visual Studio installed. This is an assumption we can
-            //   make in this project.
-            // * Hardcoding the path to the compiler is not an optimal
-            //   solution. A better approach is to store the path in
-            //   web.config, and access that value using ConfigurationManager.AppSettings.
-
-            // Execute the compiler:
-            Process compiler = new Process();
-            compiler.StartInfo.FileName = "cmd.exe";
-            compiler.StartInfo.WorkingDirectory = workingFolder;
-            compiler.StartInfo.RedirectStandardInput = true;
-            compiler.StartInfo.RedirectStandardOutput = true;
-            compiler.StartInfo.UseShellExecute = false;
-
-            compiler.Start();
-            compiler.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
-            compiler.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
-            compiler.StandardInput.WriteLine("exit");
-
-            string output = compiler.StandardOutput.ReadToEnd();
-            compiler.WaitForExit();
-            compiler.Close();
-
-            // Check if the compile succeeded, and if it did,
-            // we try to execute the code:
-            if (System.IO.File.Exists(filePathFull))
-            {
-                var processInfoExe = new ProcessStartInfo(filePathFull, "");
-                processInfoExe.UseShellExecute = false;
-                processInfoExe.RedirectStandardOutput = true;
-                processInfoExe.RedirectStandardError = true;
-                processInfoExe.CreateNoWindow = true;
-                using (var processExe = new Process())
-                {
-                    processExe.StartInfo = processInfoExe;
-                    processExe.Start();
-                    // In this example, we don't try to pass any input
-                    // to the program, but that is of course also
-                    // necessary. We would do that here, using
-                    processExe.StandardInput.WriteLine(); //Það sem var kommentað
-                    /*processExe.Start();
-                    processExe.StandardInput.WriteLine("\"" + compilerFolder + "vcvars32.bat" + "\"");
-                    processExe.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
-                    processExe.StandardInput.WriteLine("exit"); */
-                    // to above.
-
-                    // We then read the output of the program:
-                    var lines = new List<string>();
-                    while (!processExe.StandardOutput.EndOfStream)
-                    {
-                        lines.Add(processExe.StandardOutput.ReadLine());
-                    }
-
-                    ViewBag.Output = lines;
-                }
-            }
-            else
-            {
-                //ef skrá er ekki til hvað þá?
-            }
-
-            // TODO: We might want to clean up after the process, there
-            // may be files we should delete etc.
-            // Delete þeim skrám sem búnar hafa verið til í kjöæfar þess að keyra kóðann
-            // Búa til fall sem tékkar á tímanum sem forritið er að keyrast. Ef 10 sec + þá executea
-
-
-            return View();
-        }
-
+    }
 }

@@ -18,7 +18,11 @@ namespace Mooshak2.Controllers
         private IdentityManager man = new IdentityManager();
         private CourseService courseService = new CourseService();
         private ProjectService projectService = new ProjectService();
-        // GET: Student
+        
+        // creates an appuser and creates a list of courses for appuser ID by calling the GetStudentCourses function
+        //for that ID
+        //if the number of courses is larger then 0 it redirects to the StudentCourse View
+        //otherwise it displays the StudentIndex View
         [Authorize]
         public ActionResult StudentIndex()
         {
@@ -33,12 +37,8 @@ namespace Mooshak2.Controllers
                 return View("StudentIndex");
             }
         }
-
-        public ActionResult StudentAnswerView()
-        {
-            return View("StudentAnswerView");
-        }
-
+        //gets a username and calls the GetAllCoursesfunction in CourseService
+        //And displays the view
         public ActionResult StudentCoursesAvailable()
         {
             string username = User.Identity.GetUserName(); //ná í notendanafn
@@ -49,7 +49,8 @@ namespace Mooshak2.Controllers
 
             return View(model);
         }
-
+        //Gets the course Information by calling the GetStudentCourseBtID function in CourseService
+        //for a particular courseID and displays the Studentcourse view for a particular course
         [HttpGet]
         public ActionResult StudentCourse(int? courseID)
         {
@@ -57,7 +58,12 @@ namespace Mooshak2.Controllers
             ViewBag.courseInfo = courseInfo;
             return View(courseInfo);
         }
-
+        //If the projectID is not null it calls the GetStudentProjectByID function in ProjectService
+        //for a particular user
+        //and gets  list of responses by calling the GetStudentResponses function in ProjectService
+        //for a particular user in a particular project
+        //then displays the StudentProject View
+        //if the projectID is null it redirects to the StudentCourse view
         [HttpGet]
         public ActionResult StudentProject(int? projectID)
         {
@@ -71,11 +77,11 @@ namespace Mooshak2.Controllers
             }
             else
             {
-                return RedirectToAction("StudentIndex");
+                return RedirectToAction("StudentCourse");
             }
 
         }
-
+        //
         public ActionResult SubmitSubProject(int? value)
         {
             if(value != null)
