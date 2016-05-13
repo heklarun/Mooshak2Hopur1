@@ -10,6 +10,10 @@ namespace Mooshak2.Controllers
     public class HomeController : Controller
     {
         private IdentityManager man = new IdentityManager();
+        //if user is in role Admin it redirects to the AdminIndex View
+        //if user is in role Teacher it redirects to the TeacherIndex View
+        //if user is in role Student it redirects to the StudentIndex View
+        //else it redirects to the Login View
         public ActionResult Index()
         {
             if (man.UserNameIsInRole(User.Identity.Name, "Admin"))
@@ -29,7 +33,7 @@ namespace Mooshak2.Controllers
             {
                 return RedirectToAction("Login", "Account", new { returnUrl = "" });
             }
-
+            
 
             //return View();
         }

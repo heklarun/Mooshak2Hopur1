@@ -323,7 +323,6 @@
     <Content Include="Views\Admin\DeleteCourse.cshtml" />
     <Content Include="Views\Teacher\EditProject.cshtml" />
     <Content Include="Views\Teacher\EditProject2.cshtml" />
-    <Content Include="Views\Student\StudentAnswerView.cshtml" />
     <Content Include="Views\Teacher\Course.cshtml" />
     <Content Include="Views\Teacher\Project.cshtml" />
     <Content Include="Views\Teacher\AddSubProject.cshtml" />

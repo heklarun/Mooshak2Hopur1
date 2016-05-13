@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 //using SozialWeb.test.services;
 //using SozialWeb.services;
@@ -26,3 +26,4 @@ namespace UnitTestProject1.Controllers
         }
     }
 }
+*/
